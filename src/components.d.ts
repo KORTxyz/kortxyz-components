@@ -9,6 +9,10 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
+  interface KortxyzAggrid {}
+  interface KortxyzLeaflet {
+    'geojson': any;
+  }
   interface KortxyzMapbox {
     'addBackground': () => Promise<void>;
     'mapstyle': any;
@@ -18,22 +22,42 @@ export namespace Components {
 declare global {
 
 
+  interface HTMLKortxyzAggridElement extends Components.KortxyzAggrid, HTMLStencilElement {}
+  var HTMLKortxyzAggridElement: {
+    prototype: HTMLKortxyzAggridElement;
+    new (): HTMLKortxyzAggridElement;
+  };
+
+  interface HTMLKortxyzLeafletElement extends Components.KortxyzLeaflet, HTMLStencilElement {}
+  var HTMLKortxyzLeafletElement: {
+    prototype: HTMLKortxyzLeafletElement;
+    new (): HTMLKortxyzLeafletElement;
+  };
+
   interface HTMLKortxyzMapboxElement extends Components.KortxyzMapbox, HTMLStencilElement {}
   var HTMLKortxyzMapboxElement: {
     prototype: HTMLKortxyzMapboxElement;
     new (): HTMLKortxyzMapboxElement;
   };
   interface HTMLElementTagNameMap {
+    'kortxyz-aggrid': HTMLKortxyzAggridElement;
+    'kortxyz-leaflet': HTMLKortxyzLeafletElement;
     'kortxyz-mapbox': HTMLKortxyzMapboxElement;
   }
 }
 
 declare namespace LocalJSX {
+  interface KortxyzAggrid extends JSXBase.HTMLAttributes<HTMLKortxyzAggridElement> {}
+  interface KortxyzLeaflet extends JSXBase.HTMLAttributes<HTMLKortxyzLeafletElement> {
+    'geojson'?: any;
+  }
   interface KortxyzMapbox extends JSXBase.HTMLAttributes<HTMLKortxyzMapboxElement> {
     'mapstyle'?: any;
   }
 
   interface IntrinsicElements {
+    'kortxyz-aggrid': KortxyzAggrid;
+    'kortxyz-leaflet': KortxyzLeaflet;
     'kortxyz-mapbox': KortxyzMapbox;
   }
 }

@@ -27,6 +27,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "ag-grid-community": "^21.0.1",
+    "leaflet": "^1.5.1",
     "mapbox-gl": "^1.0.0"
   }
 }

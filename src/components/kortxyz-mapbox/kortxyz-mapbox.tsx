@@ -1,4 +1,4 @@
-import { Component,Element, Prop, Method, h } from '@stencil/core';
+import { Component, Element, Prop, Method, h } from '@stencil/core';
 import mapboxgl from 'mapbox-gl';
 
 @Component({
