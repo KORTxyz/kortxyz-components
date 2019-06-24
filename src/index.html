@@ -5,12 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
   <title>Stencil Component Starter</title>
   <style>
-    body{margin:0;}
+    body{
+      margin:0;
+      overflow: hidden;
+      user-select: none;
+      font-family: Segoe WPC,Segoe UI,sans-serif;
+    }
+
     .container {
-      left:0; top:0;width:100vw;height: 100vh; position: "fixed";
-      display:grid;
-      grid-template-columns: 40% 60%;
-      grid-template-rows: 70% auto;
+      display:flex;
+      height:100vh;
+      width:60%;
+    }
+ 
+    :root {
+      --app-background-color: black;
+      --app-level1-color: #353535;
+      --app-level2-color:#262626;
+
+      --app-active-color: #4682b4ff;
+      --app-highlight-color: #353535;
+
+      --text-color: #7f7f7f;
+      --text-highlight: #dbdada;
+
+      --footer: #2171b6;
+      --footer-highlight: #437fb4;
+
+    }
+    
+    #test{
+      background: firebrick;
+      height: 100%;
+      width:100%;
     }
   </style>
 
@@ -20,14 +47,16 @@
 </head>
 <body>
   <div class="container">
+    <kortxyz-sidebar>
+      <kortxyz-sideitem name="layerlist" icon="layers">
+        <div id="test"></div>
+      </kortxyz-sideitem>
+      <kortxyz-sideitem name="test2" icon="layers"></kortxyz-sideitem>
+        <kortxyz-sideitem name="test4" icon="layers"></kortxyz-sideitem>
 
-    <kortxyz-leaflet></kortxyz-leaflet>
+    </kortxyz-sidebar>
+    
     <kortxyz-mapbox></kortxyz-mapbox>
-    <kortxyz-leaflet></kortxyz-leaflet>
-    <kortxyz-aggrid class="ag-theme-balham"></kortxyz-aggrid>
-
-
-
   </div>
 
 </body>

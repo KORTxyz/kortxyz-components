@@ -14,8 +14,14 @@ export namespace Components {
     'geojson': any;
   }
   interface KortxyzMapbox {
-    'addBackground': () => Promise<void>;
+    'map': mapboxgl.Map;
     'mapstyle': any;
+  }
+  interface KortxyzSidebar {}
+  interface KortxyzSideitem {
+    'icon': string;
+    'name': string;
+    'small': boolean;
   }
 }
 
@@ -39,10 +45,24 @@ declare global {
     prototype: HTMLKortxyzMapboxElement;
     new (): HTMLKortxyzMapboxElement;
   };
+
+  interface HTMLKortxyzSidebarElement extends Components.KortxyzSidebar, HTMLStencilElement {}
+  var HTMLKortxyzSidebarElement: {
+    prototype: HTMLKortxyzSidebarElement;
+    new (): HTMLKortxyzSidebarElement;
+  };
+
+  interface HTMLKortxyzSideitemElement extends Components.KortxyzSideitem, HTMLStencilElement {}
+  var HTMLKortxyzSideitemElement: {
+    prototype: HTMLKortxyzSideitemElement;
+    new (): HTMLKortxyzSideitemElement;
+  };
   interface HTMLElementTagNameMap {
     'kortxyz-aggrid': HTMLKortxyzAggridElement;
     'kortxyz-leaflet': HTMLKortxyzLeafletElement;
     'kortxyz-mapbox': HTMLKortxyzMapboxElement;
+    'kortxyz-sidebar': HTMLKortxyzSidebarElement;
+    'kortxyz-sideitem': HTMLKortxyzSideitemElement;
   }
 }
 
@@ -52,13 +72,23 @@ declare namespace LocalJSX {
     'geojson'?: any;
   }
   interface KortxyzMapbox extends JSXBase.HTMLAttributes<HTMLKortxyzMapboxElement> {
+    'map'?: mapboxgl.Map;
     'mapstyle'?: any;
+  }
+  interface KortxyzSidebar extends JSXBase.HTMLAttributes<HTMLKortxyzSidebarElement> {}
+  interface KortxyzSideitem extends JSXBase.HTMLAttributes<HTMLKortxyzSideitemElement> {
+    'icon'?: string;
+    'name'?: string;
+    'onSidebarResized'?: (event: CustomEvent<any>) => void;
+    'small'?: boolean;
   }
 
   interface IntrinsicElements {
     'kortxyz-aggrid': KortxyzAggrid;
     'kortxyz-leaflet': KortxyzLeaflet;
     'kortxyz-mapbox': KortxyzMapbox;
+    'kortxyz-sidebar': KortxyzSidebar;
+    'kortxyz-sideitem': KortxyzSideitem;
   }
 }
 

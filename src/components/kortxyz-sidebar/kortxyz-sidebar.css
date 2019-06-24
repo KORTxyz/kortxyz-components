@@ -1,0 +1,7 @@
+kortxyz-sidebar{
+	display:flex;
+	flex-direction: column;
+	flex: 0 0 40px;
+	height: 100%;
+	background: var(--app-level1-color);
+}
