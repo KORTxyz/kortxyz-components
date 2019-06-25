@@ -10,10 +10,14 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 export namespace Components {
   interface KortxyzAggrid {}
+  interface KortxyzLayerlist {
+    'handleFile': (e: any) => Promise<void>;
+  }
   interface KortxyzLeaflet {
     'geojson': any;
   }
   interface KortxyzMapbox {
+    'accesstoken': string;
     'map': mapboxgl.Map;
     'mapstyle': any;
   }
@@ -22,6 +26,7 @@ export namespace Components {
     'icon': string;
     'name': string;
     'small': boolean;
+    'width': Number;
   }
 }
 
@@ -32,6 +37,12 @@ declare global {
   var HTMLKortxyzAggridElement: {
     prototype: HTMLKortxyzAggridElement;
     new (): HTMLKortxyzAggridElement;
+  };
+
+  interface HTMLKortxyzLayerlistElement extends Components.KortxyzLayerlist, HTMLStencilElement {}
+  var HTMLKortxyzLayerlistElement: {
+    prototype: HTMLKortxyzLayerlistElement;
+    new (): HTMLKortxyzLayerlistElement;
   };
 
   interface HTMLKortxyzLeafletElement extends Components.KortxyzLeaflet, HTMLStencilElement {}
@@ -59,6 +70,7 @@ declare global {
   };
   interface HTMLElementTagNameMap {
     'kortxyz-aggrid': HTMLKortxyzAggridElement;
+    'kortxyz-layerlist': HTMLKortxyzLayerlistElement;
     'kortxyz-leaflet': HTMLKortxyzLeafletElement;
     'kortxyz-mapbox': HTMLKortxyzMapboxElement;
     'kortxyz-sidebar': HTMLKortxyzSidebarElement;
@@ -68,10 +80,12 @@ declare global {
 
 declare namespace LocalJSX {
   interface KortxyzAggrid extends JSXBase.HTMLAttributes<HTMLKortxyzAggridElement> {}
+  interface KortxyzLayerlist extends JSXBase.HTMLAttributes<HTMLKortxyzLayerlistElement> {}
   interface KortxyzLeaflet extends JSXBase.HTMLAttributes<HTMLKortxyzLeafletElement> {
     'geojson'?: any;
   }
   interface KortxyzMapbox extends JSXBase.HTMLAttributes<HTMLKortxyzMapboxElement> {
+    'accesstoken'?: string;
     'map'?: mapboxgl.Map;
     'mapstyle'?: any;
   }
@@ -81,10 +95,12 @@ declare namespace LocalJSX {
     'name'?: string;
     'onSidebarResized'?: (event: CustomEvent<any>) => void;
     'small'?: boolean;
+    'width'?: Number;
   }
 
   interface IntrinsicElements {
     'kortxyz-aggrid': KortxyzAggrid;
+    'kortxyz-layerlist': KortxyzLayerlist;
     'kortxyz-leaflet': KortxyzLeaflet;
     'kortxyz-mapbox': KortxyzMapbox;
     'kortxyz-sidebar': KortxyzSidebar;

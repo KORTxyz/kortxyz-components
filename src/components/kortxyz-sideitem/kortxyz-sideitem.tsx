@@ -9,27 +9,62 @@ export class KortxyzSideItem {
 @Prop() name: string;
 @Prop() icon: string;
 @Prop() small: boolean; 
+@Prop({ mutable: true, reflect: true }) width: Number = 200;
+
 @Event() sidebarResized: EventEmitter;
 
+
 setActive = (clickedElement)=>{
+
     if(window["activeSidetab"] != clickedElement.target){
       window["activeSidetab"] = clickedElement.target;
-   //   document.querySelector("app-root").style.gridTemplateColumns = "240px";
+      var label:any = document.querySelectorAll('.sideitem__label');
+      label.forEach(element => {
+        element.style.marginRight = element.parentElement.width + 'px';
+      });
+      var resizer:any = document.querySelectorAll('.sideitem__resizer');
+      resizer.forEach(element => {
+        element.style.display = 'block';
+      });
     }
+
     else{
       window["activeSidetab"].checked = false;
       window["activeSidetab"] = null;
-  //    document.querySelector("app-root").style.gridTemplateColumns = "40px";
-
+      var label:any = document.querySelectorAll('.sideitem__label');
+      label.forEach(element => {
+        element.style.marginRight = 0 + 'px';
+      });
+      var resizer:any = document.querySelectorAll('.sideitem__resizer');
+      resizer.forEach(element => {
+        element.style.display = 'none';
+      });
     }
+
     this.sidebarResized.emit();
 }
 
 Resize = e => {
-  console.log("resise?")
-  var element:any = document.querySelector('.sideitem__content');
-  element.style.width = (e.clientX - element.offsetLeft) + 'px';
-  this.sidebarResized.emit();
+  if(e.clientX>150 && e.clientX<500){
+    var content:any = document.querySelectorAll('.sideitem__content');
+    content.forEach(element => {
+      element.style.width = (e.clientX - element.offsetLeft) + 'px';
+
+    });
+
+    var label:any = document.querySelectorAll('.sideitem__label');
+    label.forEach(element => {
+      element.parentElement.width = (e.clientX - element.offsetLeft-40)
+      element.style.marginRight = (e.clientX - element.offsetLeft-40) + 'px';
+    });
+
+    var resizer:any = document.querySelectorAll('.sideitem__resizer');
+    resizer.forEach(element => {
+      element.style.left = e.clientX-10+ 'px';
+    });
+
+    this.sidebarResized.emit();
+  }
 }
 
 initResize = _ => {
@@ -79,7 +114,10 @@ icons = {
   apps: <svg class="sideitem__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path d="M12 2l-5.5 9h11z"/><circle cx="17.5" cy="17.5" r="4.5"/><path d="M3 13.5h8v8H3z"/>
           <path fill="none" d="M0 0h24v24H0z"/>
-        </svg>
+        </svg>,
+  sources: <svg class="sideitem__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zM7 19c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zM7 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+           </svg>,
 
 }
 

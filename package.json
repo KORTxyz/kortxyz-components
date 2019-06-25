@@ -17,6 +17,7 @@
   "scripts": {
     "build": "stencil build --docs",
     "start": "stencil build --dev --watch --serve",
+    "prerender": "stencil build --prerender",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll"
   },
@@ -29,6 +30,7 @@
   "dependencies": {
     "ag-grid-community": "^21.0.1",
     "leaflet": "^1.5.1",
-    "mapbox-gl": "^1.0.0"
+    "mapbox-gl": "^1.0.0",
+    "sortablejs": "^1.10.0-rc2"
   }
 }

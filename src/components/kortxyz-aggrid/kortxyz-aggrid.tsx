@@ -11,6 +11,7 @@ export class kortxyzAggrid {
   @Element() gridEl: HTMLElement;
 
   componentDidLoad(){
+    this.gridEl.classList.add("ag-theme-balham")
 
     var features = [
         {make: 'Toyota', model: 'Celica', price: 35000},

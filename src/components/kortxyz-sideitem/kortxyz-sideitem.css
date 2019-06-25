@@ -9,15 +9,14 @@ kortxyz-sideitem {
 	
 .sideitem__input:checked + .sideitem__label {
 	background: var(--app-active-color);
-	margin-right:210px;
 }
 
 .sideitem__input:checked + .sideitem__label > svg {
 	fill: var(--text-highlight);
 }
 
-.sideitem__input:checked ~ .sideitem__label ~ content {
-	flex: 0 0 200px;
+.sideitem__input:checked ~ .sideitem__content {
+	width: 200px;
 	opacity: 1;
 }
 
@@ -36,7 +35,7 @@ kortxyz-sideitem {
 	color: var(--text-highlight);
 } 
 
-.sideitem__label ~ content {
+.sideitem__content {
 	background: var(--app-level2-color); 
 	display: flex;
 	flex-direction: column;
@@ -91,10 +90,12 @@ toolbox > i:hover{
 }
 
 .sideitem__resizer{
-	background: red;
 	position: fixed;
+	cursor: ew-resize;
 	top:0;
-	left:240px;
-	width: 30px;
+	left:230px;
+	z-index: 9;
+	width: 10px;
 	height: 100%;
+	display: none;
 }

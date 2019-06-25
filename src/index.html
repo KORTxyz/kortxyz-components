@@ -15,7 +15,7 @@
     .container {
       display:flex;
       height:100vh;
-      width:60%;
+      width:100%;
     }
  
     :root {
@@ -49,14 +49,13 @@
   <div class="container">
     <kortxyz-sidebar>
       <kortxyz-sideitem name="layerlist" icon="layers">
-        <div id="test"></div>
+        <kortxyz-layerlist></kortxyz-layerlist>
       </kortxyz-sideitem>
-      <kortxyz-sideitem name="test2" icon="layers"></kortxyz-sideitem>
-        <kortxyz-sideitem name="test4" icon="layers"></kortxyz-sideitem>
+      <kortxyz-sideitem name="sources" icon="sources"></kortxyz-sideitem>
 
     </kortxyz-sidebar>
     
-    <kortxyz-mapbox></kortxyz-mapbox>
+    <kortxyz-mapbox accesstoken="pk.eyJ1IjoidGlub2tzIiwiYSI6ImNqbzQycnkycTEwYnczcGt1ZzM3ZWw5eG8ifQ.BFc2DQMWss8JC8pQ9Yco7w" mapstyle="mapbox://styles/tinoks/cjv6plkl60c6y1fldntizkjrz"></kortxyz-mapbox>
   </div>
 
 </body>
