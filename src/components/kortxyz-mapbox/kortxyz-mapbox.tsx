@@ -17,8 +17,6 @@ export class kortxyzMapbox {
   @Listen('sidebarResized', { target: 'body' })
   resizeMap() { this.map.resize() }
 
-
-
   componentDidLoad() {
     mapboxgl.accessToken = this.accesstoken ;
      this.map = new mapboxgl.Map({

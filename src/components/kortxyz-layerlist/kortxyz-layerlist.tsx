@@ -9,7 +9,6 @@ import Sortable from 'sortablejs';
 
 export class kortxyzLayerlist { 
   componentDidLoad() {
-    
     Sortable.create(document.querySelector("kortxyz-layerlist"), {
 			animation:200,
 			onEnd: function (/**Event*/evt) {
@@ -22,7 +21,7 @@ export class kortxyzLayerlist {
   *
   */
   @Method()
-  handleFile(e){
+  async handleFile(e){
     const filesArray:any = Array.from(e.target.files).reduce((groups, item:any) => {
       var val = item.name.split(".")[0];
         groups[val] = groups[val] || [];
@@ -36,7 +35,7 @@ export class kortxyzLayerlist {
           type = type == "json" ? "geojson" : type;
       import(`./${type}.js`).then(m => { m.load(file); });
     }
-  }
+  };
 
   render() {
     return ([

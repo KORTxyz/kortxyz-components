@@ -1,6 +1,7 @@
 kortxyz-mapbox {
     height: 100%;
     width: 100%;
+    flex: 1 0 0;
 }
 
 @import url("..\..\..\node_modules\mapbox-gl\dist\mapbox-gl.css");
