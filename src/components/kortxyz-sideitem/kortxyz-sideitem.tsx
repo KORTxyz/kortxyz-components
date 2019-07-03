@@ -48,8 +48,8 @@ Resize = e => {
   if(e.clientX>150 && e.clientX<500){
     var content:any = document.querySelectorAll('.sideitem__content');
     content.forEach(element => {
+      console.log(element)
       element.style.width = (e.clientX - element.offsetLeft) + 'px';
-
     });
 
     var label:any = document.querySelectorAll('.sideitem__label');

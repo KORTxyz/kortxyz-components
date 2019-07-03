@@ -1,1 +1,7 @@
+kortxyz-leaflet {
+    height: 100%;
+    width: 100%;
+    flex: 1 0 0;
+}
+
 @import url("..\..\..\node_modules\leaflet\dist\leaflet.css");

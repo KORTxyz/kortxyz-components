@@ -1,4 +1,4 @@
-import { Component, Element, Prop, Listen, h } from '@stencil/core';
+import { Component, Element, Prop, Listen } from '@stencil/core';
 import mapboxgl from 'mapbox-gl';
 
 @Component({
@@ -26,12 +26,16 @@ export class kortxyzMapbox {
        center: [11, 55],
        zoom: 11
      });
+
+     setTimeout(_=>this.map.resize() , 100);
+     document.querySelector(".mapboxgl-control-container").remove();
+
   }
  
  
 
 
   render() {
-    return <div></div>;
+    return ;
   }
 }

@@ -9,7 +9,25 @@
       margin:0;
       overflow: hidden;
       user-select: none;
-      font-family: Segoe WPC,Segoe UI,sans-serif;
+      font-family: monospace;
+      
+    }
+
+    ::-webkit-scrollbar-track
+    {
+      border: 1px solid black;
+      background-color:rgb(126, 126, 126);
+    }
+
+    ::-webkit-scrollbar
+    {
+      width: 4px;
+      background-color: rgb(126, 126, 126);
+    }
+
+    ::-webkit-scrollbar-thumb
+    {
+      background-color: #000000;	
     }
 
     .container {
@@ -43,19 +61,21 @@
 
   <script type="module" src="/build/kortxyz-components.esm.js"></script>
   <script nomodule src="/build/kortxyz-components.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 
 </head>
 <body>
   <div class="container">
     <kortxyz-sidebar>
       <kortxyz-sideitem name="layerlist" icon="layers">
-        <kortxyz-layerlist></kortxyz-layerlist>
+        <kortxyz-layerlist source="http://localhost:5555/collections">
+        </kortxyz-layerlist>
       </kortxyz-sideitem>
       <kortxyz-sideitem name="sources" icon="sources"></kortxyz-sideitem>
 
     </kortxyz-sidebar>
     
-    <kortxyz-mapbox accesstoken="pk.eyJ1IjoidGlub2tzIiwiYSI6ImNqbzQycnkycTEwYnczcGt1ZzM3ZWw5eG8ifQ.BFc2DQMWss8JC8pQ9Yco7w" mapstyle="mapbox://styles/tinoks/cjv6plkl60c6y1fldntizkjrz"></kortxyz-mapbox>
+    <kortxyz-mapbox></kortxyz-mapbox>
   </div>
 
 </body>

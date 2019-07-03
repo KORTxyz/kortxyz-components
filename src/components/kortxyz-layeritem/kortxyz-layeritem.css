@@ -1,0 +1,42 @@
+kortxyz-layeritem {
+    display:flex;
+    user-select: none;
+  }
+  kortxyz-layeritem:hover {
+    background:var(--app-highlight-color);
+  }
+  kortxyz-layeritem > input {
+      display: none;
+  }
+    
+  kortxyz-layeritem > input + label{
+    color: var(--text-color);
+    cursor: pointer;
+    padding-left: 12px;
+    padding-right: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+  
+  kortxyz-layeritem > input:checked  + label{
+      color: var(--text-highlight);
+  }
+  
+  kortxyz-layeritem > div{
+    opacity: 0;
+    fill:var(--text-color);
+    width: 15px;
+    height: 15px;
+    transition: 0s;
+  }
+  
+  kortxyz-layeritem:hover > div{
+    opacity: 1;
+    transition:  0.2s;
+  }
+  kortxyz-layeritem > div:hover{
+    fill:var(--text-highlight);
+    cursor: pointer;
+  }

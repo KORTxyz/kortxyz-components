@@ -1,4 +1,4 @@
-import { Component, Element, Prop, h } from '@stencil/core';
+import { Component, Element, Prop } from '@stencil/core';
 import L  from "leaflet";
 
 @Component({
@@ -10,10 +10,10 @@ export class kortxyzLeaflet {
   @Element() mapEl: HTMLElement;
 
   @Prop() geojson: any;
-  map; 
+  @Prop() map; 
 
   componentDidLoad(){
-    this.map = L.map(this.mapEl).fitWorld();
+    this.map = L.map(this.mapEl).fitWorld().invalidateSize();
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -36,6 +36,6 @@ export class kortxyzLeaflet {
 
 
   render() {
-    return  <div class="mapdiv"></div>;
+    return  ;
   }
 }

@@ -11,11 +11,18 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 export namespace Components {
   interface KortxyzAggrid {}
   interface KortxyzContextmenu {}
+  interface KortxyzLayergroup {}
+  interface KortxyzLayeritem {
+    'active': boolean;
+    'name': string;
+  }
   interface KortxyzLayerlist {
     'handleFile': (e: any) => Promise<void>;
+    'source': any;
   }
   interface KortxyzLeaflet {
     'geojson': any;
+    'map': any;
   }
   interface KortxyzMapbox {
     'accesstoken': string;
@@ -44,6 +51,18 @@ declare global {
   var HTMLKortxyzContextmenuElement: {
     prototype: HTMLKortxyzContextmenuElement;
     new (): HTMLKortxyzContextmenuElement;
+  };
+
+  interface HTMLKortxyzLayergroupElement extends Components.KortxyzLayergroup, HTMLStencilElement {}
+  var HTMLKortxyzLayergroupElement: {
+    prototype: HTMLKortxyzLayergroupElement;
+    new (): HTMLKortxyzLayergroupElement;
+  };
+
+  interface HTMLKortxyzLayeritemElement extends Components.KortxyzLayeritem, HTMLStencilElement {}
+  var HTMLKortxyzLayeritemElement: {
+    prototype: HTMLKortxyzLayeritemElement;
+    new (): HTMLKortxyzLayeritemElement;
   };
 
   interface HTMLKortxyzLayerlistElement extends Components.KortxyzLayerlist, HTMLStencilElement {}
@@ -78,6 +97,8 @@ declare global {
   interface HTMLElementTagNameMap {
     'kortxyz-aggrid': HTMLKortxyzAggridElement;
     'kortxyz-contextmenu': HTMLKortxyzContextmenuElement;
+    'kortxyz-layergroup': HTMLKortxyzLayergroupElement;
+    'kortxyz-layeritem': HTMLKortxyzLayeritemElement;
     'kortxyz-layerlist': HTMLKortxyzLayerlistElement;
     'kortxyz-leaflet': HTMLKortxyzLeafletElement;
     'kortxyz-mapbox': HTMLKortxyzMapboxElement;
@@ -89,9 +110,17 @@ declare global {
 declare namespace LocalJSX {
   interface KortxyzAggrid extends JSXBase.HTMLAttributes<HTMLKortxyzAggridElement> {}
   interface KortxyzContextmenu extends JSXBase.HTMLAttributes<HTMLKortxyzContextmenuElement> {}
-  interface KortxyzLayerlist extends JSXBase.HTMLAttributes<HTMLKortxyzLayerlistElement> {}
+  interface KortxyzLayergroup extends JSXBase.HTMLAttributes<HTMLKortxyzLayergroupElement> {}
+  interface KortxyzLayeritem extends JSXBase.HTMLAttributes<HTMLKortxyzLayeritemElement> {
+    'active'?: boolean;
+    'name'?: string;
+  }
+  interface KortxyzLayerlist extends JSXBase.HTMLAttributes<HTMLKortxyzLayerlistElement> {
+    'source'?: any;
+  }
   interface KortxyzLeaflet extends JSXBase.HTMLAttributes<HTMLKortxyzLeafletElement> {
     'geojson'?: any;
+    'map'?: any;
   }
   interface KortxyzMapbox extends JSXBase.HTMLAttributes<HTMLKortxyzMapboxElement> {
     'accesstoken'?: string;
@@ -110,6 +139,8 @@ declare namespace LocalJSX {
   interface IntrinsicElements {
     'kortxyz-aggrid': KortxyzAggrid;
     'kortxyz-contextmenu': KortxyzContextmenu;
+    'kortxyz-layergroup': KortxyzLayergroup;
+    'kortxyz-layeritem': KortxyzLayeritem;
     'kortxyz-layerlist': KortxyzLayerlist;
     'kortxyz-leaflet': KortxyzLeaflet;
     'kortxyz-mapbox': KortxyzMapbox;
