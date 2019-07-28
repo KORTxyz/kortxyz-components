@@ -10,10 +10,21 @@ import Sortable from 'sortablejs';
 export class kortxyzLayerlist {
 
   @Prop() source:any;
+  layers:any = ["test"];
 
   componentDidLoad() {
     Sortable.create(document.querySelector("kortxyz-layerlist"), {
-			animation:200
+      animation:200,
+      onEnd: (evt) => {
+        console.log(this.layers)
+        console.log(evt.item,evt.item.name,evt.item.previousSibling, evt.item.previousSibling.name)
+        /*
+        const map:any = document.querySelector("kortxyz-mapbox").map
+              map.moveLayer(evt.item.name+"_circle",evt.item.previousSibling.name+"_circle")
+              map.moveLayer(evt.item.name+"_fill",evt.item.previousSibling.name+"_fill")
+              map.moveLayer(evt.item.name+"_line",evt.item.previousSibling.name+"_line")
+              */
+        },
     });
 
     if(this.source){
@@ -44,6 +55,7 @@ export class kortxyzLayerlist {
               layeritem.name=name;
               layeritem.active=false;
               document.querySelector("kortxyz-layerlist").appendChild(layeritem);
+              this.layers.push([name,false])
           })
       )
     }
