@@ -16,6 +16,8 @@ export class kortxyzMapbox {
 
   @Listen('sidebarResized', { target: 'body' })
   resizeMap() { this.map.resize() }
+  
+  layersLoaded = {}
 
   componentDidLoad() {
     mapboxgl.accessToken = this.accesstoken ;
@@ -30,11 +32,22 @@ export class kortxyzMapbox {
      setTimeout(_=>this.map.resize() , 100);
      document.querySelector(".mapboxgl-control-container").remove();
 
+     this.map.on('dataloading',_=>this.mapEl.classList.add("loading"))
+
+     this.map.on('data',e=>{
+      console.log("data", e.isSourceLoaded) 
+       if(e.dataType=="source"){
+        if(e.isSourceLoaded){
+          this.mapEl.classList.remove("loading")
+         }
+         else{
+          this.mapEl.classList.add("loading")
+         }
+       }
+      })
+     
   }
  
- 
-
-
   render() {
     return ;
   }

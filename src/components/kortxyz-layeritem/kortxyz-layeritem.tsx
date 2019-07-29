@@ -14,6 +14,7 @@ export class kortxyzLayers {
   changeVisibility(e) {
     const mapDiv: HTMLKortxyzMapboxElement = document.querySelector("kortxyz-mapbox");
     const type = mapDiv.map.getSource(e.target.id).type
+    console.log(e.target.id,e.target.checked)
     if(e.target.checked){
       if(type=="raster"){
         mapDiv.map.addLayer({
@@ -28,7 +29,7 @@ export class kortxyzLayers {
           'type': 'circle',
           'source': e.target.id,
           'source-layer':e.target.id,
-          'minzoom':12,
+          'minzoom':10,
           'filter': ["==", "$type", "Point"],
           'paint': {
             'circle-color': "#" + ("000000" + Math.floor(Math.random() * 16777216).toString(16)).substr(-6),
@@ -41,7 +42,7 @@ export class kortxyzLayers {
         'type': 'line',
         'source': e.target.id,
         'source-layer':e.target.id,
-        'minzoom':12,
+        'minzoom':10,
         'filter': ["==", "$type", "LineString"],
         'layout': {
           'line-join': 'round',
@@ -58,7 +59,7 @@ export class kortxyzLayers {
           'type': 'fill',
           'source': e.target.id,
           'source-layer':e.target.id,
-          'minzoom':12,
+          'minzoom':10,
           'filter': ["==", "$type", "Polygon"],
           'layout': {},
           'paint': {

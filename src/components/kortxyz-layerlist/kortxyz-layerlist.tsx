@@ -13,11 +13,31 @@ export class kortxyzLayerlist {
   layers:any = ["test"];
 
   componentDidLoad() {
+    const sortDrop = Sortable.create(document.body, {
+      group: "shared",
+      disabled:true,
+      ghostClass:'sortable-noghost'
+    });
+
+    var style = document.createElement('style');
+        style.innerHTML ='.sortable-noghost { display:none}';
+    var ref = document.querySelector('script');
+        ref.parentNode.insertBefore(style, ref);
+
     Sortable.create(document.querySelector("kortxyz-layerlist"), {
+      group: "shared",
       animation:200,
+      onStart: _=>{
+        sortDrop.options.disabled = false
+      },
+      onRemove: function (evt) {
+        var el = evt.item;
+        el.parentNode.removeChild(el);
+        alert('Dropped: ' + el.textContent);
+      },
       onEnd: (evt) => {
-        console.log(this.layers)
-        console.log(evt.item,evt.item.name,evt.item.previousSibling, evt.item.previousSibling.name)
+        console.log(evt)
+        sortDrop.options.disabled = true
         /*
         const map:any = document.querySelector("kortxyz-mapbox").map
               map.moveLayer(evt.item.name+"_circle",evt.item.previousSibling.name+"_circle")
@@ -44,7 +64,9 @@ export class kortxyzLayerlist {
                                     .replace("localhost","http://localhost")]
 
                                 const type = e.type=="application/vnd.vector-tile"?"vector":"raster"
-                                return {tiles,type}
+                                const tileSize = e.type=="application/vnd.vector-tile"? 512: 256
+
+                                return {tiles,type,"tileSize": tileSize}
                               });
 
               setTimeout(() => {
