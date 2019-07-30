@@ -32,20 +32,23 @@ export class kortxyzMapbox {
      setTimeout(_=>this.map.resize() , 100);
      document.querySelector(".mapboxgl-control-container").remove();
 
-     this.map.on('dataloading',_=>this.mapEl.classList.add("loading"))
+     this.map.on('dataloading',e=>{
+       this.mapEl.classList.add("loading")
+       this.layersLoaded[e.sourceId] = false;
+      })
+     //this.map.on('error',e=> {if(e.isSourceLoaded) this.mapEl.classList.remove("loading")})
 
      this.map.on('data',e=>{
-      console.log("data", e.isSourceLoaded) 
+       console.log(e.sourceId,e.isSourceLoaded)
        if(e.dataType=="source"){
         if(e.isSourceLoaded){
+          this.layersLoaded[e.sourceId] = true;
+          console.log(this.layersLoaded)
+
           this.mapEl.classList.remove("loading")
-         }
-         else{
-          this.mapEl.classList.add("loading")
          }
        }
       })
-     
   }
  
   render() {

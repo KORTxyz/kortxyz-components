@@ -10,7 +10,10 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 export namespace Components {
   interface KortxyzAggrid {}
-  interface KortxyzContextmenu {}
+  interface KortxyzContextmenu {
+    'left': number;
+    'top': number;
+  }
   interface KortxyzLayergroup {}
   interface KortxyzLayeritem {
     'active': boolean;
@@ -109,7 +112,10 @@ declare global {
 
 declare namespace LocalJSX {
   interface KortxyzAggrid extends JSXBase.HTMLAttributes<HTMLKortxyzAggridElement> {}
-  interface KortxyzContextmenu extends JSXBase.HTMLAttributes<HTMLKortxyzContextmenuElement> {}
+  interface KortxyzContextmenu extends JSXBase.HTMLAttributes<HTMLKortxyzContextmenuElement> {
+    'left'?: number;
+    'top'?: number;
+  }
   interface KortxyzLayergroup extends JSXBase.HTMLAttributes<HTMLKortxyzLayergroupElement> {}
   interface KortxyzLayeritem extends JSXBase.HTMLAttributes<HTMLKortxyzLayeritemElement> {
     'active'?: boolean;
