@@ -1,0 +1,32 @@
+kortxyz-footer {
+    grid-area: footer;
+    background: var(--footer);
+    display: flex;
+    align-items: center;
+  }
+  
+  spacer {
+    width: 100%;
+  }
+  item {
+    color: var(--text-highlight);
+    cursor: pointer;
+    padding:4px 5px 3px 5px;
+    font-family: monospace;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  item:hover {
+    background: var(--footer-highlight);
+    color: white;
+    fill: white;
+  }
+  
+  item svg {
+    fill: currentcolor;
+  }
+  
+  item#background{
+    min-width: 55px;
+    text-align: right;
+  }

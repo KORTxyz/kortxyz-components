@@ -66,13 +66,8 @@ toolbox > i{
 	fill:var(--text-color);
 	cursor: pointer;
 	display: flex;
-	transition: 20ms;
-	opacity: 0;
 }
 
-.sideitem__header:hover > toolbox > i{
-	opacity: 1;
-}
 toolbox > i:hover{
 	fill:var(--text-highlight);
 }
@@ -91,10 +86,10 @@ toolbox > i:hover{
 .sideitem__resizer{
 	position: fixed;
 	cursor: ew-resize;
-	top:0;
+	top:20px;
 	left:230px;
 	z-index: 9;
 	width: 10px;
-	height: 100%;
+	height: calc(100% - 40px);
 	display: none;
 }

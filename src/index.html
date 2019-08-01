@@ -14,27 +14,19 @@
 
     ::-webkit-scrollbar-track
     {
-      border: 1px solid black;
-      background-color:rgb(126, 126, 126);
+      background-color:#262626;
     }
 
     ::-webkit-scrollbar
     {
       width: 4px;
-      background-color: rgb(126, 126, 126);
     }
 
     ::-webkit-scrollbar-thumb
     {
-      background-color: #000000;	
+      background-color:#dbdada;	
     }
 
-    .container {
-      display:flex;
-      height:100vh;
-      width:100%;
-    }
- 
     :root {
       --app-background-color: black;
       --app-level1-color: #353535;
@@ -48,28 +40,15 @@
 
       --footer: #2171b6;
       --footer-highlight: #437fb4;
-
     }
     
   </style>
 
   <script type="module" src="/build/kortxyz-components.esm.js"></script>
   <script nomodule src="/build/kortxyz-components.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 
 </head>
 <body>
-  <div class="container">
-    <kortxyz-sidebar>
-      <kortxyz-sideitem name="layerlist" icon="layers">
-        <kortxyz-layerlist source="http://localhost:5555/collections">
-        </kortxyz-layerlist>
-      </kortxyz-sideitem>
-      <kortxyz-sideitem name="sources" icon="sources"></kortxyz-sideitem>
-
-    </kortxyz-sidebar>
-    
-    <kortxyz-mapbox></kortxyz-mapbox>
-  </div>
+  <kortxyz-app source="http://localhost:5555/collections"></kortxyz-app>
 </body>
 </html>

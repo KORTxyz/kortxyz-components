@@ -1,0 +1,32 @@
+kortxyz-dialog{
+    position: fixed;
+    margin: 5% auto; /* Will not center vertically and won't work in IE6/7. */
+    left: 0;
+    right: 0;
+    color: var(--text-color);
+    background:var(--app-level1-color);
+    font-family: Consolas,Inconsolata,"Courier New",monospace;
+    font-size:12px;
+    padding: 10px;
+    letter-spacing: -1px;
+    width: 200px;
+    box-shadow: black 5px 5px 20px -10px;
+    display: grid;
+    grid-template-columns: 40px 160px;
+}
+
+kortxyz-dialog > *:not(:last-child){
+    margin-bottom:5px;
+    align-self: center;
+}
+
+button{
+    grid-column: 1 / span 2;
+    font-family: monospace;
+    background-color: var(--text-color);
+    border: none;
+    cursor: pointer;
+}
+button:hover{
+    background-color: var(--text-highlight);
+}

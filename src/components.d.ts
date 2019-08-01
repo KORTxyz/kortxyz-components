@@ -10,9 +10,22 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 export namespace Components {
   interface KortxyzAggrid {}
+  interface KortxyzApp {
+    'source': string;
+  }
   interface KortxyzContextmenu {
     'left': number;
     'top': number;
+  }
+  interface KortxyzDialog {
+    'left': number;
+    'top': number;
+  }
+  interface KortxyzFooter {
+    /**
+    * Handles if the GPS should be turn off or on
+    */
+    'gpsState': string;
   }
   interface KortxyzLayergroup {}
   interface KortxyzLayeritem {
@@ -21,7 +34,7 @@ export namespace Components {
   }
   interface KortxyzLayerlist {
     'handleFile': (e: any) => Promise<void>;
-    'source': any;
+    'sourcesURL': any;
   }
   interface KortxyzLeaflet {
     'geojson': any;
@@ -39,6 +52,14 @@ export namespace Components {
     'small': boolean;
     'width': Number;
   }
+  interface KortxyzSourceitem {
+    'active': boolean;
+    'name': string;
+  }
+  interface KortxyzSourcelist {
+    'handleFile': (e: any) => Promise<void>;
+    'source': any;
+  }
 }
 
 declare global {
@@ -50,10 +71,28 @@ declare global {
     new (): HTMLKortxyzAggridElement;
   };
 
+  interface HTMLKortxyzAppElement extends Components.KortxyzApp, HTMLStencilElement {}
+  var HTMLKortxyzAppElement: {
+    prototype: HTMLKortxyzAppElement;
+    new (): HTMLKortxyzAppElement;
+  };
+
   interface HTMLKortxyzContextmenuElement extends Components.KortxyzContextmenu, HTMLStencilElement {}
   var HTMLKortxyzContextmenuElement: {
     prototype: HTMLKortxyzContextmenuElement;
     new (): HTMLKortxyzContextmenuElement;
+  };
+
+  interface HTMLKortxyzDialogElement extends Components.KortxyzDialog, HTMLStencilElement {}
+  var HTMLKortxyzDialogElement: {
+    prototype: HTMLKortxyzDialogElement;
+    new (): HTMLKortxyzDialogElement;
+  };
+
+  interface HTMLKortxyzFooterElement extends Components.KortxyzFooter, HTMLStencilElement {}
+  var HTMLKortxyzFooterElement: {
+    prototype: HTMLKortxyzFooterElement;
+    new (): HTMLKortxyzFooterElement;
   };
 
   interface HTMLKortxyzLayergroupElement extends Components.KortxyzLayergroup, HTMLStencilElement {}
@@ -97,9 +136,24 @@ declare global {
     prototype: HTMLKortxyzSideitemElement;
     new (): HTMLKortxyzSideitemElement;
   };
+
+  interface HTMLKortxyzSourceitemElement extends Components.KortxyzSourceitem, HTMLStencilElement {}
+  var HTMLKortxyzSourceitemElement: {
+    prototype: HTMLKortxyzSourceitemElement;
+    new (): HTMLKortxyzSourceitemElement;
+  };
+
+  interface HTMLKortxyzSourcelistElement extends Components.KortxyzSourcelist, HTMLStencilElement {}
+  var HTMLKortxyzSourcelistElement: {
+    prototype: HTMLKortxyzSourcelistElement;
+    new (): HTMLKortxyzSourcelistElement;
+  };
   interface HTMLElementTagNameMap {
     'kortxyz-aggrid': HTMLKortxyzAggridElement;
+    'kortxyz-app': HTMLKortxyzAppElement;
     'kortxyz-contextmenu': HTMLKortxyzContextmenuElement;
+    'kortxyz-dialog': HTMLKortxyzDialogElement;
+    'kortxyz-footer': HTMLKortxyzFooterElement;
     'kortxyz-layergroup': HTMLKortxyzLayergroupElement;
     'kortxyz-layeritem': HTMLKortxyzLayeritemElement;
     'kortxyz-layerlist': HTMLKortxyzLayerlistElement;
@@ -107,14 +161,31 @@ declare global {
     'kortxyz-mapbox': HTMLKortxyzMapboxElement;
     'kortxyz-sidebar': HTMLKortxyzSidebarElement;
     'kortxyz-sideitem': HTMLKortxyzSideitemElement;
+    'kortxyz-sourceitem': HTMLKortxyzSourceitemElement;
+    'kortxyz-sourcelist': HTMLKortxyzSourcelistElement;
   }
 }
 
 declare namespace LocalJSX {
   interface KortxyzAggrid extends JSXBase.HTMLAttributes<HTMLKortxyzAggridElement> {}
+  interface KortxyzApp extends JSXBase.HTMLAttributes<HTMLKortxyzAppElement> {
+    'onSourcesAdded'?: (event: CustomEvent<any>) => void;
+    'source'?: string;
+  }
   interface KortxyzContextmenu extends JSXBase.HTMLAttributes<HTMLKortxyzContextmenuElement> {
     'left'?: number;
     'top'?: number;
+  }
+  interface KortxyzDialog extends JSXBase.HTMLAttributes<HTMLKortxyzDialogElement> {
+    'left'?: number;
+    'onLayerAdded'?: (event: CustomEvent<any>) => void;
+    'top'?: number;
+  }
+  interface KortxyzFooter extends JSXBase.HTMLAttributes<HTMLKortxyzFooterElement> {
+    /**
+    * Handles if the GPS should be turn off or on
+    */
+    'gpsState'?: string;
   }
   interface KortxyzLayergroup extends JSXBase.HTMLAttributes<HTMLKortxyzLayergroupElement> {}
   interface KortxyzLayeritem extends JSXBase.HTMLAttributes<HTMLKortxyzLayeritemElement> {
@@ -122,7 +193,7 @@ declare namespace LocalJSX {
     'name'?: string;
   }
   interface KortxyzLayerlist extends JSXBase.HTMLAttributes<HTMLKortxyzLayerlistElement> {
-    'source'?: any;
+    'sourcesURL'?: any;
   }
   interface KortxyzLeaflet extends JSXBase.HTMLAttributes<HTMLKortxyzLeafletElement> {
     'geojson'?: any;
@@ -132,6 +203,7 @@ declare namespace LocalJSX {
     'accesstoken'?: string;
     'map'?: mapboxgl.Map;
     'mapstyle'?: any;
+    'onMapLoaded'?: (event: CustomEvent<any>) => void;
   }
   interface KortxyzSidebar extends JSXBase.HTMLAttributes<HTMLKortxyzSidebarElement> {}
   interface KortxyzSideitem extends JSXBase.HTMLAttributes<HTMLKortxyzSideitemElement> {
@@ -141,10 +213,20 @@ declare namespace LocalJSX {
     'small'?: boolean;
     'width'?: Number;
   }
+  interface KortxyzSourceitem extends JSXBase.HTMLAttributes<HTMLKortxyzSourceitemElement> {
+    'active'?: boolean;
+    'name'?: string;
+  }
+  interface KortxyzSourcelist extends JSXBase.HTMLAttributes<HTMLKortxyzSourcelistElement> {
+    'source'?: any;
+  }
 
   interface IntrinsicElements {
     'kortxyz-aggrid': KortxyzAggrid;
+    'kortxyz-app': KortxyzApp;
     'kortxyz-contextmenu': KortxyzContextmenu;
+    'kortxyz-dialog': KortxyzDialog;
+    'kortxyz-footer': KortxyzFooter;
     'kortxyz-layergroup': KortxyzLayergroup;
     'kortxyz-layeritem': KortxyzLayeritem;
     'kortxyz-layerlist': KortxyzLayerlist;
@@ -152,6 +234,8 @@ declare namespace LocalJSX {
     'kortxyz-mapbox': KortxyzMapbox;
     'kortxyz-sidebar': KortxyzSidebar;
     'kortxyz-sideitem': KortxyzSideitem;
+    'kortxyz-sourceitem': KortxyzSourceitem;
+    'kortxyz-sourcelist': KortxyzSourcelist;
   }
 }
 

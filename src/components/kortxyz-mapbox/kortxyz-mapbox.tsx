@@ -1,4 +1,4 @@
-import { Component, Element, Prop, Listen } from '@stencil/core';
+import { Component, Element, Prop, Listen, Event, EventEmitter } from '@stencil/core';
 import mapboxgl from 'mapbox-gl';
 
 @Component({
@@ -9,16 +9,14 @@ import mapboxgl from 'mapbox-gl';
 export class kortxyzMapbox {
   @Prop() map: mapboxgl.Map;
   @Element() mapEl: HTMLElement;
+  @Event() mapLoaded: EventEmitter;
 
   @Prop() mapstyle: any =  { "version": 8, "name": "Empty", "metadata": { "mapbox:autocomposite": true },  "sources":{},   "layers": [] };
   @Prop() accesstoken: string;
 
-
   @Listen('sidebarResized', { target: 'body' })
   resizeMap() { this.map.resize() }
   
-  layersLoaded = {}
-
   componentDidLoad() {
     mapboxgl.accessToken = this.accesstoken ;
      this.map = new mapboxgl.Map({
@@ -29,26 +27,14 @@ export class kortxyzMapbox {
        zoom: 11
      });
 
+     this.map.on('load', ()=>{this.mapLoaded.emit()})
+
      setTimeout(_=>this.map.resize() , 100);
      document.querySelector(".mapboxgl-control-container").remove();
 
-     this.map.on('dataloading',e=>{
-       this.mapEl.classList.add("loading")
-       this.layersLoaded[e.sourceId] = false;
-      })
-     //this.map.on('error',e=> {if(e.isSourceLoaded) this.mapEl.classList.remove("loading")})
-
-     this.map.on('data',e=>{
-       console.log(e.sourceId,e.isSourceLoaded)
-       if(e.dataType=="source"){
-        if(e.isSourceLoaded){
-          this.layersLoaded[e.sourceId] = true;
-          console.log(this.layersLoaded)
-
-          this.mapEl.classList.remove("loading")
-         }
-       }
-      })
+     //LoadingBar, needs to be layer specific
+     this.map.on('dataloading',()=> this.mapEl.classList.add("loading"))
+     this.map.on('idle',()=>this.mapEl.classList.remove("loading"))
   }
  
   render() {

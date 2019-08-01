@@ -1,4 +1,4 @@
-import { Component, Method, Prop, h } from '@stencil/core';
+import { Component, Method, Prop, Element, Listen, h } from '@stencil/core';
 import Sortable from 'sortablejs';
 
 
@@ -9,10 +9,37 @@ import Sortable from 'sortablejs';
 
 export class kortxyzLayerlist {
 
-  @Prop() source:any;
-  layers:any = ["test"];
+  @Element() layerlistEl: HTMLElement;
 
-  componentDidLoad() {
+  @Prop() sourcesURL:any;
+
+  openAddLayerDialog(){
+    const existingContext = document.querySelector("kortxyz-dialog");
+    if(existingContext) existingContext.remove();
+   
+    const dialog = document.createElement("kortxyz-dialog")
+    document.body.append(dialog) 
+  }
+
+  addTools(){
+    const icon = document.createElement("i");
+    icon.className = "layerlist__addLayer";
+    icon.title = "Add layers";
+    icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z"/>
+                      </svg>`;
+    icon.onclick = ()=>{
+          this.openAddLayerDialog();
+    }
+
+    const header = document.querySelector("toolbox");
+          header.appendChild(icon);
+  }
+
+
+  initSortable(){
+
     const sortDrop = Sortable.create(document.body, {
       group: "shared",
       disabled:true,
@@ -31,59 +58,35 @@ export class kortxyzLayerlist {
         sortDrop.options.disabled = false
       },
       onRemove: function (evt) {
-        var el = evt.item;
-        el.parentNode.removeChild(el);
-        alert('Dropped: ' + el.textContent);
+        const map:any = document.querySelector("kortxyz-mapbox").map
+              map.removeLayer(evt.item.name)
+
+        const el = evt.item;
+              el.parentNode.removeChild(el);
       },
       onEnd: (evt) => {
-        console.log(evt)
         sortDrop.options.disabled = true
-        /*
+
         const map:any = document.querySelector("kortxyz-mapbox").map
-              map.moveLayer(evt.item.name+"_circle",evt.item.previousSibling.name+"_circle")
-              map.moveLayer(evt.item.name+"_fill",evt.item.previousSibling.name+"_fill")
-              map.moveLayer(evt.item.name+"_line",evt.item.previousSibling.name+"_line")
-              */
-        },
+        if(!!evt.item.previousSibling) map.moveLayer(evt.item.name,evt.item.previousSibling.name)
+      },
     });
+  }
 
-    if(this.source){
-      fetch(this.source)
-      .then(e=>e.json())
-      .then(data=>
-            data.collections.forEach(collection=>{
-              const name = collection.name;
-              const source = collection.links
-                            .filter(e=>e.rel=="tiles")
-                            .map(e=>{
-                                const tiles = [e.href
-                                    .replace("{level}","{z}")
-                                    .replace("{row}","{x}")
-                                    .replace("{col}","{y}")
-                                    .replace("{tilingSchemeId}","GoogleMapsCompatible")
-                                    .replace("localhost","http://localhost")]
+  @Listen('layerAdded', { target: 'body' })
+  addLayeritem(event) {
+    const layeritem = document.createElement("kortxyz-layeritem");
+          layeritem.name=event.detail;
+          layeritem.active=true;
 
-                                const type = e.type=="application/vnd.vector-tile"?"vector":"raster"
-                                const tileSize = e.type=="application/vnd.vector-tile"? 512: 256
+   this.layerlistEl.insertBefore(layeritem,this.layerlistEl.childNodes[1]);
 
-                                return {tiles,type,"tileSize": tileSize}
-                              });
-
-              setTimeout(() => {
-                document.querySelector("kortxyz-mapbox").map.addSource(name,source[0])
-              }, 100);//
-              
-              const layeritem = document.createElement("kortxyz-layeritem");
-              layeritem.name=name;
-              layeritem.active=false;
-              document.querySelector("kortxyz-layerlist").appendChild(layeritem);
-              this.layers.push([name,false])
-          })
-      )
-    }
-    //<kortxyz-layeritem name="test1"></kortxyz-layeritem>
+  }
 
 
+  componentDidLoad() {
+    this.addTools()
+    this.initSortable()
 	}
 	
   /*

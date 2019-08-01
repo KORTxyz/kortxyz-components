@@ -1,4 +1,4 @@
-kortxyz-layerlist{
+kortxyz-sourcelist{
 	display:flex;
 	flex-direction: column;
     height:100%;
@@ -8,7 +8,7 @@ kortxyz-layerlist{
 	overflow-x: hidden;
 }
 
-kortxyz-layerlist > input {
+kortxyz-sourcelist > input {
 	visibility: hidden;
 	height:0;
 }
