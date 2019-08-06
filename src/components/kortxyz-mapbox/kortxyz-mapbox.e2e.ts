@@ -5,7 +5,7 @@ describe('kortxyz-mapbox', () => {
     const page = await newE2EPage();
 
     await page.setContent('<kortxyz-mapbox></kortxyz-mapbox>');
-    const element = await page.find('my-component');
+    const element = await page.find('kortxyz-mapbox');
     expect(element).toHaveClass('hydrated');
   });
 

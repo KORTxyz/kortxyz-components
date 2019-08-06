@@ -30,7 +30,7 @@
   "dependencies": {
     "ag-grid-community": "^21.1.0",
     "leaflet": "^1.5.1",
-    "mapbox-gl": "^1.1.1",
+    "mapbox-gl": "1.2.0",
     "sortablejs": "^1.10.0-rc3"
   }
 }

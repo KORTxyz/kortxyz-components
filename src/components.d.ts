@@ -42,6 +42,7 @@ export namespace Components {
   }
   interface KortxyzMapbox {
     'accesstoken': string;
+    'addLayer': (name: any, source: any) => Promise<void>;
     'map': mapboxgl.Map;
     'mapstyle': any;
   }
@@ -178,7 +179,6 @@ declare namespace LocalJSX {
   }
   interface KortxyzDialog extends JSXBase.HTMLAttributes<HTMLKortxyzDialogElement> {
     'left'?: number;
-    'onLayerAdded'?: (event: CustomEvent<any>) => void;
     'top'?: number;
   }
   interface KortxyzFooter extends JSXBase.HTMLAttributes<HTMLKortxyzFooterElement> {
@@ -203,6 +203,7 @@ declare namespace LocalJSX {
     'accesstoken'?: string;
     'map'?: mapboxgl.Map;
     'mapstyle'?: any;
+    'onLayerAdded'?: (event: CustomEvent<any>) => void;
     'onMapLoaded'?: (event: CustomEvent<any>) => void;
   }
   interface KortxyzSidebar extends JSXBase.HTMLAttributes<HTMLKortxyzSidebarElement> {}
