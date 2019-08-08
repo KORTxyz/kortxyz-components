@@ -1,4 +1,4 @@
-import { Component, Method, Prop, Element, Listen, h } from '@stencil/core';
+import { Component, Method, Prop, Element, Event, EventEmitter, Listen, h } from '@stencil/core';
 import Sortable from 'sortablejs';
 
 
@@ -12,6 +12,8 @@ export class kortxyzLayerlist {
   @Element() layerlistEl: HTMLElement;
 
   @Prop() sourcesURL:any;
+
+  @Event() layerRemoved: EventEmitter;
 
   openAddLayerDialog(){
     const existingContext = document.querySelector("kortxyz-dialog");
@@ -46,9 +48,9 @@ export class kortxyzLayerlist {
       ghostClass:'sortable-noghost'
     });
 
-    var style = document.createElement('style');
+    let style = document.createElement('style');
         style.innerHTML ='.sortable-noghost { display:none}';
-    var ref = document.querySelector('script');
+    let ref = document.querySelector('script');
         ref.parentNode.insertBefore(style, ref);
 
     Sortable.create(document.querySelector("kortxyz-layerlist"), {
@@ -57,10 +59,8 @@ export class kortxyzLayerlist {
       onStart: _=>{
         sortDrop.options.disabled = false
       },
-      onRemove: function (evt) {
-        const map:any = document.querySelector("kortxyz-mapbox").map
-              map.removeLayer(evt.item.name)
-
+      onRemove: (evt) => {
+        this.layerRemoved.emit(evt.item.name)
         const el = evt.item;
               el.parentNode.removeChild(el);
       },

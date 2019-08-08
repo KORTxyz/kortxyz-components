@@ -11,6 +11,13 @@ export class kortxyzSourcelist {
   layers:any = ["test"];
 
 
+  @Listen('sourceAdded', { target: 'body' })
+  addSource(e) {
+    const sourceitem = document.createElement("kortxyz-sourceitem");
+          sourceitem.name=e.detail.sourceId;
+    document.querySelector("kortxyz-sourcelist").appendChild(sourceitem);
+  }
+
   @Listen('sourcesAdded', { target: 'body' })
   addSources() {
     const sources = document.querySelector("kortxyz-mapbox").map.getStyle().sources

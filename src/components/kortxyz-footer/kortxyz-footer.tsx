@@ -34,7 +34,7 @@ export class kortxyzFooter {
 			<item>Local*</item>,
 			<item>Anonymous</item>,
 			<spacer></spacer>,
-			<item id="coords" contenteditable></item>,
+			<item id="coords" contenteditable>31Q AD 877074</item>,
 			<item id="gps" >{this.gpsStates[this.gpsState]}</item>,
 			<spacer></spacer>,
 			<item id="background" >Decimal</item>,

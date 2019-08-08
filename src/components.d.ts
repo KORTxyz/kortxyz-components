@@ -170,7 +170,6 @@ declare global {
 declare namespace LocalJSX {
   interface KortxyzAggrid extends JSXBase.HTMLAttributes<HTMLKortxyzAggridElement> {}
   interface KortxyzApp extends JSXBase.HTMLAttributes<HTMLKortxyzAppElement> {
-    'onSourcesAdded'?: (event: CustomEvent<any>) => void;
     'source'?: string;
   }
   interface KortxyzContextmenu extends JSXBase.HTMLAttributes<HTMLKortxyzContextmenuElement> {
@@ -193,6 +192,7 @@ declare namespace LocalJSX {
     'name'?: string;
   }
   interface KortxyzLayerlist extends JSXBase.HTMLAttributes<HTMLKortxyzLayerlistElement> {
+    'onLayerRemoved'?: (event: CustomEvent<any>) => void;
     'sourcesURL'?: any;
   }
   interface KortxyzLeaflet extends JSXBase.HTMLAttributes<HTMLKortxyzLeafletElement> {
@@ -205,6 +205,8 @@ declare namespace LocalJSX {
     'mapstyle'?: any;
     'onLayerAdded'?: (event: CustomEvent<any>) => void;
     'onMapLoaded'?: (event: CustomEvent<any>) => void;
+    'onNewStyle'?: (event: CustomEvent<any>) => void;
+    'onSourceAdded'?: (event: CustomEvent<any>) => void;
   }
   interface KortxyzSidebar extends JSXBase.HTMLAttributes<HTMLKortxyzSidebarElement> {}
   interface KortxyzSideitem extends JSXBase.HTMLAttributes<HTMLKortxyzSideitemElement> {

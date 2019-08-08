@@ -1,4 +1,4 @@
-import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
+import { Component, Prop, Listen, h, State } from '@stencil/core';
 
 @Component({
   tag: 'kortxyz-app',
@@ -7,17 +7,69 @@ import { Component, Prop, Event, EventEmitter, h } from '@stencil/core';
 
 export class kortxyzApp {
 
-  @Prop() source:string;
+	@Prop() source:string;
 
-	@Event() sourcesAdded: EventEmitter;
+	@State() style:any;
+
+	@Listen('newStyle', { target: 'body' })
+		putStyle(style) { 
+			if(style.detail.name!="Empty" && JSON.stringify(this.style) != JSON.stringify(style.detail)){
+				this.style = style.detail
+				fetch(this.source+'/styles/'+style.detail.name, {
+					method: 'PUT',
+					headers: {
+							'Content-Type': 'application/json',
+					},
+						body: JSON.stringify(style.detail), // body data type must match "Content-Type" header
+					})
+					.then(e=>console.log(e))
+					.catch(err=>console.error(err)) 
+			}
+
+		}
 
   componentDidLoad(){
 		const style = window.location.pathname.slice(1)
+		const map:any =  document.querySelector("kortxyz-mapbox").map
 		if(style){
-			console.log("window.location.pathname: ", style)
+			fetch(this.source+'/styles/'+style)
+			.then(e=>{
+				switch(e.status) {
+					case 200:
+					  	return e.json()
+					case 400:
+						this.createStyle(style)
+					  break;
+				  }
+			})
+			.then(style=>{
+				this.style = style;
+				map.style.loadJSON(style)
+			})
 		}
-		else if(this.source){
-			fetch(this.source)
+
+		else this.loadSources();
+	}
+
+	createStyle(styleName){
+		const style = { "version": 8, "name": styleName, "metadata": { "mapbox:autocomposite": true },  "sources":{},   "layers": [] };
+
+		const map:any =  document.querySelector("kortxyz-mapbox").map
+					map.style.loadJSON(style)
+
+			fetch(this.source+'/styles', {
+				method: 'POST',
+				headers: {
+						'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(style), // body data type must match "Content-Type" header
+			})
+			.then(_=>this.loadSources())
+			.catch(err=>console.error(err))
+	}
+
+  loadSources(){
+			fetch(this.source+'/collections')
 			.then(e=>e.json())
 			.then(data=>
 						data.collections.forEach(collection=>{
@@ -29,8 +81,7 @@ export class kortxyzApp {
 																		.replace("{level}","{z}")
 																		.replace("{row}","{x}")
 																		.replace("{col}","{y}")
-																		.replace("{tilingSchemeId}","GoogleMapsCompatible")
-																		.replace("localhost","http://localhost")]
+																		.replace("{tilingSchemeId}","GoogleMapsCompatible")]
 	
 																const type = e.type=="application/vnd.vector-tile"?"vector":"raster"
 																const tileSize = e.type=="application/vnd.vector-tile"? 512: 256
@@ -39,11 +90,8 @@ export class kortxyzApp {
 															});
 								document.querySelector("kortxyz-mapbox").map.addSource(name,source[0])
 					})
-			).then(()=> this.sourcesAdded.emit() )
-		}
-	
+			)
   }
-
   render() {
     return [
 			<row>
@@ -55,7 +103,7 @@ export class kortxyzApp {
 					<kortxyz-sourcelist></kortxyz-sourcelist>
 				</kortxyz-sideitem>
 			</kortxyz-sidebar>
-			<kortxyz-mapbox></kortxyz-mapbox>
+			<kortxyz-mapbox accesstoken="pk.eyJ1IjoidGlub2tzIiwiYSI6ImNqM2p5d2hkbTAwM3UzMnBwbWF2NG96Z3IifQ._hWk-eEzh8sNjp3qA_cJuQ"></kortxyz-mapbox>
 			</row>,
 			<kortxyz-footer></kortxyz-footer>
 

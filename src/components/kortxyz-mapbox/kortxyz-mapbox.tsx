@@ -11,6 +11,8 @@ export class kortxyzMapbox {
 
   @Event() mapLoaded: EventEmitter;
   @Event() layerAdded: EventEmitter;
+  @Event() sourceAdded: EventEmitter;
+  @Event() newStyle: EventEmitter;
 
   @Prop() map: mapboxgl.Map;
   @Prop() mapstyle: any =  { "version": 8, "name": "Empty", "metadata": { "mapbox:autocomposite": true },  "sources":{},   "layers": [] };
@@ -19,9 +21,30 @@ export class kortxyzMapbox {
   @Listen('sidebarResized', { target: 'body' })
     resizeMap() { this.map.resize() }
 
+  @Listen('layerRemoved', { target: 'body' })
+    removeLayer(event) {
+      this.map.removeLayer(event.detail)
+      this.layers = [ ...this.layers.filter(layer=>!layer.includes(event.detail) ) ]  
+    }
+    
   @State() hover:{id:any,layer:any};
+  @State() layers:any[] =[];
 
   popup = new mapboxgl.Popup({closeOnClick: false});
+  
+  isLayerNew(style){
+    const eventLayers = style.layers.map(layer=>layer.id)
+    const newLayers = eventLayers.filter(x => !this.layers.includes(x));
+          newLayers.forEach(layer=>this.layerAdded.emit(layer))
+    
+    if(!newLayers.length) this.newStyle.emit(style)
+
+    this.layers = [ ...this.layers, ...newLayers]
+  }
+  
+  renderPopup(features){
+    return features.toString()
+  }
 
   componentDidLoad() {
     mapboxgl.accessToken = this.accesstoken ;
@@ -30,13 +53,16 @@ export class kortxyzMapbox {
        attributionControl: false,
        style:  this.mapstyle,
        center: [11, 55],
-       zoom: 11
+       zoom: 11,
+       maxZoom:18
      });
 
      this.map.on('load', ()=>{this.mapLoaded.emit()})
-     
      setTimeout(_=>this.map.resize() , 100);
      document.querySelector(".mapboxgl-control-container").remove();
+
+     this.map.on('sourcedata',e=>{if(e.sourceDataType=="metadata") this.sourceAdded.emit(e)})
+     this.map.on('styledata',e=> this.isLayerNew(e.style.serialize()) )
 
      //LoadingBar, needs to be layer specific
      this.map.on('dataloading',()=> this.mapEl.classList.add("loading"))
@@ -49,9 +75,8 @@ export class kortxyzMapbox {
     
       if(features.length>0){
         this.popup.setLngLat(e.lngLat)
-          .setHTML("renderPopup(features)")
+          .setHTML(this.renderPopup(features))
           .addTo(this.map);
-          console.log(features)
           if(1==1 //this.hover.id.includes(features[0].layer.id)
            ){
             if (this.hover) {
@@ -78,7 +103,8 @@ export class kortxyzMapbox {
     
     });
   }
- 
+
+
   @Method()
   async addLayer(name,source){
     const map = document.querySelector("kortxyz-mapbox").map;
@@ -90,7 +116,6 @@ export class kortxyzMapbox {
         'type': 'raster',
         'source': source
       });
-      this.layerAdded.emit(name)
     }
     else{
       map.addLayer({
@@ -106,7 +131,6 @@ export class kortxyzMapbox {
           'circle-opacity': 0.8
         }
      })
-     this.layerAdded.emit(name +'_circle')
 
      map.addLayer({
       'id': name +'_line',
@@ -125,7 +149,6 @@ export class kortxyzMapbox {
         'line-opacity': 0.8
       }
       })
-      this.layerAdded.emit(name +'_line')
 
       map.addLayer({
         'id': name +'_fill',
@@ -141,7 +164,6 @@ export class kortxyzMapbox {
           'fill-color': "#" + ("000000" + Math.floor(Math.random() * 16777216).toString(16)).substr(-6),
         }
      })
-     this.layerAdded.emit(name +'_fill')
 
       map.on('click',name +'_fill', (e) => {
         new mapboxgl.Popup()
