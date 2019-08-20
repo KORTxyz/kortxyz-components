@@ -36,6 +36,10 @@ export namespace Components {
     'handleFile': (e: any) => Promise<void>;
     'sourcesURL': any;
   }
+  interface KortxyzLayermenu {
+    'left': number;
+    'top': number;
+  }
   interface KortxyzLeaflet {
     'geojson': any;
     'map': any;
@@ -59,7 +63,6 @@ export namespace Components {
   }
   interface KortxyzSourcelist {
     'handleFile': (e: any) => Promise<void>;
-    'source': any;
   }
 }
 
@@ -114,6 +117,12 @@ declare global {
     new (): HTMLKortxyzLayerlistElement;
   };
 
+  interface HTMLKortxyzLayermenuElement extends Components.KortxyzLayermenu, HTMLStencilElement {}
+  var HTMLKortxyzLayermenuElement: {
+    prototype: HTMLKortxyzLayermenuElement;
+    new (): HTMLKortxyzLayermenuElement;
+  };
+
   interface HTMLKortxyzLeafletElement extends Components.KortxyzLeaflet, HTMLStencilElement {}
   var HTMLKortxyzLeafletElement: {
     prototype: HTMLKortxyzLeafletElement;
@@ -158,6 +167,7 @@ declare global {
     'kortxyz-layergroup': HTMLKortxyzLayergroupElement;
     'kortxyz-layeritem': HTMLKortxyzLayeritemElement;
     'kortxyz-layerlist': HTMLKortxyzLayerlistElement;
+    'kortxyz-layermenu': HTMLKortxyzLayermenuElement;
     'kortxyz-leaflet': HTMLKortxyzLeafletElement;
     'kortxyz-mapbox': HTMLKortxyzMapboxElement;
     'kortxyz-sidebar': HTMLKortxyzSidebarElement;
@@ -195,6 +205,10 @@ declare namespace LocalJSX {
     'onLayerRemoved'?: (event: CustomEvent<any>) => void;
     'sourcesURL'?: any;
   }
+  interface KortxyzLayermenu extends JSXBase.HTMLAttributes<HTMLKortxyzLayermenuElement> {
+    'left'?: number;
+    'top'?: number;
+  }
   interface KortxyzLeaflet extends JSXBase.HTMLAttributes<HTMLKortxyzLeafletElement> {
     'geojson'?: any;
     'map'?: any;
@@ -220,9 +234,7 @@ declare namespace LocalJSX {
     'active'?: boolean;
     'name'?: string;
   }
-  interface KortxyzSourcelist extends JSXBase.HTMLAttributes<HTMLKortxyzSourcelistElement> {
-    'source'?: any;
-  }
+  interface KortxyzSourcelist extends JSXBase.HTMLAttributes<HTMLKortxyzSourcelistElement> {}
 
   interface IntrinsicElements {
     'kortxyz-aggrid': KortxyzAggrid;
@@ -233,6 +245,7 @@ declare namespace LocalJSX {
     'kortxyz-layergroup': KortxyzLayergroup;
     'kortxyz-layeritem': KortxyzLayeritem;
     'kortxyz-layerlist': KortxyzLayerlist;
+    'kortxyz-layermenu': KortxyzLayermenu;
     'kortxyz-leaflet': KortxyzLeaflet;
     'kortxyz-mapbox': KortxyzMapbox;
     'kortxyz-sidebar': KortxyzSidebar;

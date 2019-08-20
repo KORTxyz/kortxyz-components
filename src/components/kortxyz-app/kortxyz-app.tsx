@@ -12,7 +12,7 @@ export class kortxyzApp {
 	@State() style:any;
 
 	@Listen('newStyle', { target: 'body' })
-		putStyle(style) { 
+		putStyle(style) {
 			if(style.detail.name!="Empty" && JSON.stringify(this.style) != JSON.stringify(style.detail)){
 				this.style = style.detail
 				fetch(this.source+'/styles/'+style.detail.name, {
@@ -101,6 +101,8 @@ export class kortxyzApp {
 				</kortxyz-sideitem>
 				<kortxyz-sideitem name="sources" icon="sources">
 					<kortxyz-sourcelist></kortxyz-sourcelist>
+				</kortxyz-sideitem>
+				<kortxyz-sideitem name="cache" icon="save_alt">
 				</kortxyz-sideitem>
 			</kortxyz-sidebar>
 			<kortxyz-mapbox accesstoken="pk.eyJ1IjoidGlub2tzIiwiYSI6ImNqM2p5d2hkbTAwM3UzMnBwbWF2NG96Z3IifQ._hWk-eEzh8sNjp3qA_cJuQ"></kortxyz-mapbox>

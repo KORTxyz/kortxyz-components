@@ -24,26 +24,30 @@ export class kortxyzMapbox {
   @Listen('layerRemoved', { target: 'body' })
     removeLayer(event) {
       this.map.removeLayer(event.detail)
-      this.layers = [ ...this.layers.filter(layer=>!layer.includes(event.detail) ) ]  
+      this.layers = [ ...this.layers.filter(layer=>!layer.includes(event.detail)) ]  
     }
     
   @State() hover:{id:any,layer:any};
   @State() layers:any[] =[];
 
-  popup = new mapboxgl.Popup({closeOnClick: false});
+  popup = new mapboxgl.Popup({closeButton:false, closeOnClick: false, maxWidth: '500px'});
   
   isLayerNew(style){
-    const eventLayers = style.layers.map(layer=>layer.id)
-    const newLayers = eventLayers.filter(x => !this.layers.includes(x));
+    const newLayers = style.layers.filter(x => !this.layers.includes(x.id));
           newLayers.forEach(layer=>this.layerAdded.emit(layer))
-    
-    if(!newLayers.length) this.newStyle.emit(style)
-
-    this.layers = [ ...this.layers, ...newLayers]
+          
+    this.layers = [ ...this.layers, ...newLayers.map(layer=>layer.id)]
   }
   
   renderPopup(features){
-    return features.toString()
+    const feature = features[0];
+    const content = `
+      <div class="popup-header">#${feature.layer.id}</div>
+      <div class="popup-properties">
+        ${Object.entries(feature.properties).map(property => `<b>${property[0]}</b> ${property[1]}<br> `).join('')}
+      </div>
+     `
+    return content
   }
 
   componentDidLoad() {
@@ -54,29 +58,41 @@ export class kortxyzMapbox {
        style:  this.mapstyle,
        center: [11, 55],
        zoom: 11,
-       maxZoom:18
+       maxZoom:17
      });
 
      this.map.on('load', ()=>{this.mapLoaded.emit()})
      setTimeout(_=>this.map.resize() , 100);
      document.querySelector(".mapboxgl-control-container").remove();
 
-     this.map.on('sourcedata',e=>{if(e.sourceDataType=="metadata") this.sourceAdded.emit(e)})
-     this.map.on('styledata',e=> this.isLayerNew(e.style.serialize()) )
+     this.map.on('sourcedata',e=> {if(e.sourceDataType=="metadata") this.sourceAdded.emit(e)})
+     this.map.on('styledata',e=> {
+       const style = e.style.serialize()
+       this.newStyle.emit(style); 
+       this.isLayerNew(style)
+     })
 
      //LoadingBar, needs to be layer specific
      this.map.on('dataloading',()=> this.mapEl.classList.add("loading"))
      this.map.on('idle',()=>this.mapEl.classList.remove("loading"))
 
-     this.map.on('mousemove', e=> {
-
+     this.map.on('click', e=> {
       var features = this.map.queryRenderedFeatures(e.point);
-      this.map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
-    
       if(features.length>0){
         this.popup.setLngLat(e.lngLat)
           .setHTML(this.renderPopup(features))
           .addTo(this.map);
+      }
+      else{
+        this.popup.remove();
+      }
+     })
+
+     this.map.on('mousemove', e=> {
+      var features = this.map.queryRenderedFeatures(e.point);
+      this.map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+    
+      if(features.length>0){
           if(1==1 //this.hover.id.includes(features[0].layer.id)
            ){
             if (this.hover) {
@@ -94,7 +110,6 @@ export class kortxyzMapbox {
           }
         }
       else {        
-        this.popup.remove();
         if (this.hover) {
           this.map.setFeatureState({source:  this.hover.layer.source, sourceLayer: this.hover.layer["source-layer"], id: this.hover.id}, { hover: false});
         }
@@ -127,8 +142,8 @@ export class kortxyzMapbox {
         'filter': ["==", "$type", "Point"],
         'paint': {
           'circle-color': "#" + ("000000" + Math.floor(Math.random() * 16777216).toString(16)).substr(-6),
-          'circle-radius': 2.5,
-          'circle-opacity': 0.8
+          'circle-radius': 8,
+          'circle-opacity': ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.7],
         }
      })
 
@@ -145,8 +160,8 @@ export class kortxyzMapbox {
       },
       'paint': {
         'line-color': "#" + ("000000" + Math.floor(Math.random() * 16777216).toString(16)).substr(-6),
-        'line-width': 1,
-        'line-opacity': 0.8
+        'line-width': ["case", ["boolean", ["feature-state", "hover"], false], 2, 1.5],
+        'line-opacity': ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.7],
       }
       })
 
@@ -159,39 +174,10 @@ export class kortxyzMapbox {
         'filter': ["==", "$type", "Polygon"],
         'layout': {},
         'paint': {
-          'fill-opacity': ["case",
-          ["boolean", ["feature-state", "hover"], false], 1, 0.7],
+          'fill-opacity': ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.7],
           'fill-color': "#" + ("000000" + Math.floor(Math.random() * 16777216).toString(16)).substr(-6),
         }
      })
-
-      map.on('click',name +'_fill', (e) => {
-        new mapboxgl.Popup()
-          .setLngLat(e.lngLat)
-          .setHTML(Object.entries(e.features[0].properties).map(e => `<B>${e[0]}</B> ${e[1]}`).join("<BR>"))
-          .addTo(map);
-      });
-      window["hoveredStateId"] = null;
-      // Change the cursor to a pointer when the mouse is over the states layer.
-      map.on('mousemove', name +'_fill', e => {
-        map.getCanvas().style.cursor = 'pointer';
-        if (e.features.length > 0) {
-          if (window["hoveredStateId"]) {
-              map.setFeatureState({source: source, sourceLayer: source, id: window["hoveredStateId"]}, { hover: false});
-          }
-          window["hoveredStateId"] = e.features[0].id;
-          map.setFeatureState({source: source, sourceLayer: source, id: window["hoveredStateId"]}, { hover: true});
-        }
-      });
-
-      // Change it back to a pointer when it leaves.
-      map.on('mouseleave', name +'_fill', () => {
-        map.getCanvas().style.cursor = '';
-        if (window["hoveredStateId"]) {
-          map.setFeatureState({source: source, sourceLayer: source, id: window["hoveredStateId"]}, { hover: false});
-        }
-        window["hoveredStateId"] =  null;
-      });
     }
      
 

@@ -1,4 +1,4 @@
-import { Component, Method, Prop, Listen, h } from '@stencil/core';
+import { Component, Method, Listen, Element, h } from '@stencil/core';
 
 @Component({
   tag: 'kortxyz-sourcelist',
@@ -6,26 +6,21 @@ import { Component, Method, Prop, Listen, h } from '@stencil/core';
 })
 
 export class kortxyzSourcelist {
-
-  @Prop() source:any;
-  layers:any = ["test"];
-
+  @Element() sourcelistEL: HTMLElement;
 
   @Listen('sourceAdded', { target: 'body' })
   addSource(e) {
     const sourceitem = document.createElement("kortxyz-sourceitem");
           sourceitem.name=e.detail.sourceId;
-    document.querySelector("kortxyz-sourcelist").appendChild(sourceitem);
+    this.sourcelistEL.appendChild(sourceitem);
   }
 
   @Listen('sourcesAdded', { target: 'body' })
-  addSources() {
-    const sources = document.querySelector("kortxyz-mapbox").map.getStyle().sources
-
-    Object.keys(sources).forEach(source => {
+  addSources(e) {
+    Object.keys(e.detail).forEach(source => {
       const sourceitem = document.createElement("kortxyz-sourceitem");
             sourceitem.name=source;
-      document.querySelector("kortxyz-sourcelist").appendChild(sourceitem);
+            this.sourcelistEL.appendChild(sourceitem);
     })
   }
 

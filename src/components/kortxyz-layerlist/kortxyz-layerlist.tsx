@@ -76,8 +76,8 @@ export class kortxyzLayerlist {
   @Listen('layerAdded', { target: 'body' })
   addLayeritem(event) {
     const layeritem = document.createElement("kortxyz-layeritem");
-          layeritem.name=event.detail;
-          layeritem.active=true;
+          layeritem.name=event.detail.id;
+          layeritem.active = (event.detail.layout && event.detail.layout.visibility)=="none"?false:true;
 
    this.layerlistEl.insertBefore(layeritem,this.layerlistEl.childNodes[1]);
 

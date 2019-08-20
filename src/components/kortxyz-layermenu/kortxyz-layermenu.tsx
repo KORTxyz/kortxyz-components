@@ -2,8 +2,8 @@ import { Component, Prop, Element, h } from '@stencil/core';
 
 
 @Component({
-  tag: 'kortxyz-contextmenu',
-  styleUrl: 'kortxyz-contextmenu.css'
+  tag: 'kortxyz-layermenu',
+  styleUrl: 'kortxyz-layermenu.css'
 })
 
 export class kortxyzContextmenu { 
@@ -21,8 +21,8 @@ export class kortxyzContextmenu {
 
       document.body.onclick = e =>{
         const path:any = e.composedPath();
-        if(!path.filter(e=> e.nodeName == "KORTXYZ-CONTEXTMENU").length){
-          document.querySelector("KORTXYZ-CONTEXTMENU").remove();
+        if(!path.filter(e=> e.nodeName == "KORTXYZ-LAYERMENU").length){
+          document.querySelector("KORTXYZ-LAYERMENU").remove();
           document.body.onclick = null;
         }
         
@@ -36,34 +36,36 @@ export class kortxyzContextmenu {
     return ([
           <div id="item1" class="item">
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            <div>Layerlist</div>
+            <div>Rename layer</div>
             <div>Ctrl+shift+L</div>
           </div>,
             <div id="item1" class="item">
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            <div>Sources</div>
+            <div>Delete layer</div>
             <div>Ctrl+shift+S</div>
           </div>,
+          <hr></hr>,
             <div id="item1" class="item">
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            <div>Cache Control</div>
-            <div>Ctrl+shift+G</div>
-          </div>,
-            <div id="item1" class="item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            <div>Debug</div>
+            <div>Filter</div>
             <div>Ctrl+shift+D</div>
           </div>,
             <div id="item1" class="item">
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            <div>Extensions</div>
+            <div>Layout Property</div>
+            <div>Ctrl+shift+X</div>
+          </div>,
+            <div id="item1" class="item">		
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            <div>Paint Property</div>
             <div>Ctrl+shift+X</div>
           </div>,
           <hr></hr>,
           <div id="item1" class="item">		
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24"></svg>
-            <div>Hide Activitybar</div>
-          </div> 
+            <div>Show Attributetable</div>
+          </div>,
+          <hr></hr>,
       ] 
     );
   }

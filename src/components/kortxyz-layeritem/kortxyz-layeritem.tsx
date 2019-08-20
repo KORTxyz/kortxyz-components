@@ -15,10 +15,10 @@ export class kortxyzLayeritem {
     e.preventDefault();
     e.stopPropagation();
 
-    const existingContext = document.querySelector("kortxyz-contextmenu");
+    const existingContext = document.querySelector("kortxyz-layermenu");
     if(existingContext) existingContext.remove();
    
-    const contextMenu = document.createElement("kortxyz-contextmenu")
+    const contextMenu = document.createElement("kortxyz-layermenu")
     contextMenu.left = e.clientX;
     contextMenu.top = e.clientY;
     document.body.append(contextMenu) 

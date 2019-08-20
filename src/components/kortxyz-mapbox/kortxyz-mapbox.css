@@ -28,4 +28,20 @@ kortxyz-mapbox.loading:before {
     outline: none;
 }
 
+.popup-header{
+    font-weight: bold;
+    font-size: 14px;
+    border-bottom: dashed 1px;
+    margin-bottom: 8px;
+    user-select: text;
+}
+
+.popup-properties{
+    grid-template-columns: auto auto;
+    display: grid;
+    max-height: 60vh;
+    overflow: auto;
+    user-select: text;
+}
+
 @import url("..\..\..\node_modules\mapbox-gl\dist\mapbox-gl.css");
