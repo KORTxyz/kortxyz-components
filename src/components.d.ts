@@ -13,6 +13,11 @@ export namespace Components {
   interface KortxyzApp {
     'source': string;
   }
+  interface KortxyzCode {
+    'layer': any;
+    'left': number;
+    'top': number;
+  }
   interface KortxyzContextmenu {
     'left': number;
     'top': number;
@@ -79,6 +84,12 @@ declare global {
   var HTMLKortxyzAppElement: {
     prototype: HTMLKortxyzAppElement;
     new (): HTMLKortxyzAppElement;
+  };
+
+  interface HTMLKortxyzCodeElement extends Components.KortxyzCode, HTMLStencilElement {}
+  var HTMLKortxyzCodeElement: {
+    prototype: HTMLKortxyzCodeElement;
+    new (): HTMLKortxyzCodeElement;
   };
 
   interface HTMLKortxyzContextmenuElement extends Components.KortxyzContextmenu, HTMLStencilElement {}
@@ -161,6 +172,7 @@ declare global {
   interface HTMLElementTagNameMap {
     'kortxyz-aggrid': HTMLKortxyzAggridElement;
     'kortxyz-app': HTMLKortxyzAppElement;
+    'kortxyz-code': HTMLKortxyzCodeElement;
     'kortxyz-contextmenu': HTMLKortxyzContextmenuElement;
     'kortxyz-dialog': HTMLKortxyzDialogElement;
     'kortxyz-footer': HTMLKortxyzFooterElement;
@@ -181,6 +193,11 @@ declare namespace LocalJSX {
   interface KortxyzAggrid extends JSXBase.HTMLAttributes<HTMLKortxyzAggridElement> {}
   interface KortxyzApp extends JSXBase.HTMLAttributes<HTMLKortxyzAppElement> {
     'source'?: string;
+  }
+  interface KortxyzCode extends JSXBase.HTMLAttributes<HTMLKortxyzCodeElement> {
+    'layer'?: any;
+    'left'?: number;
+    'top'?: number;
   }
   interface KortxyzContextmenu extends JSXBase.HTMLAttributes<HTMLKortxyzContextmenuElement> {
     'left'?: number;
@@ -239,6 +256,7 @@ declare namespace LocalJSX {
   interface IntrinsicElements {
     'kortxyz-aggrid': KortxyzAggrid;
     'kortxyz-app': KortxyzApp;
+    'kortxyz-code': KortxyzCode;
     'kortxyz-contextmenu': KortxyzContextmenu;
     'kortxyz-dialog': KortxyzDialog;
     'kortxyz-footer': KortxyzFooter;

@@ -1,0 +1,20 @@
+kortxyz-code{
+    position: fixed;
+    background:var(--app-level1-color);
+    font-family: Consolas,Inconsolata,"Courier New",monospace;
+    font-size:12px;
+    padding: 5px 0 5px 0;
+    letter-spacing: -1px;
+    width: 220px;
+    box-shadow: black 5px 5px 20px -10px;
+}
+
+textarea {
+    width:800px;
+    height:600px;
+    border:1px solid grey;
+    
+}
+
+@import url("..\..\..\node_modules\@simonwep\pickr\dist\themes\nano.min.css");
+

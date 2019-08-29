@@ -15,13 +15,14 @@ export class kortxyzLayeritem {
     e.preventDefault();
     e.stopPropagation();
 
-    const existingContext = document.querySelector("kortxyz-layermenu");
-    if(existingContext) existingContext.remove();
+    const existingCodearea = document.querySelector("kortxyz-code");
+    if(existingCodearea) existingCodearea.remove();
    
-    const contextMenu = document.createElement("kortxyz-layermenu")
-    contextMenu.left = e.clientX;
-    contextMenu.top = e.clientY;
-    document.body.append(contextMenu) 
+    const codeArea = document.createElement("kortxyz-code")
+    codeArea.left = e.clientX;
+    codeArea.top = e.clientY;
+    codeArea.layer = e.target.innerHTML;
+    document.body.append(codeArea) 
   }
 
   changeVisibility(e) {
