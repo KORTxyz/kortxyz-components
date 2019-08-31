@@ -11,6 +11,8 @@ export class kortxyzMapbox {
 
   @Event() mapLoaded: EventEmitter;
   @Event() layerAdded: EventEmitter;
+  @Event() layerRemoved: EventEmitter;
+
   @Event() sourceAdded: EventEmitter;
   @Event() newStyle: EventEmitter;
 
@@ -22,9 +24,12 @@ export class kortxyzMapbox {
     resizeMap() { this.map.resize() }
 
   @Listen('layerRemoved', { target: 'body' })
-    removeLayer(event) {
-      this.map.removeLayer(event.detail)
-      this.layers = [ ...this.layers.filter(layer=>!layer.includes(event.detail)) ]  
+    removeLayer(e) {
+      console.log(this.map.getLayer(e.detail))
+      if(this.map.getLayer(e.detail) !== undefined){
+        this.map.removeLayer(e.detail)
+        this.layers = [ ...this.layers.filter(layer=>!layer.includes(e.detail)) ]  
+      } 
     }
     
   @State() hover:{id:any,layer:any};
@@ -33,10 +38,13 @@ export class kortxyzMapbox {
   popup = new mapboxgl.Popup({closeButton:false, closeOnClick: false, maxWidth: '500px'});
   
   isLayerNew(style){
-    const newLayers = style.layers.filter(x => !this.layers.includes(x.id));
-          newLayers.forEach(layer=>this.layerAdded.emit(layer))
-          
-    this.layers = [ ...this.layers, ...newLayers.map(layer=>layer.id)]
+    const oldLayers =  this.layers.filter(l=> !style.layers.map(e=>e.id).includes(l))
+    const newLayers = style.layers.filter(layer => !this.layers.includes(layer.id));
+    this.layers = style.layers.map(layer=>layer.id)
+ 
+    newLayers.forEach(layer=>this.layerAdded.emit(layer))
+    oldLayers.forEach(layer=>this.layerRemoved.emit(layer))
+
   }
   
   renderPopup(features){
@@ -75,6 +83,7 @@ export class kortxyzMapbox {
      //LoadingBar, needs to be layer specific
      this.map.on('dataloading',()=> this.mapEl.classList.add("loading"))
      this.map.on('idle',()=>this.mapEl.classList.remove("loading"))
+     this.map.on('error',e=>alert(e.error.message))
 
      this.map.on('click', e=> {
       var features = this.map.queryRenderedFeatures(e.point);

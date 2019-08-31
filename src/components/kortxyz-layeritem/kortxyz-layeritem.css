@@ -40,3 +40,7 @@ kortxyz-layeritem {
     fill:var(--text-highlight);
     cursor: pointer;
   }
+
+  body > kortxyz-layeritem {
+    display: none;
+  }

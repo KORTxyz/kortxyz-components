@@ -88,7 +88,7 @@ toolbox > i:hover{
 	cursor: ew-resize;
 	top:20px;
 	left:230px;
-	z-index: 9;
+	z-index: 3;
 	width: 10px;
 	height: calc(100% - 40px);
 	display: none;

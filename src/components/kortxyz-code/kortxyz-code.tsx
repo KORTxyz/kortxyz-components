@@ -1,6 +1,5 @@
 import { Component, Element, Prop, h } from '@stencil/core';
 import { default as style }from '@mapbox/mapbox-gl-style-spec'
-import Pickr from '@simonwep/pickr';
 
 @Component({
   tag: 'kortxyz-code',
@@ -18,18 +17,14 @@ export class kortxyzCode {
     this.codeEl.style.left = this.left+"px"
     var map = document.querySelector("kortxyz-mapbox").map
 
-    //@ts-ignore
     var textarea = document.querySelector("textarea")
     var test:any = map.getLayer(this.layer);
     textarea.value = JSON.stringify(test.serialize(),null,4)
-    console.log(this.layer,)
+    textarea.focus();
+    
   }
     
   handleBlur(e){
-    var textarea = document.querySelector("textarea")
-
-    textarea.reportValidity()	
-
     var map = document.querySelector("kortxyz-mapbox").map
     var getStyle = map.getStyle();
 
@@ -41,7 +36,6 @@ export class kortxyzCode {
     getStyle.layers = [layer]
 
     var valid = style.validate(getStyle) 
-    console.log(valid,layer)
     if(!valid.length) {
       map.removeLayer(this.layer)
       map.addLayer(layer)
@@ -51,32 +45,24 @@ export class kortxyzCode {
       alert(valid[0].message.slice(10))
     }
   }
-  getCaretPosition(textarea) {
-    
-      return textarea.value.slice(textarea.selectionStart,textarea.selectionEnd);
-    
-  }
 
+/*
   isColor(strColor){
     var s = new Option().style;
     s.color = strColor;
-    var pcik = Pickr.create({
-      el: '.color-picker',
-      theme: 'nano', 
-      container: 'body',
-      
-   });
-   pcik.show()
     return s.color !== '';
   }
 
   handleClick(e){
-    console.log( this.isColor(this.getCaretPosition(e.target))    )
-  }
+    textarea = e.target
+    txt = textarea.value.slice(textarea.selectionStart,textarea.selectionEnd)
 
+    //console.log( this.isColor(txt) )
+  }
+*/
 
   render() {
-    return [<div class=".color-picker"></div>,<textarea wrap="off" onClick={this.handleClick.bind(this)} onBlur={this.handleClick.bind(this)}></textarea>]
+    return [<div class=".color-picker"></div>,<textarea wrap="off" onBlur={this.handleBlur.bind(this)}></textarea>]
   }
 }
 

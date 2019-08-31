@@ -22,7 +22,6 @@ export class kortxyzApp {
 					},
 						body: JSON.stringify(style.detail), // body data type must match "Content-Type" header
 					})
-					.then(e=>console.log(e))
 					.catch(err=>console.error(err)) 
 			}
 

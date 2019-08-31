@@ -235,6 +235,7 @@ declare namespace LocalJSX {
     'map'?: mapboxgl.Map;
     'mapstyle'?: any;
     'onLayerAdded'?: (event: CustomEvent<any>) => void;
+    'onLayerRemoved'?: (event: CustomEvent<any>) => void;
     'onMapLoaded'?: (event: CustomEvent<any>) => void;
     'onNewStyle'?: (event: CustomEvent<any>) => void;
     'onSourceAdded'?: (event: CustomEvent<any>) => void;

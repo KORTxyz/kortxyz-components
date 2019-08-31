@@ -39,10 +39,10 @@ export class kortxyzLayerlist {
           header.appendChild(icon);
   }
 
-
+  sortDrop:any ={}
   initSortable(){
 
-    const sortDrop = Sortable.create(document.body, {
+    this.sortDrop = Sortable.create(document.body, {
       group: "shared",
       disabled:true,
       ghostClass:'sortable-noghost'
@@ -57,18 +57,18 @@ export class kortxyzLayerlist {
       group: "shared",
       animation:200,
       onStart: _=>{
-        sortDrop.options.disabled = false
+        this.sortDrop.options.disabled = false
       },
       onRemove: (evt) => {
+        this.sortDrop.options.disabled = true
         this.layerRemoved.emit(evt.item.name)
-        const el = evt.item;
-              el.parentNode.removeChild(el);
       },
-      onEnd: (evt) => {
-        sortDrop.options.disabled = true
-
-        const map:any = document.querySelector("kortxyz-mapbox").map
-        if(!!evt.item.previousSibling) map.moveLayer(evt.item.name,evt.item.previousSibling.name)
+      onEnd: (evt) => {       
+        this.sortDrop.options.disabled = true
+        if(evt.to.nodeName != "BODY"){
+          const map:any = document.querySelector("kortxyz-mapbox").map
+          if(!!evt.item.previousSibling) map.moveLayer(evt.item.name,evt.item.previousSibling.name)
+        } 
       },
     });
   }
@@ -81,6 +81,13 @@ export class kortxyzLayerlist {
 
    this.layerlistEl.insertBefore(layeritem,this.layerlistEl.childNodes[1]);
 
+  }
+
+  @Listen('layerRemoved', { target: 'body' })
+  removeLayeritem(event) {
+    this.layerlistEl.childNodes.forEach(layer=>{
+      if(layer.textContent==event.detail)  this.layerlistEl.removeChild(layer)
+    })
   }
 
 
