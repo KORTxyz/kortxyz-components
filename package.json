@@ -1,7 +1,7 @@
 {
-  "name": "kortxyz-components",
+  "name": "@kortxyz/webcomponents",
   "version": "0.0.1",
-  "description": "Stencil Component Starter",
+  "description": "kortxyz WebComponents",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "es2015": "dist/esm/index.mjs",
@@ -30,10 +30,23 @@
   "dependencies": {
     "@mapbox/mapbox-gl-style-spec": "^13.8.0",
     "@simonwep/pickr": "^1.4.0",
+    "@turf/bbox": "^6.0.1",
     "ag-grid-community": "^21.1.0",
     "buffer": "^5.4.2",
     "leaflet": "^1.5.1",
     "mapbox-gl": "1.2.0",
     "sortablejs": "^1.10.0-rc3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KORTxyz/kortxyz-components.git"
+  },
+  "keywords": [
+    "webcomponents"
+  ],
+  "author": "Tino Kastbjerg Stigsen",
+  "bugs": {
+    "url": "https://github.com/KORTxyz/kortxyz-components/issues"
+  },
+  "homepage": "https://github.com/KORTxyz/kortxyz-components#readme"
 }
