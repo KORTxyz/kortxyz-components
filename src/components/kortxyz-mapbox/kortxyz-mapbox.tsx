@@ -73,7 +73,6 @@ export class kortxyzMapbox {
 
      this.map.on('load', ()=>{
        this.mapLoaded.emit()
-       console.log(this.geojsonurl)
        if(this.geojsonurl) this.loadGeojson(this.geojsonurl)
      })
      setTimeout(_=>this.map.resize() , 100);
@@ -108,8 +107,10 @@ export class kortxyzMapbox {
       this.map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
     
       if(features.length>0){
-          if(1==1 //this.hover.id.includes(features[0].layer.id)
-           ){
+        console.log(this.hover, features)
+          if(features[0].id /*Find en måde at understøtte features uden ID fx fra OGR2OGR */ 
+            //this.hover.id.includes(features[0].layer.id)
+            ){
             if (this.hover) {
               this.map.setFeatureState({source: this.hover.layer.source, sourceLayer: this.hover.layer["source-layer"], id: this.hover.id}, { hover: false});
             }
@@ -137,7 +138,7 @@ export class kortxyzMapbox {
   @Method()
   async loadGeojson(url){
     const response = await fetch(url)
-    const data = await response.json()
+    const data:any = await response.json()
 
     const typeTranslate = {
       "Point": "circle",
@@ -162,8 +163,9 @@ export class kortxyzMapbox {
       }
     }
     const type = typeTranslate[data.features[0].geometry.type];
-
-    this.map.fitBounds(bbox(data));
+    
+    const bounds:any = bbox(data);
+    this.map.fitBounds(bounds);
     this.map.addLayer({
       "id": "geojson",
       "type":  type,

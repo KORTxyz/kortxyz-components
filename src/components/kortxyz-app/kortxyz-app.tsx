@@ -51,7 +51,7 @@ export class kortxyzApp {
 	}
 
 	createStyle(styleName){
-		const style = { "version": 8, "name": styleName, "metadata": { "mapbox:autocomposite": true },  "sources":{},   "layers": [] };
+		const style = { "version": 8, "name": styleName, "metadata": { "mapbox:autocomposite": true }, glyphs:`${window.location.origin}/fonts/{fontstack}/{range}.pbf`, "sources":{},   "layers": [] };
 
 		const map:any =  document.querySelector("kortxyz-mapbox").map
 					map.style.loadJSON(style)
