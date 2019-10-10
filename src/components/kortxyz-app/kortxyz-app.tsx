@@ -28,7 +28,7 @@ export class kortxyzApp {
 		}
 
   componentDidLoad(){
-		const style = window.location.pathname.slice(1)
+		const style = window.location.pathname.split("/").pop()
 		const map:any =  document.querySelector("kortxyz-mapbox").map
 		if(style){
 			fetch(this.source+'/styles/'+style)
