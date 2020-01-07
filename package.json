@@ -36,5 +36,17 @@
     "leaflet": "^1.5.1",
     "mapbox-gl": "1.2.0",
     "sortablejs": "^1.10.0-rc3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KORTxyz/kortxyz-components.git"
+  },
+  "keywords": [
+    "webcomponents"
+  ],
+  "author": "Tino Kastbjerg Stigsen",
+  "bugs": {
+    "url": "https://github.com/KORTxyz/kortxyz-components/issues"
+  },
+  "homepage": "https://github.com/KORTxyz/kortxyz-components#readme"
 }

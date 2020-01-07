@@ -2,6 +2,7 @@ kortxyz-mapbox {
     height: 100%;
     width: 100%;
     flex: 1 0 0;
+    display: block;
 }
 
 kortxyz-mapbox:before {

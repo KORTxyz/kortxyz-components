@@ -25,6 +25,7 @@ export class kortxyzMapbox {
   @Prop() map: mapboxgl.Map;
   @Prop() mapstyle: any =  { "version": 8, "name": "Empty", "metadata": { "mapbox:autocomposite": true },  "sources":{},   "layers": [] };
   @Prop() accesstoken: string;
+  @Prop() geojsonurl: string;
 
   @Listen('sidebarResized', { target: 'body' })
     resizeMap() { this.map.resize() }
@@ -70,12 +71,15 @@ export class kortxyzMapbox {
        container: this.mapEl,
        attributionControl: false,
        style:  this.mapstyle,
-       center: [11, 55],
-       zoom: 11,
+       center: [0, 0],
+       zoom: 3,
        maxZoom:17
      });
 
-     this.map.on('load', ()=>{this.mapLoaded.emit()})
+     this.map.on('load', ()=>{
+       this.mapLoaded.emit()
+       if(this.geojsonurl) this.loadGeojson(this.geojsonurl)
+     })
      setTimeout(_=>this.map.resize() , 100);
      document.querySelector(".mapboxgl-control-container").remove();
 
@@ -108,8 +112,9 @@ export class kortxyzMapbox {
       this.map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
     
       if(features.length>0){
-          if(1==1 //this.hover.id.includes(features[0].layer.id)
-           ){
+          if(features[0].id /*Find en måde at understøtte features uden ID fx fra OGR2OGR */ 
+            //this.hover.id.includes(features[0].layer.id)
+            ){
             if (this.hover) {
               this.map.setFeatureState({source: this.hover.layer.source, sourceLayer: this.hover.layer["source-layer"], id: this.hover.id}, { hover: false});
             }
@@ -132,6 +137,49 @@ export class kortxyzMapbox {
       }
     
     });
+  }
+
+  @Method()
+  async loadGeojson(url){
+    const response = await fetch(url)
+    const data:any = await response.json()
+
+    const typeTranslate = {
+      "Point": "circle",
+      "MultiPoint": "circle",
+      "MultiLineString": "line",
+      "LineString": "line",
+      "Polygon": "fill",
+      "MultiPolygon": "fill"
+    };
+    const styles = {
+      "fill": {
+        'fill-color': '#'+('00000'+(Math.random()*(1<<24)|0).toString(16)).slice(-6),
+        'fill-opacity':["case", ["boolean", ["feature-state", "hover"], false], 1, 0.7]
+      },
+      "line": {
+        'line-color': '#'+('00000'+(Math.random()*(1<<24)|0).toString(16)).slice(-6),
+        'line-opacity':["case", ["boolean", ["feature-state", "hover"], false], 1, 0.7]
+      },
+      "circle": {
+        'circle-color': '#'+('00000'+(Math.random()*(1<<24)|0).toString(16)).slice(-6),
+        'circle-opacity': ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.7]
+      }
+    }
+    const type = typeTranslate[data.features[0].geometry.type];
+    
+    this.zoomToFeatures(data);
+    this.map.addLayer({
+      "id": "geojson",
+      "type":  type,
+      'source':{
+        type: 'geojson',
+        data: data
+      },
+      'paint': styles[type]
+    });
+
+
   }
 
 

@@ -56,6 +56,8 @@ export namespace Components {
   interface KortxyzMapbox {
     'accesstoken': string;
     'addLayer': (name: any, source: any) => Promise<void>;
+    'geojsonurl': string;
+    'loadGeojson': (url: any) => Promise<void>;
     'map': mapboxgl.Map;
     'mapstyle': any;
     'zoomToFeatures': (features: any) => Promise<void>;
@@ -74,6 +76,7 @@ export namespace Components {
   interface KortxyzSourcelist {
     'handleFile': (e: any) => Promise<void>;
   }
+  interface KortxyzTest {}
 }
 
 declare global {
@@ -174,6 +177,12 @@ declare global {
     prototype: HTMLKortxyzSourcelistElement;
     new (): HTMLKortxyzSourcelistElement;
   };
+
+  interface HTMLKortxyzTestElement extends Components.KortxyzTest, HTMLStencilElement {}
+  var HTMLKortxyzTestElement: {
+    prototype: HTMLKortxyzTestElement;
+    new (): HTMLKortxyzTestElement;
+  };
   interface HTMLElementTagNameMap {
     'kortxyz-aggrid': HTMLKortxyzAggridElement;
     'kortxyz-app': HTMLKortxyzAppElement;
@@ -191,6 +200,7 @@ declare global {
     'kortxyz-sideitem': HTMLKortxyzSideitemElement;
     'kortxyz-sourceitem': HTMLKortxyzSourceitemElement;
     'kortxyz-sourcelist': HTMLKortxyzSourcelistElement;
+    'kortxyz-test': HTMLKortxyzTestElement;
   }
 }
 
@@ -241,6 +251,7 @@ declare namespace LocalJSX {
   }
   interface KortxyzMapbox extends JSXBase.HTMLAttributes<HTMLKortxyzMapboxElement> {
     'accesstoken'?: string;
+    'geojsonurl'?: string;
     'map'?: mapboxgl.Map;
     'mapstyle'?: any;
     'onLayerAdded'?: (event: CustomEvent<any>) => void;
@@ -262,6 +273,7 @@ declare namespace LocalJSX {
     'name'?: string;
   }
   interface KortxyzSourcelist extends JSXBase.HTMLAttributes<HTMLKortxyzSourcelistElement> {}
+  interface KortxyzTest extends JSXBase.HTMLAttributes<HTMLKortxyzTestElement> {}
 
   interface IntrinsicElements {
     'kortxyz-aggrid': KortxyzAggrid;
@@ -280,6 +292,7 @@ declare namespace LocalJSX {
     'kortxyz-sideitem': KortxyzSideitem;
     'kortxyz-sourceitem': KortxyzSourceitem;
     'kortxyz-sourcelist': KortxyzSourcelist;
+    'kortxyz-test': KortxyzTest;
   }
 }
 
