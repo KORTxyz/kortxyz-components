@@ -1,6 +1,6 @@
 {
   "name": "kortxyz-components",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Stencil Component Starter",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -30,6 +30,7 @@
   "dependencies": {
     "@mapbox/mapbox-gl-style-spec": "^13.8.0",
     "@simonwep/pickr": "^1.4.0",
+    "@turf/turf": "^5.1.6",
     "ag-grid-community": "^21.1.0",
     "buffer": "^5.4.2",
     "leaflet": "^1.5.1",

@@ -1,5 +1,6 @@
 import { Component, Element, Prop, Listen, Event, EventEmitter, Method, State } from '@stencil/core';
 import mapboxgl from 'mapbox-gl';
+import turf from '@turf/turf';
 
 @Component({
   tag: 'kortxyz-mapbox',
@@ -7,6 +8,11 @@ import mapboxgl from 'mapbox-gl';
 })
 
 export class kortxyzMapbox {
+  @Method()
+  async zoomToFeatures(features){
+    const bbox:any = turf.bbox(features);
+    this.map.fitBounds(bbox)
+  }
   @Element() mapEl: HTMLElement;
 
   @Event() mapLoaded: EventEmitter;
@@ -131,7 +137,7 @@ export class kortxyzMapbox {
 
   @Method()
   async addLayer(name,source){
-    const map = document.querySelector("kortxyz-mapbox").map;
+    const map = this.map;
     const type = map.getSource(source).type
 
     if(type=="raster"){
@@ -140,6 +146,50 @@ export class kortxyzMapbox {
         'type': 'raster',
         'source': source
       });
+    }
+    else if(type=="geojson"){
+      map.addLayer({
+        'id': name +'_circle',
+        'type': 'circle',
+        'source': source,
+        'minzoom':10,
+        'filter': ["==", "$type", "Point"],
+        'paint': {
+          'circle-color': "#" + ("000000" + Math.floor(Math.random() * 16777216).toString(16)).substr(-6),
+          'circle-radius': 8,
+          'circle-opacity': ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.7],
+        }
+     })
+
+     map.addLayer({
+      'id': name +'_line',
+      'type': 'line',
+      'source': source,
+      'minzoom':10,
+      'filter': ["==", "$type", "LineString"],
+      'layout': {
+        'line-join': 'round',
+        'line-cap': 'round'
+      },
+      'paint': {
+        'line-color': "#" + ("000000" + Math.floor(Math.random() * 16777216).toString(16)).substr(-6),
+        'line-width': ["case", ["boolean", ["feature-state", "hover"], false], 2, 1.5],
+        'line-opacity': ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.7],
+      }
+      })
+
+      map.addLayer({
+        'id': name +'_fill',
+        'type': 'fill',
+        'source': source,
+        'minzoom':10,
+        'filter': ["==", "$type", "Polygon"],
+        'layout': {},
+        'paint': {
+          'fill-opacity': ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.7],
+          'fill-color': "#" + ("000000" + Math.floor(Math.random() * 16777216).toString(16)).substr(-6),
+        }
+     })
     }
     else{
       map.addLayer({
@@ -188,7 +238,6 @@ export class kortxyzMapbox {
         }
      })
     }
-     
 
 
   }

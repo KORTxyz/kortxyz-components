@@ -82,8 +82,8 @@ export class kortxyzApp {
 																		.replace("{col}","{y}")
 																		.replace("{tilingSchemeId}","GoogleMapsCompatible")]
 	
-																const type = e.type=="application/vnd.vector-tile"?"vector":"raster"
-																const tileSize = e.type=="application/vnd.vector-tile"? 512: 256
+																const type = e.type=="application/vnd.mapbox-vector-tile"?"vector":"raster"
+																const tileSize = e.type=="application/vnd.mapbox-vector-tile"? 512: 256
 	
 																return {tiles,type,"tileSize": tileSize}
 															});

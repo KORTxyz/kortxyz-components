@@ -20,6 +20,7 @@
     ::-webkit-scrollbar
     {
       width: 4px;
+      height: 4px;
     }
 
     ::-webkit-scrollbar-thumb
@@ -49,6 +50,44 @@
 
 </head>
 <body>
-  <kortxyz-app source="http://localhost:5555"></kortxyz-app>
+  <div style="flex-direction: column;  display: flex;  height: 100vh;">
+    <kortxyz-mapbox 
+      accesstoken="pk.eyJ1IjoidGlub2tzIiwiYSI6ImNqbzQycnkycTEwYnczcGt1ZzM3ZWw5eG8ifQ.BFc2DQMWss8JC8pQ9Yco7w"
+      mapstyle="mapbox://styles/tinoks/ck45zo9zo0suv1coaaqrsfkhr"
+      >
+    </kortxyz-mapbox>
+    <kortxyz-aggrid style="flex: 1 0 0;"></kortxyz-aggrid>
+  </div>
+  <script>
+      var data;
+      var fitID = id => {
+        feature = data.features.filter(e=>e.id==id)[0]
+        document.querySelector("kortxyz-mapbox").zoomToFeatures(feature)
+      }
+      var addLayer = data => {
+        document.querySelector("kortxyz-aggrid").addData(data.features.map(e=>{return{ id:e.id,...e.properties}}))
+        document.querySelector("kortxyz-aggrid").addEventListener("rowClicked", e=>fitID(e.detail))
+        
+        document.querySelector("kortxyz-mapbox").addEventListener("mapLoaded",function(){addGeo(data)})
+        
+      }
+
+      fetch("http://localhost:5555/collections/bygning/items?limit=1000&f=json")
+      .then(e=>e.json())
+      .then(e=> {
+        data = e
+        addLayer(e)
+      })
+
+      var addGeo = geodata => {
+        document.querySelector("kortxyz-mapbox").zoomToFeatures(data)
+        document.querySelector("kortxyz-mapbox").map.addSource('my-data',{
+            'type': 'geojson',
+            'data': geodata
+          })
+        document.querySelector("kortxyz-mapbox").addLayer("layer",'my-data')
+      }
+
+  </script>
 </body>
 </html>

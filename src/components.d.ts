@@ -9,7 +9,11 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
-  interface KortxyzAggrid {}
+  interface KortxyzAggrid {
+    'addData': (data: any) => Promise<void>;
+    'api': any;
+    'gridOptions': any;
+  }
   interface KortxyzApp {
     'source': string;
   }
@@ -54,6 +58,7 @@ export namespace Components {
     'addLayer': (name: any, source: any) => Promise<void>;
     'map': mapboxgl.Map;
     'mapstyle': any;
+    'zoomToFeatures': (features: any) => Promise<void>;
   }
   interface KortxyzSidebar {}
   interface KortxyzSideitem {
@@ -190,7 +195,11 @@ declare global {
 }
 
 declare namespace LocalJSX {
-  interface KortxyzAggrid extends JSXBase.HTMLAttributes<HTMLKortxyzAggridElement> {}
+  interface KortxyzAggrid extends JSXBase.HTMLAttributes<HTMLKortxyzAggridElement> {
+    'api'?: any;
+    'gridOptions'?: any;
+    'onRowClicked'?: (event: CustomEvent<any>) => void;
+  }
   interface KortxyzApp extends JSXBase.HTMLAttributes<HTMLKortxyzAppElement> {
     'source'?: string;
   }

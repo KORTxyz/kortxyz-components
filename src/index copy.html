@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>Stencil Component Starter</title>
+  <style>
+    body{
+      margin:0;
+      overflow: hidden;
+      user-select: none;
+      font-family: monospace;
+    }
+
+    ::-webkit-scrollbar-track
+    {
+      background-color:#dbdada;
+    }
+
+    ::-webkit-scrollbar
+    {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb
+    {
+      background-color:#262626;	
+    }
+
+    :root {
+      --app-background-color: black;
+      --app-level1-color: #353535;
+      --app-level2-color:#262626;
+
+      --app-active-color: #4682b4ff;
+      --app-highlight-color: #353535;
+
+      --text-color: #7f7f7f;
+      --text-highlight: #dbdada;
+
+      --footer: #2171b6;
+      --footer-highlight: #437fb4;
+    }
+    
+  </style>
+
+  <script type="module" src="/build/kortxyz-components.esm.js"></script>
+  <script nomodule src="/build/kortxyz-components.js"></script>
+
+</head>
+<body>
+  <kortxyz-app source="http://localhost:5555"></kortxyz-app>
+</body>
+</html>
