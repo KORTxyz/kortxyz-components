@@ -37,7 +37,6 @@ export class kortxyzAggrid {
             sortable: true,
             resizable: true,
         },
-        pagination: true,
         onRowClicked: e => this.rowClicked.emit(e.data.id),
         columnDefs: columnDefs,
         animateRows: true,

@@ -10,6 +10,7 @@
 | Property      | Attribute     | Description | Type     | Default                                                                                                          |
 | ------------- | ------------- | ----------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
 | `accesstoken` | `accesstoken` |             | `string` | `undefined`                                                                                                      |
+| `geojsonurl`  | `geojsonurl`  |             | `string` | `undefined`                                                                                                      |
 | `map`         | --            |             | `Map`    | `undefined`                                                                                                      |
 | `mapstyle`    | `mapstyle`    |             | `any`    | `{ "version": 8, "name": "Empty", "metadata": { "mapbox:autocomposite": true },  "sources":{},   "layers": [] }` |
 
@@ -28,6 +29,16 @@
 ## Methods
 
 ### `addLayer(name: any, source: any) => Promise<void>`
+
+
+
+#### Returns
+
+Type: `Promise<void>`
+
+
+
+### `loadGeojson(url: any) => Promise<void>`
 
 
 

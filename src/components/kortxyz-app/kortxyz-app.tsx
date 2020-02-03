@@ -68,7 +68,7 @@ export class kortxyzApp {
 	}
 
   loadSources(){
-			fetch(this.source+'/collections')
+			fetch(this.source+'/collections?f=json')
 			.then(e=>e.json())
 			.then(data=>
 						data.collections.forEach(collection=>{

@@ -67,20 +67,23 @@
       var addLayer = data => {
         document.querySelector("kortxyz-aggrid").addData(data.features.map(e=>{return{ id:e.id,...e.properties}}))
         document.querySelector("kortxyz-aggrid").addEventListener("rowClicked", e=>fitID(e.detail))
-        
-        document.querySelector("kortxyz-mapbox").addEventListener("mapLoaded",function(){addGeo(data)})
-        
+        console.log(data)
+        document.querySelector("kortxyz-mapbox").map.addSource('my-data',{
+            'type': 'geojson',
+            'data': data
+          })
+        //document.querySelector("kortxyz-mapbox").addEventListener("mapLoaded",function(){addGeo(data)})
+      
       }
 
       fetch("http://localhost:5555/collections/bygning/items?limit=1000&f=json")
       .then(e=>e.json())
       .then(e=> {
-        data = e
         addLayer(e)
       })
 
       var addGeo = geodata => {
-        document.querySelector("kortxyz-mapbox").zoomToFeatures(data)
+        
         document.querySelector("kortxyz-mapbox").map.addSource('my-data',{
             'type': 'geojson',
             'data': geodata
