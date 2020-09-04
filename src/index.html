@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
   <title>Stencil Component Starter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body{
       margin:0;
@@ -20,7 +19,6 @@
     ::-webkit-scrollbar
     {
       width: 4px;
-      height: 4px;
     }
 
     ::-webkit-scrollbar-thumb
@@ -42,55 +40,30 @@
       --footer: #2171b6;
       --footer-highlight: #437fb4;
     }
-    
+    row {
+      display:flex;
+      height:calc(100vh - 20px);
+      width:100%;
+    }
   </style>
 
   <script type="module" src="/build/kortxyz-components.esm.js"></script>
   <script nomodule src="/build/kortxyz-components.js"></script>
-
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-  <div style="flex-direction: column;  display: flex;  height: 100vh;">
-    <kortxyz-mapbox 
-      accesstoken="pk.eyJ1IjoidGlub2tzIiwiYSI6ImNqbzQycnkycTEwYnczcGt1ZzM3ZWw5eG8ifQ.BFc2DQMWss8JC8pQ9Yco7w"
-      mapstyle="mapbox://styles/tinoks/ck45zo9zo0suv1coaaqrsfkhr"
-      >
-    </kortxyz-mapbox>
-    <kortxyz-aggrid style="flex: 1 0 0;"></kortxyz-aggrid>
-  </div>
-  <script>
-      var data;
-      var fitID = id => {
-        feature = data.features.filter(e=>e.id==id)[0]
-        document.querySelector("kortxyz-mapbox").zoomToFeatures(feature)
-      }
-      var addLayer = data => {
-        document.querySelector("kortxyz-aggrid").addData(data.features.map(e=>{return{ id:e.id,...e.properties}}))
-        document.querySelector("kortxyz-aggrid").addEventListener("rowClicked", e=>fitID(e.detail))
-        console.log(data)
-        document.querySelector("kortxyz-mapbox").map.addSource('my-data',{
-            'type': 'geojson',
-            'data': data
-          })
-        //document.querySelector("kortxyz-mapbox").addEventListener("mapLoaded",function(){addGeo(data)})
-      
-      }
+  <row>
+    <kortxyz-sidebar>
+      <kortxyz-sideitem name="collections" icon="layers">
 
-      fetch("http://localhost:5555/collections/bygning/items?limit=1000&f=json")
-      .then(e=>e.json())
-      .then(e=> {
-        addLayer(e)
-      })
-
-      var addGeo = geodata => {
-        
-        document.querySelector("kortxyz-mapbox").map.addSource('my-data',{
-            'type': 'geojson',
-            'data': geodata
-          })
-        document.querySelector("kortxyz-mapbox").addLayer("layer",'my-data')
-      }
-
-  </script>
+      </kortxyz-sideitem>
+      <kortxyz-sideitem name="styles" icon="sources">
+      </kortxyz-sideitem>
+      <kortxyz-sideitem name="processes" icon="save_alt">
+      </kortxyz-sideitem>
+    </kortxyz-sidebar>
+    <kortxyz-mapbox accesstoken="pk.eyJ1IjoidGlub2tzIiwiYSI6ImNqM2p5d2hkbTAwM3UzMnBwbWF2NG96Z3IifQ._hWk-eEzh8sNjp3qA_cJuQ" mapstyle="mapbox://styles/tinoks/ck7iqap1664961ip85uc0b23y"></kortxyz-mapbox>
+  </row>
+  <kortxyz-footer></kortxyz-footer>
 </body>
 </html>

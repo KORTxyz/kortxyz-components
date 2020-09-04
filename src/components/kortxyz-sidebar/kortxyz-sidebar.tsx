@@ -7,7 +7,7 @@ import { Component, Element, h } from '@stencil/core';
 
 export class kortxyzSidebar {
   @Element() sidebarEl: HTMLElement;
-
+/*
   context(e){
     e.preventDefault();
     e.stopPropagation();
@@ -24,7 +24,7 @@ export class kortxyzSidebar {
   componentDidLoad() {
     this.sidebarEl.addEventListener('contextmenu',e=>this.context(e))
   }
-
+*/
   render() {
     return <slot />;
 	}

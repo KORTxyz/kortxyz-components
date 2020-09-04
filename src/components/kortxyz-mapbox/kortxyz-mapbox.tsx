@@ -42,7 +42,7 @@ export class kortxyzMapbox {
   @State() hover:{id:any,layer:any};
   @State() layers:any[] =[];
 
-  popup = new mapboxgl.Popup({closeButton:false, closeOnClick: false, maxWidth: '500px'});
+  popup = new mapboxgl.Popup({closeButton:false, closeOnClick: false});
   
   isLayerNew(style){
     const oldLayers =  this.layers.filter(l=> !style.layers.map(e=>e.id).includes(l))

@@ -18,13 +18,12 @@ export class kortxyzApp {
 				fetch(this.source+'/styles/'+style.detail.name, {
 					method: 'PUT',
 					headers: {
-							'Content-Type': 'application/json',
+						'Content-Type': 'application/json',
 					},
 						body: JSON.stringify(style.detail), // body data type must match "Content-Type" header
 					})
 					.catch(err=>console.error(err)) 
 			}
-
 		}
 
   componentDidLoad(){
