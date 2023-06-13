@@ -1,0 +1,2 @@
+import{p as e,b as t}from"./p-8bdeb316.js";export{s as setNonce}from"./p-8bdeb316.js";const o=()=>{const t=import.meta.url;const o={};if(t!==""){o.resourcesUrl=new URL(".",t).href}return e(o)};o().then((e=>t([["p-7b60dec7",[[1,"kortxyz-mapinfo",{lngLat:[1040]}],[1,"kortxyz-mapinfo-content",{text:[1025],url:[1],template:[1]},[[4,"newMarkerPosition","updateText"]]],[4,"kortxyz-maplibre",{mapstyle:[1],mapboxkey:[1],cooperativeGestures:[4,"cooperative-gestures"],center:[1],zoom:[2],getMap:[64]}]]]],e)));
+//# sourceMappingURL=kortxyz-components.esm.js.map

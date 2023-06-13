@@ -1,7 +1,7 @@
 {
-  "name": "kortxyz-components",
+  "name": "@kortxyz/kortxyz-components",
   "version": "0.0.1",
-  "description": "Stencil Component Starter",
+  "description": "Web components for KORTxyz",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "es2015": "dist/esm/index.mjs",
@@ -12,7 +12,7 @@
   "unpkg": "dist/kortxyz-components/kortxyz-components.esm.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ionic-team/stencil-component-starter.git"
+    "url": "https://github.com/KORTxyz/kortxyz-components.git"
   },
   "files": [
     "dist/",
@@ -37,5 +37,8 @@
     "jest-cli": "^27.5.1",
     "puppeteer": "^19.5.2"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
