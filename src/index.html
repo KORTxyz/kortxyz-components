@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <title>Stencil Component Starter</title>
+
+  <script type="module" src="/build/kortxyz-components.esm.js"></script>
+  <script nomodule src="/build/kortxyz-components.js"></script>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      width: 100vw;
+    }
+
+
+    kortxyz-maplibre {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+
+  </style>
+</head>
+
+<body>
+  <kortxyz-maplibre
+    zoom="12"
+    center="[12.3,55.6]"
+    mapstyle="mapbox://styles/mapbox/streets-v12"
+    mapboxkey="pk.eyJ1IjoidGlub2tzIiwiYSI6ImNqbzQycnkycTEwYnczcGt1ZzM3ZWw5eG8ifQ.BFc2DQMWss8JC8pQ9Yco7w">
+    <kortxyz-mapinfo>
+      <kortxyz-mapinfo-content
+        url="https://api.dataforsyningen.dk/jordstykker?x=${lng}&y=${lat}&format=geojson"
+        template="Ejerlav = ${properties.ejerlavnavn}"
+      ></kortxyz-mapinfo-content>
+      <kortxyz-mapinfo-content
+      url="https://api.dataforsyningen.dk/jordstykker?x=${lng}&y=${lat}&format=geojson"
+      template="kommunenavn = ${properties.kommunenavn}"
+    ></kortxyz-mapinfo-content>
+    </kortxyz-mapinfo>
+  </kortxyz-maplibre>
+</body>
+
+</html>

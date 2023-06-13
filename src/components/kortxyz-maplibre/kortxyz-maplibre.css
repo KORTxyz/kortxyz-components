@@ -1,0 +1,27 @@
+@import url("..\..\..\node_modules\maplibre-gl\dist\maplibre-gl.css");
+
+
+kortxyz-maplibre::before {
+  animation: progress 1s infinite;
+  background: var(--orange-50);
+  content: '';
+  display: none;
+  height: 1px;
+  position: absolute;
+  width: 60%;
+  z-index: 99999;
+}
+
+kortxyz-maplibre.loading::before {
+  display: block;
+}
+
+@keyframes progress {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
