@@ -1,4 +1,4 @@
-import { Host, h } from '@stencil/core';
+import { Host, h } from "@stencil/core";
 export class KortxyzMapinfoContent {
   constructor() {
     this.getValue = (path, obj) => path.split('.').reduce((acc, c) => acc && acc[c], obj);

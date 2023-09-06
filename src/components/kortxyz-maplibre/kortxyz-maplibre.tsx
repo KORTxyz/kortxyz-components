@@ -1,4 +1,16 @@
 import { Component, Element,  Host, Prop, Method, h } from '@stencil/core';
+import {
+	TerraDraw,
+	TerraDrawPointMode,
+	TerraDrawCircleMode,
+	TerraDrawLineStringMode,
+	TerraDrawPolygonMode,
+	TerraDrawSelectMode,
+	TerraDrawFreehandMode,
+	TerraDrawRectangleMode,
+	TerraDrawMapLibreGLAdapter,
+	TerraDrawGreatCircleMode,
+} from "terra-draw";
 
 import maplibregl from 'maplibre-gl';
 import { isMapboxURL, transformMapboxUrl } from 'maplibregl-mapbox-request-transformer'
@@ -22,6 +34,66 @@ export class KortxyzMaplibre {
   private map:maplibregl.Map;
 
 
+  private getModes = () => {
+      return [
+        new TerraDrawSelectMode({
+          flags: {
+            arbitary: {
+              feature: {},
+            },
+            polygon: {
+              feature: {
+                draggable: true,
+                rotateable: true,
+                scaleable: true,
+                coordinates: {
+                  midpoints: true,
+                  draggable: true,
+                  deletable: true,
+                },
+              },
+            },
+            freehand: {
+              feature: { draggable: true, coordinates: {} },
+            },
+            linestring: {
+              feature: {
+                draggable: true,
+                coordinates: {
+                  midpoints: true,
+                  draggable: true,
+                  deletable: true,
+                },
+              },
+            },
+            circle: {
+              feature: {
+                draggable: true,
+              },
+            },
+            point: {
+              feature: {
+                draggable: true,
+              },
+            },
+          },
+        }),
+        new TerraDrawPointMode(),
+        new TerraDrawLineStringMode({
+          snapping: true,
+          allowSelfIntersections: false,
+        }),
+        new TerraDrawGreatCircleMode({ snapping: true }),
+        new TerraDrawPolygonMode({
+          snapping: true,
+          allowSelfIntersections: false,
+        }),
+        new TerraDrawRectangleMode(),
+        new TerraDrawCircleMode(),
+        new TerraDrawFreehandMode()
+      ]
+  };
+
   @Method()
 	async getMap() {
     const map:any = this.map 
@@ -43,6 +115,20 @@ export class KortxyzMaplibre {
 		if (this.zoom) mapOptions["zoom"] = Number(this.zoom);
 
 		this.map = new maplibregl.Map(mapOptions);
+
+		this.map.on("style.load", () => {
+			const draw = new TerraDraw({
+				adapter: new TerraDrawMapLibreGLAdapter({
+					map: this.map,
+					coordinatePrecision: 9,
+				}),
+				modes: this.getModes(),
+			});
+
+			draw.start();
+      console.log(draw, this.map)
+		});
+
 	}
 
   render() {

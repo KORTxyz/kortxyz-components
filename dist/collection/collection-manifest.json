@@ -1,13 +1,13 @@
 {
   "entries": [
-    "./components/kortxyz-mapinfo/kortxyz-mapinfo.js",
-    "./components/kortxyz-mapinfo-content/kortxyz-mapinfo-content.js",
-    "./components/kortxyz-maplibre/kortxyz-maplibre.js"
+    "components/kortxyz-mapinfo/kortxyz-mapinfo.js",
+    "components/kortxyz-mapinfo-content/kortxyz-mapinfo-content.js",
+    "components/kortxyz-maplibre/kortxyz-maplibre.js"
   ],
   "compiler": {
     "name": "@stencil/core",
-    "version": "3.3.1",
-    "typescriptVersion": "5.0.4"
+    "version": "4.2.0",
+    "typescriptVersion": "5.1.6"
   },
   "collections": [],
   "bundles": []

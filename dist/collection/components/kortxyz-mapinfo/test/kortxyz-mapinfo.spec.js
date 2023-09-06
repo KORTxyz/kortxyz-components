@@ -1,5 +1,5 @@
-import { newSpecPage } from '@stencil/core/testing';
-import { KortxyzMapinfo } from '../kortxyz-mapinfo';
+import { newSpecPage } from "@stencil/core/testing";
+import { KortxyzMapinfo } from "../kortxyz-mapinfo";
 describe('kortxyz-mapinfo', () => {
   it('renders', async () => {
     const page = await newSpecPage({

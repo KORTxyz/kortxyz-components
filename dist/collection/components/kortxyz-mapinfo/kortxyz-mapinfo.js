@@ -1,5 +1,5 @@
-import { h } from '@stencil/core';
-import maplibregl from 'maplibre-gl';
+import { h } from "@stencil/core";
+import maplibregl from "maplibre-gl";
 export class KortxyzMapinfo {
   constructor() {
     this.onDragEnd = () => {
@@ -55,7 +55,8 @@ export class KortxyzMapinfo {
           "resolved": "LngLat",
           "references": {
             "maplibregl": {
-              "location": "global"
+              "location": "global",
+              "id": "global::maplibregl"
             }
           }
         },

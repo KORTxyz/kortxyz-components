@@ -1,6 +1,6 @@
 import { proxyCustomElement, HTMLElement, h, Host } from '@stencil/core/internal/client';
 
-const kortxyzMapinfoContentCss = ":host{display:block}";
+const kortxyzMapinfoContentCss = ":host{display:block;border-bottom:1px solid #eee;padding:0 0 0 15px}";
 
 const KortxyzMapinfoContent$1 = /*@__PURE__*/ proxyCustomElement(class KortxyzMapinfoContent extends HTMLElement {
   constructor() {

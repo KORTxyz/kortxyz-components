@@ -6,6 +6,7 @@ export declare class KortxyzMaplibre {
   center?: string;
   zoom?: number;
   private map;
+  private getModes;
   getMap(): Promise<any>;
   componentWillLoad(): void;
   render(): any;

@@ -432,7 +432,7 @@ export interface QueueApi {
 /**
  * Host
  */
-interface HostAttributes {
+export interface HostAttributes {
     class?: string | {
         [className: string]: boolean;
     };
@@ -872,6 +872,8 @@ export declare namespace JSXBase {
     }
     interface ImgHTMLAttributes<T> extends HTMLAttributes<T> {
         alt?: string;
+        crossOrigin?: string;
+        crossorigin?: string;
         decoding?: 'async' | 'auto' | 'sync';
         importance?: 'low' | 'auto' | 'high';
         height?: number | string;
@@ -930,6 +932,8 @@ export declare namespace JSXBase {
         minlength?: number | string;
         multiple?: boolean;
         name?: string;
+        onSelect?: (event: Event) => void;
+        onselect?: (event: Event) => void;
         pattern?: string;
         placeholder?: string;
         readOnly?: boolean;
@@ -1131,6 +1135,8 @@ export declare namespace JSXBase {
         summary?: string;
     }
     interface TextareaHTMLAttributes<T> extends HTMLAttributes<T> {
+        autoComplete?: string;
+        autocomplete?: string;
         autoFocus?: boolean;
         autofocus?: boolean | string;
         cols?: number;
@@ -1141,6 +1147,8 @@ export declare namespace JSXBase {
         minLength?: number;
         minlength?: number | string;
         name?: string;
+        onSelect?: (event: Event) => void;
+        onselect?: (event: Event) => void;
         placeholder?: string;
         readOnly?: boolean;
         readonly?: boolean | string;
@@ -1287,7 +1295,7 @@ export declare namespace JSXBase {
         clipPathUnits?: number | string;
         'clip-rule'?: number | string;
         'color-interpolation'?: number | string;
-        'color-interpolation-filters'?: 'auto' | 's-rGB' | 'linear-rGB' | 'inherit';
+        'color-interpolation-filters'?: 'auto' | 'sRGB' | 'linearRGB';
         'color-profile'?: number | string;
         'color-rendering'?: number | string;
         contentScriptType?: number | string;
@@ -1617,8 +1625,14 @@ export declare namespace JSXBase {
         onAnimationEndCapture?: (event: AnimationEvent) => void;
         onAnimationIteration?: (event: AnimationEvent) => void;
         onAnimationIterationCapture?: (event: AnimationEvent) => void;
+        onTransitionCancel?: (event: TransitionEvent) => void;
+        onTransitionCancelCapture?: (event: TransitionEvent) => void;
         onTransitionEnd?: (event: TransitionEvent) => void;
         onTransitionEndCapture?: (event: TransitionEvent) => void;
+        onTransitionRun?: (event: TransitionEvent) => void;
+        onTransitionRunCapture?: (event: TransitionEvent) => void;
+        onTransitionStart?: (event: TransitionEvent) => void;
+        onTransitionStartCapture?: (event: TransitionEvent) => void;
     }
 }
 export interface JSXAttributes<T = Element> {
