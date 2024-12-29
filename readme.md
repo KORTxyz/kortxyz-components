@@ -54,7 +54,7 @@
 Plug and play webcomponents for making a webapp. 
 
 
-![Product Name Screen Shot](https://raw.githubusercontent.com/KORTxyz/kortxyz-components/master/.readme/screenshot.jpg)
+![Product Name Screen Shot](https://raw.githubusercontent.com/KORTxyz/kortxyz-components/master/.readme/screenshot.png)
 
 
 
