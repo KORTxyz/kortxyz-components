@@ -1,0 +1,82 @@
+<<<<<<< HEAD
+@import url("..\..\..\node_modules\maplibre-gl\dist\maplibre-gl.css");
+
+
+kortxyz-maplibre::before {
+  animation: progress 1s infinite;
+  background: var(--orange-50);
+  content: '';
+  display: none;
+  height: 1px;
+  position: absolute;
+  width: 60%;
+  z-index: 99999;
+=======
+
+kortxyz-maplibre::before {
+  content: '';
+  position: relative;
+  display: none;
+  background: var(--orange-50, orange);
+  width: 60%;
+  height: 2px;
+  z-index: 99999;
+  animation: progress 1s infinite;
+>>>>>>> 7045811 (first commit)
+}
+
+kortxyz-maplibre.loading::before {
+  display: block;
+}
+
+@keyframes progress {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+<<<<<<< HEAD
+=======
+}
+
+.maplibregl-popup-content {
+  padding: 0;
+}
+
+.mbview_popup {
+  color: #333;
+  display: table;
+  font-family: "Open Sans", sans-serif;
+  font-size: 10px;
+  padding:10px;
+}
+
+.mbview_feature:not(:last-child) {
+  border-bottom: 1px solid #ccc;
+}
+
+.mbview_layer:before {
+  content: '#';
+}
+
+.mbview_layer {
+  display: block;
+  font-weight: bold;
+}
+
+.mbview_property {
+  display: table-row;
+}
+
+.mbview_property-value {
+  display: table-cell;
+
+}
+
+.mbview_property-name {
+  display: table-cell;
+  padding-right: 10px;
+>>>>>>> 7045811 (first commit)
+}

@@ -1,0 +1,18 @@
+:host {
+  display: flex;
+  align-items: center;
+  width:100px;
+  height: 40px;
+  padding-left:8px;
+  grid-area: nav;
+}
+
+:host([active]){
+  font-weight: bolder;
+  color:var(--grey-100,#161616);
+}
+
+:host(:hover) {
+  cursor: pointer;
+  background: var(--grey-10);
+}

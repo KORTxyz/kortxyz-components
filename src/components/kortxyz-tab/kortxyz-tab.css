@@ -1,0 +1,20 @@
+:host {
+  display: grid; 
+  grid-template-columns: 1fr; 
+  grid-template-rows: 40px 1fr;   
+  width: 100%;
+  height: 100%;
+  grid-template-areas: 
+    "nav"
+    "main"; 
+}
+
+tabnav {
+  display: flex;
+  border-bottom: 1px solid var(--grey-20);
+}
+
+kortxyz-tab-content {
+  grid-area: main;
+
+}

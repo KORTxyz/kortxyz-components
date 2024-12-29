@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <title>Stencil Component Starter</title>
+
+  <script type="module" src="/build/kortxyz-components.esm.js"></script>
+  <link rel="stylesheet" href="/build/kortxyz-components.css" />
+
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    filler {
+      height: 40px;
+    }
+
+    kortxyz-maplibre {
+      flex: 1 1 100vw;
+    }
+  </style>
+</head>
+
+<body>
+  <kortxyz-maplibre 
+  style="width:100%;max-width: 720px;height:500px;display:block;background: whitesmoke;"
+  center="[12.34,55.616]" 
+  zoom="12"
+  cooperative-gestures
+
+> 
+  <kortxyz-maplibre-source
+      id="legepladser"
+      type="geojson"
+      data="https://geofa.geodanmark.dk/api/v2/sql/fkg?q=SELECT navn, lang_beskr, geofafoto, geometri FROM fkg_foto_gpx_link.t_5800_fac_pkt WHERE facil_ty='Legeplads' AND cvr_navn='Ishøj Kommune'&format=geojson&srs=4326"
+      >
+      <kortxyz-maplibre-layer
+          id="legepladser"
+          type="circle"
+          paint='{"circle-color": "#d8504d","circle-opacity": 0.8,"circle-radius": 12}'
+          popup='
+              <div style="width:300px;border-radius:40px">
+                  <img style="width:100%" src={geofafoto} alt="no image"></img>
+                  <div style="padding:10px;box-sizing:border-box">
+                  <p style="font-size:14px;font-weight:bold">{navn}</p>
+                  <p style="font-size:12px;color:#222">{lang_beskr}</p>
+                  <div>
+              </div>
+              '
+      >
+      </kortxyz-maplibre-layer>
+  </kortxyz-maplibre-source>
+</kortxyz-maplibre>
+
+
+</body>
+
+</html>

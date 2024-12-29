@@ -1,0 +1,53 @@
+:host {
+  --drawer-width: 400px;
+  display: flex;
+  flex-direction: row;
+}
+
+slot {
+  display:flex;
+  flex-direction: column;
+  width: 40px;
+}
+
+slot {
+  background: var(--blue-50);
+}
+
+
+drawer {
+  width: 0;
+}
+
+drawer.open {
+  display: flex;
+  width: var(--drawer-width);
+}
+
+resizer {
+  height: 100%;
+  width: 0;
+  cursor: ew-resize;
+}
+
+drawer.open + resizer {
+  width: 4px;
+} 
+
+resizer:hover {
+  background: var(--blue-30)
+}
+
+
+::-webkit-scrollbar-track {
+  background-color: var(--grey-30) !important;
+}
+
+::-webkit-scrollbar {
+  width: 4px !important;
+  height: 4px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--grey-50) !important;
+}
