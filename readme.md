@@ -12,14 +12,14 @@
   <p align="center">
     A collection of webcomponents mainly for geospatial webapps.
     <br />
-    <a href="https://github.com/kortxyz/ogcapi-components"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/kortxyz/kortxyz-components"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://kort.xyz">View Demo</a>
+    <a href="https://demo.kort.xyz">View Demo</a>
     ·
-    <a href="https://github.com/kortxyz/ogcapi-components/issues">Report Bug</a>
+    <a href="https://github.com/kortxyz/kortxyz-components/issues">Report Bug</a>
     ·
-    <a href="https://github.com/kortxyz/ogcapi-components/issues">Request Feature</a>
+    <a href="https://github.com/kortxyz/kortxyz-components/issues">Request Feature</a>
   </p>
 </div>
 
@@ -54,7 +54,7 @@
 Plug and play webcomponents for making a webapp. 
 
 
-![Product Name Screen Shot](https://raw.githubusercontent.com/KORTxyz/ogcapi-components/master/.readme/screenshot.jpg)
+![Product Name Screen Shot](https://raw.githubusercontent.com/KORTxyz/kortxyz-components/master/.readme/screenshot.jpg)
 
 
 
