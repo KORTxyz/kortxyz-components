@@ -84,6 +84,10 @@ export namespace Components {
          */
         "data": string;
         /**
+          * fit mapbounds to geojsonbounds
+         */
+        "fit": boolean;
+        /**
           * Max zoom-level to fetch tiles. z-parameter
          */
         "maxzoom": number;
@@ -267,6 +271,10 @@ declare namespace LocalJSX {
           * URL to the geojson source.
          */
         "data"?: string;
+        /**
+          * fit mapbounds to geojsonbounds
+         */
+        "fit"?: boolean;
         /**
           * Max zoom-level to fetch tiles. z-parameter
          */

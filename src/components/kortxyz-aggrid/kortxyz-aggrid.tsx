@@ -110,12 +110,10 @@ export class KortxyzAggrid {
     else if (this.store) {
       while (this.loading) {
         const datastore = getStore(this.store);
-        console.log("datastore",datastore)
         if(datastore == undefined ) await new Promise(r => setTimeout(r, 200));
         else {
           if(!datastore) return;
           geojson = datastore.get("data");
-          console.log(geojson)
           if (!geojson.features) await new Promise(r => setTimeout(r, 200));
           else this.loading=false;
         }

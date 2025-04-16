@@ -101,7 +101,6 @@ export class KortxyzMaplibre {
     }
 
     else this.map = new maplibregl.Map(mapOptions);
-    console.log(this.map.getCenter())
     this.map.on('dataloading', () => this.mapEl.classList.add("loading"))
     this.map.on('idle', () => this.mapEl.classList.remove("loading"))
 
