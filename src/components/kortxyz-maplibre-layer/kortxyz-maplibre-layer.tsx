@@ -1,7 +1,7 @@
 import { Component, Element, Prop } from '@stencil/core';
 import { Listen, Event, EventEmitter } from '@stencil/core';
 
-import { Map as MaplibreglMap , Popup, LngLatBoundsLike, LayerSpecification } from 'maplibre-gl';
+import { Map as MaplibreglMap, Popup, LngLatBoundsLike, LayerSpecification } from 'maplibre-gl';
 import { renderPopup } from '../../utils/mapUtils'
 import { bbox } from '@turf/bbox'
 
@@ -39,23 +39,24 @@ export class KortxyzMaplibreLayer {
 
   @Listen('rowClicked', { target: 'document' })
   rowClickedHandler(event) {
-    if(event.detail.store==this.el.id) {
+    if (event.detail.store == this.el.id) {
 
-      const coords:LngLatBoundsLike = (([x1, y1, x2, y2]) => [[x1, y1], [x2, y2]])(bbox(event.detail.geometry));
+      const coords: LngLatBoundsLike = (([x1, y1, x2, y2]) => [[x1, y1], [x2, y2]])(bbox(event.detail.geometry));
 
       this.map.fitBounds(coords, {
-        linear:true,
-        padding: 100
+        linear: true,
+        padding: 100,
+        maxZoom: 16
       });
-  
+
       const paintProperties = this.map.getPaintProperty(this.el.id, this.type + '-color')
-  
+
       this.map.setPaintProperty(this.el.id, this.type + '-color', [
         'match', ["id"],
         event.detail.id, 'yellow',
         paintProperties
       ])
-  
+
       setTimeout(() => {
         this.map.setPaintProperty(this.el.id, this.type + '-color', JSON.parse(this.paint)[this.type + '-color'])
       }, 600);
@@ -119,17 +120,17 @@ export class KortxyzMaplibreLayer {
     map.on('load', async () => {
       map.once('styledata', async () => {
 
-        const layerElInDom:any = document.getElementsByTagName("kortxyz-maplibre-layer");
-        const layerIdsAsList = [...layerElInDom].map(e=>e.id)
-        const beforeId = layerIdsAsList[layerIdsAsList.findIndex(e=>e==this.el.id)-1]
+        const layerElInDom: any = document.getElementsByTagName("kortxyz-maplibre-layer");
+        const layerIdsAsList = [...layerElInDom].map(e => e.id)
+        const beforeId = layerIdsAsList[layerIdsAsList.findIndex(e => e == this.el.id) - 1]
 
-        if(beforeId != undefined){
-          while (map.getLayer(beforeId) == undefined){
+        if (beforeId != undefined) {
+          while (map.getLayer(beforeId) == undefined) {
             await new Promise(r => setTimeout(r, 200))
           }
         }
 
-        map.addLayer(layerObject,beforeId);
+        map.addLayer(layerObject, beforeId);
       });
     });
 
