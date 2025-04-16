@@ -1,11 +1,13 @@
 import { Component, Element, Prop } from '@stencil/core';
 import { GeoJSON } from 'geojson';
 
-import {getStore} from '../../utils/store';
+import { getStore } from '../../utils/store';
 
-import {isvalidURL} from '../../utils/checkUtils';
+import { isvalidURL } from '../../utils/checkUtils';
 
-import { GeoJSONSourceSpecification, VectorSourceSpecification, RasterSourceSpecification } from 'maplibre-gl';
+import { Map as MaplibreglMap, GeoJSONSourceSpecification, VectorSourceSpecification, RasterSourceSpecification } from 'maplibre-gl';
+
+import { bbox } from '@turf/bbox'
 
 
 @Component({
@@ -15,6 +17,7 @@ import { GeoJSONSourceSpecification, VectorSourceSpecification, RasterSourceSpec
 
 export class KortxyzMaplibreSource {
   @Element() el: HTMLElement;
+  map: MaplibreglMap;
 
   private loading: boolean = true;
 
@@ -34,6 +37,9 @@ export class KortxyzMaplibreSource {
 
   /** Max zoom-level to fetch tiles. z-parameter */
   @Prop() maxzoom: number = 14;
+
+  /** fit mapbounds to geojsonbounds  */
+  @Prop() fit: boolean = false;
 
   private source: any = [];
 
@@ -60,29 +66,35 @@ export class KortxyzMaplibreSource {
     }
   }
 
-  updateGeojson = (geojson) => {
+  updateGeojson = async (geojson) => {
     this.source.setData(geojson)
+    if(this.fit) {
+      const bounds:any = bbox(geojson);
+      this.map.fitBounds(bounds)
+    }
   }
 
 
   async componentDidLoad() {
     const { map } = this.el.closest('kortxyz-maplibre');
+    this.map = map;
 
     map.once('load', async () => {
       map.addSource(this.el.id, this.getSourceObject())
 
       this.source = map.getSource(this.el.id)
 
-      if(this.type == "geojson"){
+      if (this.type == "geojson") {
         map.once('styledata', async () => {
           if (this.store) {
             while (this.loading) {
               const datastore = getStore(this.store);
-              if(datastore == undefined ) await new Promise(r => setTimeout(r, 200));
+              if (datastore == undefined) await new Promise(r => setTimeout(r, 200));
               else {
                 this.updateGeojson(datastore.get("data"))
                 datastore.onChange("data", (e: GeoJSON) => this.updateGeojson(e))
-                this.loading=false;
+                this.loading = false;
+
               }
             }
           }
