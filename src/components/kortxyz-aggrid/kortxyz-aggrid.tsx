@@ -68,8 +68,17 @@ export class KortxyzAggrid {
     getStore(this.store).set("data", geojson)
   }
 
-  createGrid = (geojson) => {
-    let data = geojson.features.map(e => ({ id: e.id, ...e.properties, geometry: e.geometry }))
+  updateGrid = (geojson) => {
+    const data = geojson.features.map(e => ({ id: e.id, ...e.properties, geometry: e.geometry }))
+    const columnDefs = Object.keys(data[0]).filter(key => key != "id" && key != "geometry").map(key => ({ field: key }))
+
+    this.api.setGridOption('columnDefs',columnDefs)
+    this.api.setGridOption('rowData', data);
+  }
+
+  createGrid = () => {
+    ModuleRegistry.registerModules([AllCommunityModule]);
+
     this.gridOptions = {
       theme: themeBalham.withPart(colorSchemeDark),
       defaultColDef: {
@@ -79,18 +88,16 @@ export class KortxyzAggrid {
         minWidth: 100,
       },
       pagination: false,
-      columnDefs: Object.keys(data[0]).filter(key => key != "id" && key != "geometry").map(key => ({ field: key })),
-      rowData: data,
       onFilterChanged: e => this.filterEvent(e),
       onRowClicked: e => this.clickedEvent(e)
-
     }
+
     this.gridEl.innerHTML = null;
     this.api = createGrid(this.gridEl, this.gridOptions, {});
   }
 
   async componentDidLoad() {
-    ModuleRegistry.registerModules([AllCommunityModule]);
+    this.createGrid();
 
     let geojson
 
@@ -103,15 +110,19 @@ export class KortxyzAggrid {
     else if (this.store) {
       while (this.loading) {
         const datastore = getStore(this.store);
-        if(!datastore) return;
-        geojson = datastore.get("data");
-        
-        if (!geojson.features) await new Promise(r => setTimeout(r, 200));
-        else this.loading=false;
+        console.log("datastore",datastore)
+        if(datastore == undefined ) await new Promise(r => setTimeout(r, 200));
+        else {
+          if(!datastore) return;
+          geojson = datastore.get("data");
+          console.log(geojson)
+          if (!geojson.features) await new Promise(r => setTimeout(r, 200));
+          else this.loading=false;
+        }
       }
     }
 
-    this.createGrid(geojson)
+    this.updateGrid(geojson)
 
   }
 

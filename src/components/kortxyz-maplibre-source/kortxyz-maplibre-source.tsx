@@ -16,6 +16,8 @@ import { GeoJSONSourceSpecification, VectorSourceSpecification, RasterSourceSpec
 export class KortxyzMaplibreSource {
   @Element() el: HTMLElement;
 
+  private loading: boolean = true;
+
   /** Type of source. */
   @Prop() type: 'vector' | 'geojson' | 'raster' = 'geojson';
 
@@ -74,8 +76,15 @@ export class KortxyzMaplibreSource {
       if(this.type == "geojson"){
         map.once('styledata', async () => {
           if (this.store) {
-            this.updateGeojson(getStore(this.store).get("data"))
-            getStore(this.store).onChange("data", (e: GeoJSON) => this.updateGeojson(e))
+            while (this.loading) {
+              const datastore = getStore(this.store);
+              if(datastore == undefined ) await new Promise(r => setTimeout(r, 200));
+              else {
+                this.updateGeojson(datastore.get("data"))
+                datastore.onChange("data", (e: GeoJSON) => this.updateGeojson(e))
+                this.loading=false;
+              }
+            }
           }
           else if (isvalidURL(this.data)) {
             const res = await fetch(this.data)
