@@ -1,5 +1,33 @@
 # kortxyz-maplibre-source
 
+## Intro
+Webcomponent load a new source into a kortxyz-maplibre component. Remember an ID to have a reference for the kortxyz-maplibre-layers component.
+
+## Example
+* Load a geojson source
+```html
+<kortxyz-maplibre>
+    <kortxyz-maplibre-source
+        id="afstemningsomraader"
+        data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson"
+    ></kortxyz-maplibre-source>
+<kortxyz-maplibre>
+
+```
+
+* Load a raster source
+```html
+<kortxyz-maplibre>
+    <kortxyz-maplibre-source
+        id="orto_foraar_webm"
+        type="raster"
+        tilesize="256" 
+        maxzoom="20" 
+        tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&token=<INSERT TOKEN>">
+    ></kortxyz-maplibre-source>
+<kortxyz-maplibre>
+
+```
 
 
 <!-- Auto Generated Below -->
@@ -7,32 +35,14 @@
 
 ## Properties
 
-| Property   | Attribute  | Description | Type                                                                                                                                                                                                                                | Default     |
-| ---------- | ---------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| `data`     | `data`     |             | `Feature<Geometry, { [name: string]: any; }> \| FeatureCollection<Geometry, { [name: string]: any; }> \| GeometryCollection<Geometry> \| LineString \| MultiLineString \| MultiPoint \| MultiPolygon \| Point \| Polygon \| string` | `undefined` |
-| `maxzoom`  | `maxzoom`  |             | `number`                                                                                                                                                                                                                            | `undefined` |
-| `tiles`    | `tiles`    |             | `string`                                                                                                                                                                                                                            | `undefined` |
-| `tilesize` | `tilesize` |             | `number`                                                                                                                                                                                                                            | `undefined` |
-| `type`     | `type`     |             | `"geojson" \| "raster" \| "vector"`                                                                                                                                                                                                 | `undefined` |
-
-
-## Methods
-
-### `addLayer(layer: maplibregl.LayerSpecification) => Promise<void>`
-
-
-
-#### Parameters
-
-| Name    | Type                                                                                                                                                                                                                                                                  | Description |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| `layer` | `FillLayerSpecification \| LineLayerSpecification \| SymbolLayerSpecification \| CircleLayerSpecification \| HeatmapLayerSpecification \| FillExtrusionLayerSpecification \| RasterLayerSpecification \| HillshadeLayerSpecification \| BackgroundLayerSpecification` |             |
-
-#### Returns
-
-Type: `Promise<void>`
-
-
+| Property   | Attribute  | Description                                                                      | Type                                | Default     |
+| ---------- | ---------- | -------------------------------------------------------------------------------- | ----------------------------------- | ----------- |
+| `data`     | `data`     | URL to the geojson source.                                                       | `string`                            | `undefined` |
+| `maxzoom`  | `maxzoom`  | Max zoom-level to fetch tiles. z-parameter                                       | `number`                            | `14`        |
+| `store`    | `store`    | Datastore reference.                                                             | `string`                            | `undefined` |
+| `tiles`    | `tiles`    | Url to the tilesource. e.g. https://demotiles.maplibre.org/tiles/{z}/{x}/{y}.pbf | `string`                            | `undefined` |
+| `tilesize` | `tilesize` | Size of the tiles in px.                                                         | `number`                            | `512`       |
+| `type`     | `type`     | Type of source.                                                                  | `"geojson" \| "raster" \| "vector"` | `'geojson'` |
 
 
 ----------------------------------------------

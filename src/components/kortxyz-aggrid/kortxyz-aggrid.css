@@ -1,0 +1,7 @@
+@import url("..\..\..\node_modules\ag-grid-community\styles\ag-grid.css");
+@import url("..\..\..\node_modules\ag-grid-community\styles\ag-theme-balham.css");
+
+kortxyz-aggrid {
+  height: 100%;
+  width: 100%;
+}

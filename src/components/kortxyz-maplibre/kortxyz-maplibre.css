@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-@import url("..\..\..\node_modules\maplibre-gl\dist\maplibre-gl.css");
-
-
-kortxyz-maplibre::before {
-  animation: progress 1s infinite;
-  background: var(--orange-50);
-  content: '';
-  display: none;
-  height: 1px;
-  position: absolute;
-  width: 60%;
-  z-index: 99999;
-=======
 
 kortxyz-maplibre::before {
   content: '';
@@ -22,7 +8,6 @@ kortxyz-maplibre::before {
   height: 2px;
   z-index: 99999;
   animation: progress 1s infinite;
->>>>>>> 7045811 (first commit)
 }
 
 kortxyz-maplibre.loading::before {
@@ -37,8 +22,6 @@ kortxyz-maplibre.loading::before {
   to {
     width: 100%;
   }
-<<<<<<< HEAD
-=======
 }
 
 .maplibregl-popup-content {
@@ -78,5 +61,4 @@ kortxyz-maplibre.loading::before {
 .mbview_property-name {
   display: table-cell;
   padding-right: 10px;
->>>>>>> 7045811 (first commit)
 }

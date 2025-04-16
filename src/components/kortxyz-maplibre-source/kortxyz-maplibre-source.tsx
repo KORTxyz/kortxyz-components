@@ -1,4 +1,12 @@
-import { Component, Element, Prop, Method } from '@stencil/core';
+import { Component, Element, Prop } from '@stencil/core';
+import { GeoJSON } from 'geojson';
+
+import {getStore} from '../../utils/store';
+
+import {isvalidURL} from '../../utils/checkUtils';
+
+import { GeoJSONSourceSpecification, VectorSourceSpecification, RasterSourceSpecification } from 'maplibre-gl';
+
 
 @Component({
   tag: 'kortxyz-maplibre-source',
@@ -8,47 +16,80 @@ import { Component, Element, Prop, Method } from '@stencil/core';
 export class KortxyzMaplibreSource {
   @Element() el: HTMLElement;
 
-  @Prop() type: 'vector' | 'geojson' | 'raster';
+  /** Type of source. */
+  @Prop() type: 'vector' | 'geojson' | 'raster' = 'geojson';
 
-  @Prop() data: GeoJSON.GeoJSON | string;
+  /** URL to the geojson source. */
+  @Prop() data: string;
+  /** Datastore reference. */
+  @Prop() store: string;
+
+  /** Url to the tilesource. e.g. https://demotiles.maplibre.org/tiles/{z}/{x}/{y}.pbf */
   @Prop() tiles: string;
-  @Prop() tilesize: number;
 
-  @Prop() maxzoom: number;
+  /** Size of the tiles in px. */
+  @Prop() tilesize: number = 512;
 
-  private layers: any = [];
+  /** Max zoom-level to fetch tiles. z-parameter */
+  @Prop() maxzoom: number = 14;
 
-  @Method() 
-  async addLayer(layer: maplibregl.LayerSpecification){
-    this.layers = [...this.layers, layer]
+  private source: any = [];
 
+  getSourceObject = () => {
+    if (this.type == 'geojson') {
+      let SourceSpecification: GeoJSONSourceSpecification = {
+        'type': this.type,
+        'data': {
+          'type': 'FeatureCollection',
+          'features': []
+        }
+      }
+      return SourceSpecification
+    }
 
-  } 
+    else if (this.type == 'vector' || this.type == 'raster') {
+      let SourceSpecification: VectorSourceSpecification | RasterSourceSpecification = {
+        'type': this.type,
+        'tiles': [this.tiles],
+        'maxzoom': this.maxzoom,
+        'tileSize': this.tilesize
+      }
+      return SourceSpecification
+    }
+  }
+
+  updateGeojson = (geojson) => {
+    this.source.setData(geojson)
+  }
+
 
   async componentDidLoad() {
     const { map } = this.el.closest('kortxyz-maplibre');
 
-    if(this.type == 'geojson'){
-      let sourceObject : maplibregl.GeoJSONSourceSpecification  = {
-        'type': this.type,
-        'data': this.data
+    map.once('load', async () => {
+      map.addSource(this.el.id, this.getSourceObject())
+
+      this.source = map.getSource(this.el.id)
+
+      if(this.type == "geojson"){
+        map.once('styledata', async () => {
+          if (this.store) {
+            this.updateGeojson(getStore(this.store).get("data"))
+            getStore(this.store).onChange("data", (e: GeoJSON) => this.updateGeojson(e))
+          }
+          else if (isvalidURL(this.data)) {
+            const res = await fetch(this.data)
+            const geojson = await res.json();
+            this.updateGeojson(geojson)
+
+          }
+        });
       }
-      map.once('load', async () => map.addSource(this.el.id, sourceObject));
-    }
 
-    else if(this.type == 'vector' || this.type == 'raster'){
-      let sourceObject : maplibregl.VectorSourceSpecification | maplibregl.RasterSourceSpecification  = {
-        'type': this.type,
-        'tiles': [this.tiles],
-        'maxzoom': this.maxzoom || 14,
-        'tileSize': this.tilesize || 512
-      }
-
-      map.once('load', async () => map.addSource(this.el.id, sourceObject));
-    }
-
-    this.layers.forEach(layer => {
-      map.addLayer(layer)
     });
+
   }
+
+
+
 }

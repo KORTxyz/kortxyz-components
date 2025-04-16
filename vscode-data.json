@@ -1,0 +1,197 @@
+{
+  "version": 1.1,
+  "tags": [
+    {
+      "name": "kortxyz-aggrid",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "data",
+          "description": "Fetch data from a url"
+        },
+        {
+          "name": "store",
+          "description": "Fetch data from a store"
+        }
+      ]
+    },
+    {
+      "name": "kortxyz-datastore",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "data",
+          "description": "URL to the data to be fetch into the Store AA"
+        },
+        {
+          "name": "store",
+          "description": "Name of the store"
+        }
+      ]
+    },
+    {
+      "name": "kortxyz-maplibre",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "basemapstyle",
+          "description": ""
+        },
+        {
+          "name": "bbox",
+          "description": ""
+        },
+        {
+          "name": "center",
+          "description": ""
+        },
+        {
+          "name": "cooperative-gestures",
+          "description": ""
+        },
+        {
+          "name": "hoverpopup",
+          "description": ""
+        },
+        {
+          "name": "map",
+          "description": ""
+        },
+        {
+          "name": "mapboxkey",
+          "description": ""
+        },
+        {
+          "name": "mapstyle",
+          "description": ""
+        },
+        {
+          "name": "show-tile-boundaries",
+          "description": ""
+        },
+        {
+          "name": "zoom",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "kortxyz-maplibre-layer",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "clicklink",
+          "description": "(optional) When clicking a feature a new webpage is opened with the link prop. {} can be used to replace with a attribute. https://mypage.org/{ATTRIBUTENAME}"
+        },
+        {
+          "name": "filter",
+          "description": "Expression to fitler the layer"
+        },
+        {
+          "name": "layout",
+          "description": "Layout properties for the layer."
+        },
+        {
+          "name": "paint",
+          "description": "Paint properties for the layer."
+        },
+        {
+          "name": "popup",
+          "description": "(optional) When clicking a feature a Popup shows. Accept HTML and replacement of {} with a attribute. \\<div>{placename}\\</div>"
+        },
+        {
+          "name": "source-layer",
+          "description": "Layer to use from a vector tile source. Required for vector tile sources; prohibited for all other source types, including GeoJSON sources."
+        },
+        {
+          "name": "type",
+          "description": "Type of layer",
+          "values": [
+            {
+              "name": "circle"
+            },
+            {
+              "name": "fill"
+            },
+            {
+              "name": "line"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kortxyz-maplibre-searchbox",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "result",
+          "description": "How to format results. Replacement of {} with a attribute. {ATTRIBUTENAME}"
+        },
+        {
+          "name": "url",
+          "description": "Url to make input calls that return a geojson with points. Input are available as {input}"
+        }
+      ]
+    },
+    {
+      "name": "kortxyz-maplibre-source",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "data",
+          "description": "URL to the geojson source."
+        },
+        {
+          "name": "maxzoom",
+          "description": "Max zoom-level to fetch tiles. z-parameter"
+        },
+        {
+          "name": "store",
+          "description": "Datastore reference."
+        },
+        {
+          "name": "tiles",
+          "description": "Url to the tilesource. e.g. https://demotiles.maplibre.org/tiles/{z}/{x}/{y}.pbf"
+        },
+        {
+          "name": "tilesize",
+          "description": "Size of the tiles in px."
+        },
+        {
+          "name": "type",
+          "description": "Type of source.",
+          "values": [
+            {
+              "name": "geojson"
+            },
+            {
+              "name": "raster"
+            },
+            {
+              "name": "vector"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

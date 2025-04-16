@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <title>Stencil Component Starter</title>
+
+  <script type="module" src="../dist/kortxyz-components/kortxyz-components.esm.js"></script>
+  <link rel="stylesheet" href="../dist/kortxyz-components/kortxyz-components.css" />
+
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    kortxyz-maplibre {
+      flex: 1;
+    }
+
+    kortxyz-aggrid {
+      flex: 300px 0 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <kortxyz-maplibre 
+    style="width:100%;display:block;background: whitesmoke;"
+   center="[12.34,55.616]" zoom="12"
+  >
+
+    <kortxyz-maplibre-source id="Bygninger" type="vector" tiles="https://demo.kort.xyz/collections/Bygninger/tiles/WebMercatorQuad/{z}/{x}/{y}">
+      <kortxyz-maplibre-layer 
+        id="Bygninger"
+        layer="Bygninger"
+        source-layer="Bygninger"
+        type="fill"
+        paint='{"fill-color":"steelblue"}'
+        popup
+        >
+      </kortxyz-maplibre-layer>
+    </kortxyz-maplibre-source>
+
+    <kortxyz-maplibre-source id="ortofoto" type="raster" tilesize="256" maxzoom="20" tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}">
+      <kortxyz-maplibre-layer id="ortofoto" type="raster"></kortxyz-maplibre-layer>
+    </kortxyz-maplibre-source>
+
+  </kortxyz-maplibre>
+
+
+
+</body>
+
+</html>

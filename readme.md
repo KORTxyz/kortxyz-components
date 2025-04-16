@@ -37,9 +37,16 @@
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#usage">Usage</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#usage">Usage examples</a>
+      <ul>
+        <li><a href="#kortxyz-maplibre (map)">kortxyz-maplibre (map)</a></li>
+        <li><a href="#kortxyz-aggrid (table)">kortxyz-aggrid (table)</a></li>
+      </ul>
+    </li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -60,3 +67,122 @@ Plug and play webcomponents for making a webapp.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+To use the components your can either use them directly or install them from npm:
+
+### Prerequisites
+
+* Add the HTML tags to your website
+  ```html
+    <script type="module" src="https://cdn.kort.xyz/kortxyz-components%40latest//kortxyz-components.esm.js"></script>
+    <link rel="stylesheet" href="https://cdn.kort.xyz/kortxyz-components%40latest//kortxyz-components.css" />
+  ```
+### Installation
+
+1. Install the plugin through npm
+   ```sh
+   npm i @kortxyz/kortxyz-components
+   ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+### kortxyz-maplibre (map) [readme](https://github.com/KORTxyz/kortxyz-components/tree/main/src/components/kortxyz-maplibre)
+  ```html
+  <kortxyz-maplibre 
+      style="width:100%;height: 200px;display:block"
+      mapstyle='https://demotiles.maplibre.org/style.json'
+  ></kortxyz-maplibre>
+  ```
+
+### kortxyz-aggrid (table) [readme](https://github.com/KORTxyz/kortxyz-components/tree/main/src/components/kortxyz-aggrid)
+  ```html
+  <kortxyz-aggrid 
+      data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson"
+  ></kortxyz-aggrid>
+  ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- ROADMAP -->
+## Roadmap
+
+- [x] Map (Maplibre)
+  - [x] Standalone Source/Layer
+  - [x] Searchbar
+  - [] Legend
+- [x] Table (Aggrid)
+- [x] Datastore
+- [] Charts  
+- [] Mapbox styleeditor
+- [] QR-code 
+
+See the [open issues](https://github.com/kortxyz/kortxyz-components/issues) for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- CONTACT -->
+## Contact
+
+KORTxyz [info@kort.xyz](mailto:info@kort.xyz)
+
+Project Link: [https://github.com/kortxyz/kortxyz-components](https://github.com/kortxyz/kortxyz-components)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
+
+* []()
+* []()
+* []()
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/kortxyz/ogcapi-gpkg.svg?style=for-the-badge
+[contributors-url]: https://github.com/kortxyz/ogcapi-gpkg/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/kortxyz/ogcapi-gpkg.svg?style=for-the-badge
+[forks-url]: https://github.com/kortxyz/ogcapi-gpkg/network/members
+[stars-shield]: https://img.shields.io/github/stars/kortxyz/ogcapi-gpkg.svg?style=for-the-badge
+[stars-url]: https://github.com/kortxyz/ogcapi-gpkg/stargazers
+[issues-shield]: https://img.shields.io/github/issues/kortxyz/ogcapi-gpkg.svg?style=for-the-badge
+[issues-url]: https://github.com/kortxyz/ogcapi-gpkg/issues
+[license-shield]: https://img.shields.io/github/license/kortxyz/ogcapi-gpkg.svg?style=for-the-badge
+[license-url]: https://github.com/kortxyz/ogcapi-gpkg/blob/master/LICENSE.txt

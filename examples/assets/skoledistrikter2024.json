@@ -1,0 +1,80 @@
+{
+    "version": 8,
+    "name": "Skoledistrikter - 2023",
+    "glyphs": "https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=BiQT9W4hKhQfmCldxgs0",
+    "metadata": {},
+    "center": [
+        12.30394456,
+        55.617269983
+    ],
+    "zoom": 11.26393357,
+    "sources": {
+        "orto_foraar_webm": {
+            "type": "raster",
+            "tiles": [
+                "https://services.datafordeler.dk/GeoDanmarkOrto/orto_foraar_webm/1.0.0/WMTS/orto_foraar_webm/default/DFD_GoogleMapsCompatible/{z}/{y}/{x}.jpg?username=BJSIGPGRVW&password=Panseryrtat*56klinge"
+            ],
+            "tileSize": 256,
+            "maxzoom": 18
+        },
+        "skoledistrikter": {
+            "type": "geojson",
+            "data": "https://geofa.geodanmark.dk/api/v2/sql/fkg?q=SELECT%20udd_distrikt_navn,geometri%20FROM%20fkg.t_5710_born_skole_dis%20WHERE%20cvr_navn=%27Ish%C3%B8j%20Kommune%27&format=geojson&srs=4326"
+        },
+        "skoler": {
+            "type": "geojson",
+            "data": "./assets/skoler.geojson"
+        }
+    },
+    "layers": [
+        {
+            "id": "orto_foraar",
+            "type": "raster",
+            "source": "orto_foraar_webm"
+        },
+        {
+            "id": "skoledistrikter",
+            "type": "fill",
+            "source": "skoledistrikter",
+            "paint": {
+                "fill-opacity": 0.5,
+                "fill-outline-color": "hsl(0, 0%, 100%)",
+                "fill-color": [
+                    "match",
+                    [
+                        "get",
+                        "udd_distrikt_navn"
+                    ],
+                    "Vejlebroskolen",
+                    "#e41a1c",
+                    "Gildbroskolen",
+                    "#377eb8",
+                    "Ishøj Skole",
+                    "#4daf4a",
+                    "Vibeholmskolen",
+                    "#984ea3",
+                    "Strandgårdskolen",
+                    "#ff7f00",
+                    "red"
+                ]
+            }
+        },
+        {
+            "id": "skoler",
+            "type": "symbol",
+            "source": "skoler",
+            "layout": {
+                "text-field": "{skolenavn}",
+                "text-font": [
+                    "Noto Sans Bold"
+                ]
+            },
+            "paint": {
+                "text-color": "hsl(0, 100%, 99%)",
+                "text-halo-color": "hsl(0, 1%, 0%)",
+                "text-halo-width": 2,
+                "text-halo-blur": 1
+            }
+        }
+    ]
+}

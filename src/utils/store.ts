@@ -1,13 +1,14 @@
 import { createStore } from "@stencil/store";
 
-let globalStore = createStore({
-  activemap:null,
-  style:{
-    "version": 8,
-    "sources": {},
-    "layers": []
-  },
-  drawerwidth: 400
-});
+let storeContainer = {}
 
-export default globalStore;
+const createNewStore = name => {
+  storeContainer[name] = createStore({ data: {} })
+}
+
+const getStore = name => storeContainer[name]
+
+export {
+  createNewStore,
+  getStore
+}
