@@ -37,9 +37,11 @@ export class KortxyzMaplibreLayer {
   /** Emit the ID of the first feature clicked */
   @Event() featureClicked: EventEmitter;
 
-  @Listen('rowClicked', { target: 'document' })
+  @Listen('rowClicked', { target: 'window' })
   rowClickedHandler(event) {
-    if (event.detail.store == this.el.id) {
+    
+    const parentEl:any = this.el.parentElement;
+    if (event.detail.store == parentEl.store) {
 
       const coords: LngLatBoundsLike = (([x1, y1, x2, y2]) => [[x1, y1], [x2, y2]])(bbox(event.detail.geometry));
 
@@ -88,9 +90,22 @@ export class KortxyzMaplibreLayer {
 
   }
 
+  async addLayer(layerObject) {
+
+    const layerElInDom: any = document.getElementsByTagName("kortxyz-maplibre-layer");
+    const layerIdsAsList = [...layerElInDom].map(e => e.id)
+    const beforeId = layerIdsAsList[layerIdsAsList.findIndex(e => e == this.el.id) - 1]
+
+    if (beforeId != undefined) {
+      while (this.map.getLayer(beforeId) == undefined) {
+        await new Promise(r => setTimeout(r, 200))
+      }
+    }
+
+    this.map.addLayer(layerObject, beforeId);
+  }
 
   async componentDidLoad() {
-
     const { map } = this.el.closest('kortxyz-maplibre');
 
     this.map = map;
@@ -117,22 +132,17 @@ export class KortxyzMaplibreLayer {
       })
     }
 
-    map.on('load', async () => {
-      map.once('styledata', async () => {
 
-        const layerElInDom: any = document.getElementsByTagName("kortxyz-maplibre-layer");
-        const layerIdsAsList = [...layerElInDom].map(e => e.id)
-        const beforeId = layerIdsAsList[layerIdsAsList.findIndex(e => e == this.el.id) - 1]
+    if (map.getSource(id)) this.addLayer(layerObject)
+    else {
+      map.on('load', async () => {
+        map.once('styledata', async () => {
+          this.addLayer(layerObject)
 
-        if (beforeId != undefined) {
-          while (map.getLayer(beforeId) == undefined) {
-            await new Promise(r => setTimeout(r, 200))
-          }
-        }
-
-        map.addLayer(layerObject, beforeId);
+        });
       });
-    });
+    }
+
 
 
   }

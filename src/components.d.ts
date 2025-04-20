@@ -80,6 +80,10 @@ export namespace Components {
     }
     interface KortxyzMaplibreSource {
         /**
+          * add a layer without specifing it ONLY GEOJSON
+         */
+        "autolayers": boolean;
+        /**
           * URL to the geojson source.
          */
         "data": string;
@@ -267,6 +271,10 @@ declare namespace LocalJSX {
         "url"?: string;
     }
     interface KortxyzMaplibreSource {
+        /**
+          * add a layer without specifing it ONLY GEOJSON
+         */
+        "autolayers"?: boolean;
         /**
           * URL to the geojson source.
          */
