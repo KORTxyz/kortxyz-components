@@ -30,23 +30,14 @@
 
 <body>
 
-  <script>
-    let url = new URL("http://127.0.0.1:3000/collections/building/items?limit=100");
-    url.searchParams.set("f", "json")
-    setTimeout(() => {
-      const datastore = document.createElement("kortxyz-datastore");
-      datastore.store = "items";
-      datastore.data = url;
-      document.body.append(datastore);
-    }, 1000)
+  <kortxyz-datastore store="items" style="visibility: hidden;"
+    data="https://demo.kort.xyz/collections/Vejmidte/items?f=json&limit=1000"
+  ></kortxyz-datastore>
 
-  </script>
 
-  <kortxyz-maplibre style="width:100%;display:block;background:whitesmoke;"
-    mapstyle="http://127.0.0.1:3000/styles/3857_skaermkort_daempet?f=mbs">
-    <kortxyz-maplibre-source id="items" type="geojson" store="items" fit>
-      <kortxyz-maplibre-layer id="items" type="fill" paint='{"fill-color":"red"}' popup></kortxyz-maplibre-layer>
-    </kortxyz-maplibre-source>
+
+  <kortxyz-maplibre style="width:100%;display:block;background:whitesmoke;" center="[11,55]" zoom="15">
+    <kortxyz-maplibre-source id="items" type="geojson" store="items" fit autolayers></kortxyz-maplibre-source>
   </kortxyz-maplibre>
 
   <kortxyz-aggrid store="items"></kortxyz-aggrid>

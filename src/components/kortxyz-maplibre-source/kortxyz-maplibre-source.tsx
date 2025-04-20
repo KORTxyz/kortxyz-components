@@ -17,9 +17,10 @@ import { bbox } from '@turf/bbox'
 
 export class KortxyzMaplibreSource {
   @Element() el: HTMLElement;
-  map: MaplibreglMap;
-
+  private map: MaplibreglMap;
   private loading: boolean = true;
+  private randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+  private randomDarkHex = () => '#' + [0,0,0].map(() => Math.floor(Math.random() * 100).toString(16).padStart(2, '0')).join('');
 
   /** Type of source. */
   @Prop() type: 'vector' | 'geojson' | 'raster' = 'geojson';
@@ -41,7 +42,20 @@ export class KortxyzMaplibreSource {
   /** fit mapbounds to geojsonbounds  */
   @Prop() fit: boolean = false;
 
+  /** add a layer without specifing it ONLY GEOJSON */
+  @Prop() autolayers: boolean = false;
+
   private source: any = [];
+
+  getMapboxType = geojsonGeomType => ({
+    Point: 'circle',
+    MultiPoint: 'circle',
+    LineString: 'line',
+    MultiLineString: 'line',
+    Polygon: 'fill',
+    MultiPolygon: 'fill',
+    GeometryCollection: 'fill'
+  }[geojsonGeomType]);
 
   getSourceObject = () => {
     if (this.type == 'geojson') {
@@ -67,11 +81,37 @@ export class KortxyzMaplibreSource {
   }
 
   updateGeojson = async (geojson) => {
-    this.source.setData(geojson)
-    if(this.fit) {
-      const bounds:any = bbox(geojson);
-      this.map.fitBounds(bounds)
+    if (this.autolayers) {
+      const geomTypeMap = geojson.features.reduce((acc, f) => ((acc[f.geometry.type] = (acc[f.geometry.type] || 0) + 1), acc), {});
+      const geomTypes = Object.keys(geomTypeMap).sort((a, b) => geomTypeMap[b] - geomTypeMap[a]);
+      geomTypes.forEach((geomType) => {
+        const mapboxType = this.getMapboxType(geomType);
+
+        if (this.map.getLayer(this.el.id+"-"+geomType)) this.map.removeLayer(this.el.id+"-"+geomType);
+
+        let layerEl = document.createElement("kortxyz-maplibre-layer");
+        layerEl.id = this.el.id+"-"+geomType;
+        layerEl.setAttribute("type", mapboxType);
+        layerEl.setAttribute("paint", `{"${mapboxType}-color":"${this.randomDarkHex()}"}`);
+        layerEl.setAttribute("popup", "");
+
+        this.el.appendChild(layerEl)
+
+
+      })
     }
+
+    this.source.setData(geojson)
+    if (this.fit) {
+      4
+      const bounds: any = bbox(geojson);
+      this.map.fitBounds(bounds, {
+        animate: false,
+        padding: 100,
+        maxZoom: 16
+      })
+    }
+
   }
 
 
@@ -81,11 +121,11 @@ export class KortxyzMaplibreSource {
 
     map.once('load', async () => {
       map.addSource(this.el.id, this.getSourceObject())
-
       this.source = map.getSource(this.el.id)
 
       if (this.type == "geojson") {
         map.once('styledata', async () => {
+
           if (this.store) {
             while (this.loading) {
               const datastore = getStore(this.store);
@@ -94,7 +134,6 @@ export class KortxyzMaplibreSource {
                 this.updateGeojson(datastore.get("data"))
                 datastore.onChange("data", (e: GeoJSON) => this.updateGeojson(e))
                 this.loading = false;
-
               }
             }
           }
