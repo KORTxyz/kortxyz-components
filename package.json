@@ -1,6 +1,6 @@
 {
   "name": "@kortxyz/kortxyz-components",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A collection of webcomponents mainly for geospatial webapps",
   "keywords": [],
   "author": "Tino Kastbjerg Stigsen",
@@ -14,11 +14,6 @@
     ".": {
       "import": "./dist/kortxyz-components/kortxyz-components.esm.js",
       "require": "./dist/kortxyz-components/kortxyz-components.cjs.js"
-    },
-    "./loader": {
-      "import": "./loader/index.js",
-      "require": "./loader/index.cjs",
-      "types": "./loader/index.d.ts"
     }
   },
   "repository": {
@@ -26,8 +21,7 @@
     "url": "https://github.com/KORTxyz/kortxyz-components.git"
   },
   "files": [
-    "dist/",
-    "loader/"
+    "dist/"
   ],
   "scripts": {
     "build": "stencil build",

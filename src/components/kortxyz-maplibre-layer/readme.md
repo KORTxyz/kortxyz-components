@@ -47,6 +47,19 @@ Paint and Layout properties follow [MapLibre Style Spec](https://maplibre.org/ma
 | `featureClicked` | Emit the ID of the first feature clicked | `CustomEvent<any>` |
 
 
+## Dependencies
+
+### Used by
+
+ - [kortxyz-maplibre-source](../kortxyz-maplibre-source)
+
+### Graph
+```mermaid
+graph TD;
+  kortxyz-maplibre-source --> kortxyz-maplibre-layer
+  style kortxyz-maplibre-layer fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

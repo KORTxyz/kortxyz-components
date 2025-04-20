@@ -157,8 +157,16 @@
       },
       "attributes": [
         {
+          "name": "autolayers",
+          "description": "add a layer without specifing it ONLY GEOJSON"
+        },
+        {
           "name": "data",
           "description": "URL to the geojson source."
+        },
+        {
+          "name": "fit",
+          "description": "fit mapbounds to geojsonbounds"
         },
         {
           "name": "maxzoom",

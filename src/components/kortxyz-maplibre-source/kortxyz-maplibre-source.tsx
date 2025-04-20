@@ -20,7 +20,6 @@ export class KortxyzMaplibreSource {
   private map: MaplibreglMap;
   private loading: boolean = true;
   private randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-  private randomDarkHex = () => '#' + [0,0,0].map(() => Math.floor(Math.random() * 100).toString(16).padStart(2, '0')).join('');
 
   /** Type of source. */
   @Prop() type: 'vector' | 'geojson' | 'raster' = 'geojson';
@@ -92,7 +91,7 @@ export class KortxyzMaplibreSource {
         let layerEl = document.createElement("kortxyz-maplibre-layer");
         layerEl.id = this.el.id+"-"+geomType;
         layerEl.setAttribute("type", mapboxType);
-        layerEl.setAttribute("paint", `{"${mapboxType}-color":"${this.randomDarkHex()}"}`);
+        layerEl.setAttribute("paint", `{"${mapboxType}-color":"${this.randomColor()}"}`);
         layerEl.setAttribute("popup", "");
 
         this.el.appendChild(layerEl)

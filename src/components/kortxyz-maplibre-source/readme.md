@@ -35,15 +35,30 @@ Webcomponent load a new source into a kortxyz-maplibre component. Remember an ID
 
 ## Properties
 
-| Property   | Attribute  | Description                                                                      | Type                                | Default     |
-| ---------- | ---------- | -------------------------------------------------------------------------------- | ----------------------------------- | ----------- |
-| `data`     | `data`     | URL to the geojson source.                                                       | `string`                            | `undefined` |
-| `maxzoom`  | `maxzoom`  | Max zoom-level to fetch tiles. z-parameter                                       | `number`                            | `14`        |
-| `store`    | `store`    | Datastore reference.                                                             | `string`                            | `undefined` |
-| `tiles`    | `tiles`    | Url to the tilesource. e.g. https://demotiles.maplibre.org/tiles/{z}/{x}/{y}.pbf | `string`                            | `undefined` |
-| `tilesize` | `tilesize` | Size of the tiles in px.                                                         | `number`                            | `512`       |
-| `type`     | `type`     | Type of source.                                                                  | `"geojson" \| "raster" \| "vector"` | `'geojson'` |
+| Property     | Attribute    | Description                                                                      | Type                                | Default     |
+| ------------ | ------------ | -------------------------------------------------------------------------------- | ----------------------------------- | ----------- |
+| `autolayers` | `autolayers` | add a layer without specifing it ONLY GEOJSON                                    | `boolean`                           | `false`     |
+| `data`       | `data`       | URL to the geojson source.                                                       | `string`                            | `undefined` |
+| `fit`        | `fit`        | fit mapbounds to geojsonbounds                                                   | `boolean`                           | `false`     |
+| `maxzoom`    | `maxzoom`    | Max zoom-level to fetch tiles. z-parameter                                       | `number`                            | `14`        |
+| `store`      | `store`      | Datastore reference.                                                             | `string`                            | `undefined` |
+| `tiles`      | `tiles`      | Url to the tilesource. e.g. https://demotiles.maplibre.org/tiles/{z}/{x}/{y}.pbf | `string`                            | `undefined` |
+| `tilesize`   | `tilesize`   | Size of the tiles in px.                                                         | `number`                            | `512`       |
+| `type`       | `type`       | Type of source.                                                                  | `"geojson" \| "raster" \| "vector"` | `'geojson'` |
 
+
+## Dependencies
+
+### Depends on
+
+- [kortxyz-maplibre-layer](../kortxyz-maplibre-layer)
+
+### Graph
+```mermaid
+graph TD;
+  kortxyz-maplibre-source --> kortxyz-maplibre-layer
+  style kortxyz-maplibre-source fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 
