@@ -1,4 +1,4 @@
-import { Component, Host, Prop, State, Element, h } from '@stencil/core';
+import { Component, Prop, Host, State, Element, h } from '@stencil/core';
 import {Marker} from 'maplibre-gl';
 
 @Component({
@@ -6,6 +6,20 @@ import {Marker} from 'maplibre-gl';
   styleUrl: 'kortxyz-maplibre-searchbox.css',
   shadow: true,
 })
+
+/** Webcomponent to use inside kortxyz-maplibre to search for a point.
+
+## Example
+```html
+<kortxyz-maplibre>
+    <kortxyz-maplibre-searchbox
+        url="https://api.dataforsyningen.dk/adgangsadresser?q={input}&format=geojson&per_side=5&struktur=mini&autocomplete&kommunekode=183&fuzzy"
+        result="{betegnelse}"
+    ></kortxyz-maplibre-searchbox>
+<kortxyz-maplibre>
+
+``` */
+
 export class KortxyzMaplibreSearchbox {
   private textInput?: HTMLInputElement;
   private searchboxMarker;
@@ -18,15 +32,13 @@ export class KortxyzMaplibreSearchbox {
   /** How to format results. Replacement of {} with a attribute. {ATTRIBUTENAME}*/
   @Prop() result = "{betegnelse}"
 
+  /** How far should the map zoom in on result. Empty prop if no zooming is needed */
+  @Prop() resultzoom:number = 14;
+
+  /** Should a result pick be a marker on the map or a click on the map*/
+  @Prop() resulttype:"marker" | "click" = "marker"
+
   @State() results = [];
-
-  parseStringTemplate = (str, obj) => {
-    let parts = str.split(/\$\{(?!\d)[\wæøåÆØÅ]*\}/);
-    let args = str.match(/[^{\}]+(?=})/g) || [];
-    let parameters = args.map(argument => obj[argument] || (obj[argument] === undefined ? "" : obj[argument]));
-    return String.raw({ raw: parts }, ...parameters);
-  }
-
 
 
   doSearch = async (e) => {
@@ -67,11 +79,23 @@ export class KortxyzMaplibreSearchbox {
     const result = this.results[idx];
     const { map } = this.searchboxEl.closest('kortxyz-maplibre');
 
-    if (this.searchboxMarker) this.searchboxMarker.remove();
-    this.searchboxMarker = new Marker().setLngLat(result.geometry.coordinates).addTo(map);
-    map.once('dragstart', () => this.searchboxMarker.remove())
-
-    map.flyTo({ center: result.geometry.coordinates, zoom: 18 });
+    if(this.resulttype == "marker"){
+      if (this.searchboxMarker) this.searchboxMarker.remove();
+      this.searchboxMarker = new Marker().setLngLat(result.geometry.coordinates).addTo(map);
+      map.once('dragstart', () => this.searchboxMarker.remove())
+    }
+    else if(this.resulttype == "click"){
+      map.fire('click', {
+        point: map.project(result.geometry.coordinates), 
+        originalEvent: {},
+        lngLat: result.geometry.coordinates
+      })
+    }
+    console.log(this.resultzoom)
+    map.flyTo({
+      center: result.geometry.coordinates,
+      ...(Number.isNaN(this.resultzoom) ? {} : { zoom: this.resultzoom })
+    });
 
     this.textInput.value = "";
     this.results = [];
@@ -87,12 +111,13 @@ export class KortxyzMaplibreSearchbox {
           ref={el => this.textInput = el as HTMLInputElement}
           onInput={this.doSearch}
           onKeyDown={this.onKeydown}
-
         ></input>
         <results>
           {this.results.map(
             (result, index) => (
-              <result id={index} class={index == 0 ? "focus" : ""} onClick={e => this.resultPick(e.target.id)}>{this.result.replace(/{(\w+)}/g, (_, k) => result.properties[k]) }</result>
+              <result id={index} onClick={e => this.resultPick(e.target.id)} class={index == 0 ? "focus" : ""}>
+                {this.result.replace(/{(\w+)}/g, (_, k) => result.properties[k]) }
+              </result>
             )
           )}
         </results>
