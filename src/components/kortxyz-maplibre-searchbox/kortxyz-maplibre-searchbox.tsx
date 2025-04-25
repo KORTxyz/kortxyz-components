@@ -1,15 +1,11 @@
 import { Component, Prop, Host, State, Element, h } from '@stencil/core';
 import {Marker} from 'maplibre-gl';
 
-@Component({
-  tag: 'kortxyz-maplibre-searchbox',
-  styleUrl: 'kortxyz-maplibre-searchbox.css',
-  shadow: true,
-})
+/** 
+### Intro
+Webcomponent to use inside kortxyz-maplibre to search for a point.
 
-/** Webcomponent to use inside kortxyz-maplibre to search for a point.
-
-## Example
+### Example
 ```html
 <kortxyz-maplibre>
     <kortxyz-maplibre-searchbox
@@ -18,7 +14,14 @@ import {Marker} from 'maplibre-gl';
     ></kortxyz-maplibre-searchbox>
 <kortxyz-maplibre>
 
-``` */
+``` 
+*/
+
+@Component({
+  tag: 'kortxyz-maplibre-searchbox',
+  styleUrl: 'kortxyz-maplibre-searchbox.css',
+  shadow: true,
+})
 
 export class KortxyzMaplibreSearchbox {
   private textInput?: HTMLInputElement;

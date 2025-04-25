@@ -136,7 +136,7 @@
       "name": "kortxyz-maplibre-searchbox",
       "description": {
         "kind": "markdown",
-        "value": ""
+        "value": "### Intro\r\nWebcomponent to use inside kortxyz-maplibre to search for a point.\r\n\r\n### Example\r\n```html\r\n<kortxyz-maplibre>\r\n   <kortxyz-maplibre-searchbox\r\n       url=\"https://api.dataforsyningen.dk/adgangsadresser?q={input}&format=geojson&per_side=5&struktur=mini&autocomplete&kommunekode=183&fuzzy\"\r\n       result=\"{betegnelse}\"\r\n   ></kortxyz-maplibre-searchbox>\r\n<kortxyz-maplibre>\r\n\r\n```"
       },
       "attributes": [
         {

@@ -68,6 +68,19 @@ export namespace Components {
          */
         "type": 'circle' | 'line' | 'fill';
     }
+    /**
+     * ### Intro
+     * Webcomponent to use inside kortxyz-maplibre to search for a point.
+     * ### Example
+     * ```html
+     * <kortxyz-maplibre>
+     *    <kortxyz-maplibre-searchbox
+     *        url="https://api.dataforsyningen.dk/adgangsadresser?q={input}&format=geojson&per_side=5&struktur=mini&autocomplete&kommunekode=183&fuzzy"
+     *        result="{betegnelse}"
+     *    ></kortxyz-maplibre-searchbox>
+     * <kortxyz-maplibre>
+     * ```
+     */
     interface KortxyzMaplibreSearchbox {
         /**
           * How to format results. Replacement of {} with a attribute. {ATTRIBUTENAME}
@@ -176,6 +189,19 @@ declare global {
         prototype: HTMLKortxyzMaplibreLayerElement;
         new (): HTMLKortxyzMaplibreLayerElement;
     };
+    /**
+     * ### Intro
+     * Webcomponent to use inside kortxyz-maplibre to search for a point.
+     * ### Example
+     * ```html
+     * <kortxyz-maplibre>
+     *    <kortxyz-maplibre-searchbox
+     *        url="https://api.dataforsyningen.dk/adgangsadresser?q={input}&format=geojson&per_side=5&struktur=mini&autocomplete&kommunekode=183&fuzzy"
+     *        result="{betegnelse}"
+     *    ></kortxyz-maplibre-searchbox>
+     * <kortxyz-maplibre>
+     * ```
+     */
     interface HTMLKortxyzMaplibreSearchboxElement extends Components.KortxyzMaplibreSearchbox, HTMLStencilElement {
     }
     var HTMLKortxyzMaplibreSearchboxElement: {
@@ -268,6 +294,19 @@ declare namespace LocalJSX {
          */
         "type"?: 'circle' | 'line' | 'fill';
     }
+    /**
+     * ### Intro
+     * Webcomponent to use inside kortxyz-maplibre to search for a point.
+     * ### Example
+     * ```html
+     * <kortxyz-maplibre>
+     *    <kortxyz-maplibre-searchbox
+     *        url="https://api.dataforsyningen.dk/adgangsadresser?q={input}&format=geojson&per_side=5&struktur=mini&autocomplete&kommunekode=183&fuzzy"
+     *        result="{betegnelse}"
+     *    ></kortxyz-maplibre-searchbox>
+     * <kortxyz-maplibre>
+     * ```
+     */
     interface KortxyzMaplibreSearchbox {
         /**
           * How to format results. Replacement of {} with a attribute. {ATTRIBUTENAME}
@@ -337,6 +376,19 @@ declare module "@stencil/core" {
             "kortxyz-datastore": LocalJSX.KortxyzDatastore & JSXBase.HTMLAttributes<HTMLKortxyzDatastoreElement>;
             "kortxyz-maplibre": LocalJSX.KortxyzMaplibre & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreElement>;
             "kortxyz-maplibre-layer": LocalJSX.KortxyzMaplibreLayer & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreLayerElement>;
+            /**
+             * ### Intro
+             * Webcomponent to use inside kortxyz-maplibre to search for a point.
+             * ### Example
+             * ```html
+             * <kortxyz-maplibre>
+             *    <kortxyz-maplibre-searchbox
+             *        url="https://api.dataforsyningen.dk/adgangsadresser?q={input}&format=geojson&per_side=5&struktur=mini&autocomplete&kommunekode=183&fuzzy"
+             *        result="{betegnelse}"
+             *    ></kortxyz-maplibre-searchbox>
+             * <kortxyz-maplibre>
+             * ```
+             */
             "kortxyz-maplibre-searchbox": LocalJSX.KortxyzMaplibreSearchbox & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreSearchboxElement>;
             "kortxyz-maplibre-source": LocalJSX.KortxyzMaplibreSource & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreSourceElement>;
         }
