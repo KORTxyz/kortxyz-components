@@ -74,6 +74,14 @@ export namespace Components {
          */
         "result": string;
         /**
+          * Should a result pick be a marker on the map or a click on the map
+         */
+        "resulttype": "marker" | "click";
+        /**
+          * How far should the map zoom in on result. Empty prop if no zooming is needed
+         */
+        "resultzoom": number;
+        /**
           * Url to make input calls that return a geojson with points. Input are available as {input}
          */
         "url": string;
@@ -265,6 +273,14 @@ declare namespace LocalJSX {
           * How to format results. Replacement of {} with a attribute. {ATTRIBUTENAME}
          */
         "result"?: string;
+        /**
+          * Should a result pick be a marker on the map or a click on the map
+         */
+        "resulttype"?: "marker" | "click";
+        /**
+          * How far should the map zoom in on result. Empty prop if no zooming is needed
+         */
+        "resultzoom"?: number;
         /**
           * Url to make input calls that return a geojson with points. Input are available as {input}
          */
