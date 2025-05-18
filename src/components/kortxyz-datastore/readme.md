@@ -1,4 +1,8 @@
 # kortxyz-datastore
+<!-- Auto Generated Below -->
+
+
+## Overview
 
 ## Intro
 Webcomponent to store data that multiple components can use.
@@ -10,9 +14,6 @@ store="teststore"
 data="https://example.geojson"
 ></kortxyz-datastore>
 ```
-
-<!-- Auto Generated Below -->
-
 
 ## Properties
 

@@ -5,6 +5,32 @@ import { Map as MaplibreglMap, Popup, LngLatBoundsLike, LayerSpecification } fro
 import { renderPopup } from '../../utils/mapUtils'
 import { bbox } from '@turf/bbox'
 
+/**
+## Intro
+Webcomponent to load a maplibre layer inside a maplibre source. The layer can be made click interactive be using either clicklink or the popup properties.
+
+Paint and Layout properties follow [MapLibre Style Spec](https://maplibre.org/maplibre-style-spec/layers/).
+
+
+## Example
+* Show red polygons with a white outline that opens a page when clicked.
+```html
+<kortxyz-maplibre>
+    <kortxyz-maplibre-source>
+        <kortxyz-maplibre-layer
+            type="line"
+            paint="{line-color:white}"
+        ></kortxyz-maplibre-layer>
+        <kortxyz-maplibre-layer
+            type="fill"
+            paint="{fill-color:red}"
+            clicklink="https://example.com/{placename}"
+        ></kortxyz-maplibre-layer>
+    </kortxyz-maplibre-source>
+</kortxyz-maplibre>
+```
+ */
+
 @Component({
   tag: 'kortxyz-maplibre-layer',
   shadow: true,

@@ -7,6 +7,31 @@ import { isMapboxURL, transformMapboxUrl } from 'maplibregl-mapbox-request-trans
 
 import { initHoverPopup } from '../../utils/mapUtils';
 
+/**
+ 
+  ## Intro
+  Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
+
+  ## Example
+  * Show a demo map 
+  ```html
+  <kortxyz-maplibre 
+      style="width:100%;height: 200px;display:block"
+      mapstyle='https://demotiles.maplibre.org/style.json'
+  ></kortxyz-maplibre>
+  ```
+
+  * Show a map on top a official basemap
+  ```html
+  <kortxyz-maplibre 
+      style="width:100%;height:500px;display:block;background: whitesmoke;"
+      bbox="[12.40100150309453,55.6008931492048,12.28220098836423,55.63638904335573]"
+      mapstyle="./assets/skoledistrikter2024.json"
+      basemapstyle="https://raw.githubusercontent.com/SDFIdk/vector_tiles_assets/refs/heads/main/styles/official/3857_skaermkort_graa.json"
+  ></kortxyz-maplibre>
+  ```
+*/
+
 @Component({
   tag: 'kortxyz-maplibre',
   styleUrls: [

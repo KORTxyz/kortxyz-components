@@ -4,6 +4,21 @@ import {createNewStore, getStore} from '../../utils/store';
 
 import {isvalidURL} from '../../utils/checkUtils';
 
+/**
+ 
+  ## Intro
+  Webcomponent to store data that multiple components can use.
+
+  ## Example
+  ```html
+  <kortxyz-datastore
+  store="teststore"
+  data="https://example.geojson"
+  ></kortxyz-datastore>
+  ```
+
+ */
+
 @Component({
   tag: 'kortxyz-datastore',
   styleUrl: 'kortxyz-datastore.css',
