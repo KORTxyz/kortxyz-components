@@ -1,37 +1,38 @@
 # kortxyz-maplibre-source
 
+<!-- Auto Generated Below -->
+
+
+## Overview
+
 ## Intro
 Webcomponent load a new source into a kortxyz-maplibre component. Remember an ID to have a reference for the kortxyz-maplibre-layers component.
 
 ## Example
-* Load a geojson source
+ Load a geojson source
 ```html
 <kortxyz-maplibre>
-    <kortxyz-maplibre-source
-        id="afstemningsomraader"
-        data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson"
-    ></kortxyz-maplibre-source>
+   <kortxyz-maplibre-source
+       id="afstemningsomraader"
+       data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson"
+   ></kortxyz-maplibre-source>
 <kortxyz-maplibre>
 
 ```
 
-* Load a raster source
+ Load a raster source
 ```html
 <kortxyz-maplibre>
-    <kortxyz-maplibre-source
-        id="orto_foraar_webm"
-        type="raster"
-        tilesize="256" 
-        maxzoom="20" 
-        tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&token=<INSERT TOKEN>">
-    ></kortxyz-maplibre-source>
+   <kortxyz-maplibre-source
+       id="orto_foraar_webm"
+       type="raster"
+       tilesize="256" 
+       maxzoom="20" 
+       tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&token=<INSERT TOKEN>">
+   ></kortxyz-maplibre-source>
 <kortxyz-maplibre>
 
 ```
-
-
-<!-- Auto Generated Below -->
-
 
 ## Properties
 

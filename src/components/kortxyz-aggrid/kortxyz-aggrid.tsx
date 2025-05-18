@@ -8,6 +8,25 @@ import { themeBalham, colorSchemeDark } from 'ag-grid-community';
 
 import {getStore} from '../../utils/store';
 
+/**
+  ## Intro
+  Webcomponent to show a table. A rowclicked event occurs when a row is clicked 
+
+  ## Example
+  * Get geojson from a datastore
+  ```html
+  <kortxyz-aggrid
+  store="teststore"
+  ></kortxyz-aggrid>
+  ```
+
+  * Get geojson from a url
+  ```html
+  <kortxyz-aggrid
+  data="https://example.geojson"
+  ></kortxyz-aggrid>
+  ```
+ */
 
 @Component({
   tag: 'kortxyz-aggrid',

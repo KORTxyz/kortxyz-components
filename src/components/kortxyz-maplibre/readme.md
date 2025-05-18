@@ -1,10 +1,16 @@
 # kortxyz-maplibre
 
+
+<!-- Auto Generated Below -->
+
+
+## Overview
+
 ## Intro
 Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
 
 ## Example
-* Show a demo map 
+ Show a demo map 
 ```html
 <kortxyz-maplibre 
     style="width:100%;height: 200px;display:block"
@@ -12,7 +18,7 @@ Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
 ></kortxyz-maplibre>
 ```
 
-* Show a map on top a official basemap
+ Show a map on top a official basemap
 ```html
 <kortxyz-maplibre 
     style="width:100%;height:500px;display:block;background: whitesmoke;"
@@ -21,9 +27,6 @@ Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
     basemapstyle="https://raw.githubusercontent.com/SDFIdk/vector_tiles_assets/refs/heads/main/styles/official/3857_skaermkort_graa.json"
 ></kortxyz-maplibre>
 ```
-
-<!-- Auto Generated Below -->
-
 
 ## Properties
 

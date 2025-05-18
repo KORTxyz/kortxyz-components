@@ -1,25 +1,26 @@
 # kortxyz-aggrid
+<!-- Auto Generated Below -->
 
+
+## Overview
 
 ## Intro
 Webcomponent to show a table. A rowclicked event occurs when a row is clicked 
 
 ## Example
-* Get geojson from a datastore
+ Get geojson from a datastore
 ```html
 <kortxyz-aggrid
 store="teststore"
 ></kortxyz-aggrid>
 ```
 
-* Get geojson from a url
+ Get geojson from a url
 ```html
 <kortxyz-aggrid
 data="https://example.geojson"
 ></kortxyz-aggrid>
 ```
-<!-- Auto Generated Below -->
-
 
 ## Properties
 

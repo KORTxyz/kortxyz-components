@@ -6,6 +6,23 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    /**
+     * ## Intro
+     * Webcomponent to show a table. A rowclicked event occurs when a row is clicked 
+     * ## Example
+     *  Get geojson from a datastore
+     * ```html
+     * <kortxyz-aggrid
+     * store="teststore"
+     * ></kortxyz-aggrid>
+     * ```
+     *  Get geojson from a url
+     * ```html
+     * <kortxyz-aggrid
+     * data="https://example.geojson"
+     * ></kortxyz-aggrid>
+     * ```
+     */
     interface KortxyzAggrid {
         /**
           * Fetch data from a url
@@ -16,6 +33,17 @@ export namespace Components {
          */
         "store": string;
     }
+    /**
+     * ## Intro
+     * Webcomponent to store data that multiple components can use.
+     * ## Example
+     * ```html
+     * <kortxyz-datastore
+     * store="teststore"
+     * data="https://example.geojson"
+     * ></kortxyz-datastore>
+     * ```
+     */
     interface KortxyzDatastore {
         /**
           * URL to the data to be fetch into the Store AA
@@ -26,6 +54,27 @@ export namespace Components {
          */
         "store"?: string;
     }
+    /**
+     * ## Intro
+     * Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
+     * ## Example
+     *  Show a demo map 
+     * ```html
+     * <kortxyz-maplibre 
+     *     style="width:100%;height: 200px;display:block"
+     *     mapstyle='https://demotiles.maplibre.org/style.json'
+     * ></kortxyz-maplibre>
+     * ```
+     *  Show a map on top a official basemap
+     * ```html
+     * <kortxyz-maplibre 
+     *     style="width:100%;height:500px;display:block;background: whitesmoke;"
+     *     bbox="[12.40100150309453,55.6008931492048,12.28220098836423,55.63638904335573]"
+     *     mapstyle="./assets/skoledistrikter2024.json"
+     *     basemapstyle="https://raw.githubusercontent.com/SDFIdk/vector_tiles_assets/refs/heads/main/styles/official/3857_skaermkort_graa.json"
+     * ></kortxyz-maplibre>
+     * ```
+     */
     interface KortxyzMaplibre {
         "basemapstyle": maplibregl.StyleSpecification | string;
         "bbox": string;
@@ -38,6 +87,28 @@ export namespace Components {
         "showTileBoundaries": boolean;
         "zoom": number;
     }
+    /**
+     * ## Intro
+     * Webcomponent to load a maplibre layer inside a maplibre source. The layer can be made click interactive be using either clicklink or the popup properties.
+     * Paint and Layout properties follow [MapLibre Style Spec](https://maplibre.org/maplibre-style-spec/layers/).
+     * ## Example
+     *  Show red polygons with a white outline that opens a page when clicked.
+     * ```html
+     * <kortxyz-maplibre>
+     *    <kortxyz-maplibre-source>
+     *        <kortxyz-maplibre-layer
+     *            type="line"
+     *            paint="{line-color:white}"
+     *        ></kortxyz-maplibre-layer>
+     *        <kortxyz-maplibre-layer
+     *            type="fill"
+     *            paint="{fill-color:red}"
+     *            clicklink="https://example.com/{placename}"
+     *        ></kortxyz-maplibre-layer>
+     *    </kortxyz-maplibre-source>
+     * </kortxyz-maplibre>
+     * ```
+     */
     interface KortxyzMaplibreLayer {
         /**
           * (optional) When clicking a feature a new webpage is opened with the link prop. {} can be used to replace with a attribute. https://mypage.org/{ATTRIBUTENAME}
@@ -99,6 +170,32 @@ export namespace Components {
          */
         "url": string;
     }
+    /**
+     * ## Intro
+     * Webcomponent load a new source into a kortxyz-maplibre component. Remember an ID to have a reference for the kortxyz-maplibre-layers component.
+     * ## Example
+     *  Load a geojson source
+     * ```html
+     * <kortxyz-maplibre>
+     *    <kortxyz-maplibre-source
+     *        id="afstemningsomraader"
+     *        data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson"
+     *    ></kortxyz-maplibre-source>
+     * <kortxyz-maplibre>
+     * ```
+     *  Load a raster source
+     * ```html
+     * <kortxyz-maplibre>
+     *    <kortxyz-maplibre-source
+     *        id="orto_foraar_webm"
+     *        type="raster"
+     *        tilesize="256" 
+     *        maxzoom="20" 
+     *        tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&token=<INSERT TOKEN>">
+     *    ></kortxyz-maplibre-source>
+     * <kortxyz-maplibre>
+     * ```
+     */
     interface KortxyzMaplibreSource {
         /**
           * add a layer without specifing it ONLY GEOJSON
@@ -146,6 +243,23 @@ declare global {
     interface HTMLKortxyzAggridElementEventMap {
         "rowClicked": any;
     }
+    /**
+     * ## Intro
+     * Webcomponent to show a table. A rowclicked event occurs when a row is clicked 
+     * ## Example
+     *  Get geojson from a datastore
+     * ```html
+     * <kortxyz-aggrid
+     * store="teststore"
+     * ></kortxyz-aggrid>
+     * ```
+     *  Get geojson from a url
+     * ```html
+     * <kortxyz-aggrid
+     * data="https://example.geojson"
+     * ></kortxyz-aggrid>
+     * ```
+     */
     interface HTMLKortxyzAggridElement extends Components.KortxyzAggrid, HTMLStencilElement {
         addEventListener<K extends keyof HTMLKortxyzAggridElementEventMap>(type: K, listener: (this: HTMLKortxyzAggridElement, ev: KortxyzAggridCustomEvent<HTMLKortxyzAggridElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -160,12 +274,44 @@ declare global {
         prototype: HTMLKortxyzAggridElement;
         new (): HTMLKortxyzAggridElement;
     };
+    /**
+     * ## Intro
+     * Webcomponent to store data that multiple components can use.
+     * ## Example
+     * ```html
+     * <kortxyz-datastore
+     * store="teststore"
+     * data="https://example.geojson"
+     * ></kortxyz-datastore>
+     * ```
+     */
     interface HTMLKortxyzDatastoreElement extends Components.KortxyzDatastore, HTMLStencilElement {
     }
     var HTMLKortxyzDatastoreElement: {
         prototype: HTMLKortxyzDatastoreElement;
         new (): HTMLKortxyzDatastoreElement;
     };
+    /**
+     * ## Intro
+     * Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
+     * ## Example
+     *  Show a demo map 
+     * ```html
+     * <kortxyz-maplibre 
+     *     style="width:100%;height: 200px;display:block"
+     *     mapstyle='https://demotiles.maplibre.org/style.json'
+     * ></kortxyz-maplibre>
+     * ```
+     *  Show a map on top a official basemap
+     * ```html
+     * <kortxyz-maplibre 
+     *     style="width:100%;height:500px;display:block;background: whitesmoke;"
+     *     bbox="[12.40100150309453,55.6008931492048,12.28220098836423,55.63638904335573]"
+     *     mapstyle="./assets/skoledistrikter2024.json"
+     *     basemapstyle="https://raw.githubusercontent.com/SDFIdk/vector_tiles_assets/refs/heads/main/styles/official/3857_skaermkort_graa.json"
+     * ></kortxyz-maplibre>
+     * ```
+     */
     interface HTMLKortxyzMaplibreElement extends Components.KortxyzMaplibre, HTMLStencilElement {
     }
     var HTMLKortxyzMaplibreElement: {
@@ -175,6 +321,28 @@ declare global {
     interface HTMLKortxyzMaplibreLayerElementEventMap {
         "featureClicked": any;
     }
+    /**
+     * ## Intro
+     * Webcomponent to load a maplibre layer inside a maplibre source. The layer can be made click interactive be using either clicklink or the popup properties.
+     * Paint and Layout properties follow [MapLibre Style Spec](https://maplibre.org/maplibre-style-spec/layers/).
+     * ## Example
+     *  Show red polygons with a white outline that opens a page when clicked.
+     * ```html
+     * <kortxyz-maplibre>
+     *    <kortxyz-maplibre-source>
+     *        <kortxyz-maplibre-layer
+     *            type="line"
+     *            paint="{line-color:white}"
+     *        ></kortxyz-maplibre-layer>
+     *        <kortxyz-maplibre-layer
+     *            type="fill"
+     *            paint="{fill-color:red}"
+     *            clicklink="https://example.com/{placename}"
+     *        ></kortxyz-maplibre-layer>
+     *    </kortxyz-maplibre-source>
+     * </kortxyz-maplibre>
+     * ```
+     */
     interface HTMLKortxyzMaplibreLayerElement extends Components.KortxyzMaplibreLayer, HTMLStencilElement {
         addEventListener<K extends keyof HTMLKortxyzMaplibreLayerElementEventMap>(type: K, listener: (this: HTMLKortxyzMaplibreLayerElement, ev: KortxyzMaplibreLayerCustomEvent<HTMLKortxyzMaplibreLayerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -208,6 +376,32 @@ declare global {
         prototype: HTMLKortxyzMaplibreSearchboxElement;
         new (): HTMLKortxyzMaplibreSearchboxElement;
     };
+    /**
+     * ## Intro
+     * Webcomponent load a new source into a kortxyz-maplibre component. Remember an ID to have a reference for the kortxyz-maplibre-layers component.
+     * ## Example
+     *  Load a geojson source
+     * ```html
+     * <kortxyz-maplibre>
+     *    <kortxyz-maplibre-source
+     *        id="afstemningsomraader"
+     *        data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson"
+     *    ></kortxyz-maplibre-source>
+     * <kortxyz-maplibre>
+     * ```
+     *  Load a raster source
+     * ```html
+     * <kortxyz-maplibre>
+     *    <kortxyz-maplibre-source
+     *        id="orto_foraar_webm"
+     *        type="raster"
+     *        tilesize="256" 
+     *        maxzoom="20" 
+     *        tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&token=<INSERT TOKEN>">
+     *    ></kortxyz-maplibre-source>
+     * <kortxyz-maplibre>
+     * ```
+     */
     interface HTMLKortxyzMaplibreSourceElement extends Components.KortxyzMaplibreSource, HTMLStencilElement {
     }
     var HTMLKortxyzMaplibreSourceElement: {
@@ -224,6 +418,23 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    /**
+     * ## Intro
+     * Webcomponent to show a table. A rowclicked event occurs when a row is clicked 
+     * ## Example
+     *  Get geojson from a datastore
+     * ```html
+     * <kortxyz-aggrid
+     * store="teststore"
+     * ></kortxyz-aggrid>
+     * ```
+     *  Get geojson from a url
+     * ```html
+     * <kortxyz-aggrid
+     * data="https://example.geojson"
+     * ></kortxyz-aggrid>
+     * ```
+     */
     interface KortxyzAggrid {
         /**
           * Fetch data from a url
@@ -238,6 +449,17 @@ declare namespace LocalJSX {
          */
         "store"?: string;
     }
+    /**
+     * ## Intro
+     * Webcomponent to store data that multiple components can use.
+     * ## Example
+     * ```html
+     * <kortxyz-datastore
+     * store="teststore"
+     * data="https://example.geojson"
+     * ></kortxyz-datastore>
+     * ```
+     */
     interface KortxyzDatastore {
         /**
           * URL to the data to be fetch into the Store AA
@@ -248,6 +470,27 @@ declare namespace LocalJSX {
          */
         "store"?: string;
     }
+    /**
+     * ## Intro
+     * Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
+     * ## Example
+     *  Show a demo map 
+     * ```html
+     * <kortxyz-maplibre 
+     *     style="width:100%;height: 200px;display:block"
+     *     mapstyle='https://demotiles.maplibre.org/style.json'
+     * ></kortxyz-maplibre>
+     * ```
+     *  Show a map on top a official basemap
+     * ```html
+     * <kortxyz-maplibre 
+     *     style="width:100%;height:500px;display:block;background: whitesmoke;"
+     *     bbox="[12.40100150309453,55.6008931492048,12.28220098836423,55.63638904335573]"
+     *     mapstyle="./assets/skoledistrikter2024.json"
+     *     basemapstyle="https://raw.githubusercontent.com/SDFIdk/vector_tiles_assets/refs/heads/main/styles/official/3857_skaermkort_graa.json"
+     * ></kortxyz-maplibre>
+     * ```
+     */
     interface KortxyzMaplibre {
         "basemapstyle"?: maplibregl.StyleSpecification | string;
         "bbox"?: string;
@@ -260,6 +503,28 @@ declare namespace LocalJSX {
         "showTileBoundaries"?: boolean;
         "zoom"?: number;
     }
+    /**
+     * ## Intro
+     * Webcomponent to load a maplibre layer inside a maplibre source. The layer can be made click interactive be using either clicklink or the popup properties.
+     * Paint and Layout properties follow [MapLibre Style Spec](https://maplibre.org/maplibre-style-spec/layers/).
+     * ## Example
+     *  Show red polygons with a white outline that opens a page when clicked.
+     * ```html
+     * <kortxyz-maplibre>
+     *    <kortxyz-maplibre-source>
+     *        <kortxyz-maplibre-layer
+     *            type="line"
+     *            paint="{line-color:white}"
+     *        ></kortxyz-maplibre-layer>
+     *        <kortxyz-maplibre-layer
+     *            type="fill"
+     *            paint="{fill-color:red}"
+     *            clicklink="https://example.com/{placename}"
+     *        ></kortxyz-maplibre-layer>
+     *    </kortxyz-maplibre-source>
+     * </kortxyz-maplibre>
+     * ```
+     */
     interface KortxyzMaplibreLayer {
         /**
           * (optional) When clicking a feature a new webpage is opened with the link prop. {} can be used to replace with a attribute. https://mypage.org/{ATTRIBUTENAME}
@@ -325,6 +590,32 @@ declare namespace LocalJSX {
          */
         "url"?: string;
     }
+    /**
+     * ## Intro
+     * Webcomponent load a new source into a kortxyz-maplibre component. Remember an ID to have a reference for the kortxyz-maplibre-layers component.
+     * ## Example
+     *  Load a geojson source
+     * ```html
+     * <kortxyz-maplibre>
+     *    <kortxyz-maplibre-source
+     *        id="afstemningsomraader"
+     *        data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson"
+     *    ></kortxyz-maplibre-source>
+     * <kortxyz-maplibre>
+     * ```
+     *  Load a raster source
+     * ```html
+     * <kortxyz-maplibre>
+     *    <kortxyz-maplibre-source
+     *        id="orto_foraar_webm"
+     *        type="raster"
+     *        tilesize="256" 
+     *        maxzoom="20" 
+     *        tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&token=<INSERT TOKEN>">
+     *    ></kortxyz-maplibre-source>
+     * <kortxyz-maplibre>
+     * ```
+     */
     interface KortxyzMaplibreSource {
         /**
           * add a layer without specifing it ONLY GEOJSON
@@ -372,9 +663,80 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            /**
+             * ## Intro
+             * Webcomponent to show a table. A rowclicked event occurs when a row is clicked 
+             * ## Example
+             *  Get geojson from a datastore
+             * ```html
+             * <kortxyz-aggrid
+             * store="teststore"
+             * ></kortxyz-aggrid>
+             * ```
+             *  Get geojson from a url
+             * ```html
+             * <kortxyz-aggrid
+             * data="https://example.geojson"
+             * ></kortxyz-aggrid>
+             * ```
+             */
             "kortxyz-aggrid": LocalJSX.KortxyzAggrid & JSXBase.HTMLAttributes<HTMLKortxyzAggridElement>;
+            /**
+             * ## Intro
+             * Webcomponent to store data that multiple components can use.
+             * ## Example
+             * ```html
+             * <kortxyz-datastore
+             * store="teststore"
+             * data="https://example.geojson"
+             * ></kortxyz-datastore>
+             * ```
+             */
             "kortxyz-datastore": LocalJSX.KortxyzDatastore & JSXBase.HTMLAttributes<HTMLKortxyzDatastoreElement>;
+            /**
+             * ## Intro
+             * Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
+             * ## Example
+             *  Show a demo map 
+             * ```html
+             * <kortxyz-maplibre 
+             *     style="width:100%;height: 200px;display:block"
+             *     mapstyle='https://demotiles.maplibre.org/style.json'
+             * ></kortxyz-maplibre>
+             * ```
+             *  Show a map on top a official basemap
+             * ```html
+             * <kortxyz-maplibre 
+             *     style="width:100%;height:500px;display:block;background: whitesmoke;"
+             *     bbox="[12.40100150309453,55.6008931492048,12.28220098836423,55.63638904335573]"
+             *     mapstyle="./assets/skoledistrikter2024.json"
+             *     basemapstyle="https://raw.githubusercontent.com/SDFIdk/vector_tiles_assets/refs/heads/main/styles/official/3857_skaermkort_graa.json"
+             * ></kortxyz-maplibre>
+             * ```
+             */
             "kortxyz-maplibre": LocalJSX.KortxyzMaplibre & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreElement>;
+            /**
+             * ## Intro
+             * Webcomponent to load a maplibre layer inside a maplibre source. The layer can be made click interactive be using either clicklink or the popup properties.
+             * Paint and Layout properties follow [MapLibre Style Spec](https://maplibre.org/maplibre-style-spec/layers/).
+             * ## Example
+             *  Show red polygons with a white outline that opens a page when clicked.
+             * ```html
+             * <kortxyz-maplibre>
+             *    <kortxyz-maplibre-source>
+             *        <kortxyz-maplibre-layer
+             *            type="line"
+             *            paint="{line-color:white}"
+             *        ></kortxyz-maplibre-layer>
+             *        <kortxyz-maplibre-layer
+             *            type="fill"
+             *            paint="{fill-color:red}"
+             *            clicklink="https://example.com/{placename}"
+             *        ></kortxyz-maplibre-layer>
+             *    </kortxyz-maplibre-source>
+             * </kortxyz-maplibre>
+             * ```
+             */
             "kortxyz-maplibre-layer": LocalJSX.KortxyzMaplibreLayer & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreLayerElement>;
             /**
              * ### Intro
@@ -390,6 +752,32 @@ declare module "@stencil/core" {
              * ```
              */
             "kortxyz-maplibre-searchbox": LocalJSX.KortxyzMaplibreSearchbox & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreSearchboxElement>;
+            /**
+             * ## Intro
+             * Webcomponent load a new source into a kortxyz-maplibre component. Remember an ID to have a reference for the kortxyz-maplibre-layers component.
+             * ## Example
+             *  Load a geojson source
+             * ```html
+             * <kortxyz-maplibre>
+             *    <kortxyz-maplibre-source
+             *        id="afstemningsomraader"
+             *        data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson"
+             *    ></kortxyz-maplibre-source>
+             * <kortxyz-maplibre>
+             * ```
+             *  Load a raster source
+             * ```html
+             * <kortxyz-maplibre>
+             *    <kortxyz-maplibre-source
+             *        id="orto_foraar_webm"
+             *        type="raster"
+             *        tilesize="256" 
+             *        maxzoom="20" 
+             *        tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&token=<INSERT TOKEN>">
+             *    ></kortxyz-maplibre-source>
+             * <kortxyz-maplibre>
+             * ```
+             */
             "kortxyz-maplibre-source": LocalJSX.KortxyzMaplibreSource & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreSourceElement>;
         }
     }

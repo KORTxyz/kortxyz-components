@@ -1,4 +1,8 @@
 # kortxyz-maplibre-layer
+<!-- Auto Generated Below -->
+
+
+## Overview
 
 ## Intro
 Webcomponent to load a maplibre layer inside a maplibre source. The layer can be made click interactive be using either clicklink or the popup properties.
@@ -7,25 +11,22 @@ Paint and Layout properties follow [MapLibre Style Spec](https://maplibre.org/ma
 
 
 ## Example
-* Show red polygons with a white outline that opens a page when clicked.
+ Show red polygons with a white outline that opens a page when clicked.
 ```html
 <kortxyz-maplibre>
-    <kortxyz-maplibre-source>
-        <kortxyz-maplibre-layer
-            type="line"
-            paint="{line-color:white}"
-        ></kortxyz-maplibre-layer>
-        <kortxyz-maplibre-layer
-            type="fill"
-            paint="{fill-color:red}"
-            clicklink="https://example.com/{placename}"
-        ></kortxyz-maplibre-layer>
-    </kortxyz-maplibre-source>
+   <kortxyz-maplibre-source>
+       <kortxyz-maplibre-layer
+           type="line"
+           paint="{line-color:white}"
+       ></kortxyz-maplibre-layer>
+       <kortxyz-maplibre-layer
+           type="fill"
+           paint="{fill-color:red}"
+           clicklink="https://example.com/{placename}"
+       ></kortxyz-maplibre-layer>
+   </kortxyz-maplibre-source>
 </kortxyz-maplibre>
 ```
-
-<!-- Auto Generated Below -->
-
 
 ## Properties
 
