@@ -71,7 +71,7 @@ export class KortxyzMaplibreSource {
   @Prop() fit: boolean = false;
 
   /** add a layer without specifing it ONLY GEOJSON */
-  @Prop() autolayers: boolean = false;
+  @Prop({mutable:true}) autolayers: boolean = false;
 
   private source: any = [];
 
@@ -143,9 +143,11 @@ export class KortxyzMaplibreSource {
   }
 
 
-  async componentDidLoad() {
+  async componentWillLoad() {
     const { map } = this.el.closest('kortxyz-maplibre');
     this.map = map;
+    
+    if(this.el.children.length == 0) this.autolayers = true;
 
     map.once('load', async () => {
       map.addSource(this.el.id, this.getSourceObject())
