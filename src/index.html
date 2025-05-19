@@ -31,13 +31,13 @@
 <body>
 
   <kortxyz-datastore store="items" style="visibility: hidden;"
-    data="https://demo.kort.xyz/collections/Vejmidte/items?f=json&limit=1000"
+    data="https://demo.kort.xyz/collections/vejmidte/items?f=json&limit=1000"
   ></kortxyz-datastore>
 
 
 
   <kortxyz-maplibre style="width:100%;display:block;background:whitesmoke;" center="[11,55]" zoom="15">
-    <kortxyz-maplibre-source id="items" type="geojson" store="items" fit autolayers></kortxyz-maplibre-source>
+    <kortxyz-maplibre-source id="items" type="geojson" store="items" fit></kortxyz-maplibre-source>
   </kortxyz-maplibre>
 
   <kortxyz-aggrid store="items"></kortxyz-aggrid>
