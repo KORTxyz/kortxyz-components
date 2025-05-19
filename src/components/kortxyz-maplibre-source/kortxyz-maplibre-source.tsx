@@ -175,7 +175,13 @@ export class KortxyzMaplibreSource {
           }
         });
       }
+      else if (this.type == "raster" && this.autolayers) {
+        let layerEl = document.createElement("kortxyz-maplibre-layer");
+            layerEl.id = this.el.id+"-raster";
+            layerEl.setAttribute("type", "raster");
 
+        this.el.appendChild(layerEl)
+      }
     });
 
   }
