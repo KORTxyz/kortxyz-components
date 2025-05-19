@@ -39,6 +39,8 @@ export class KortxyzMaplibreLayer {
   @Element() el: HTMLElement;
   map: MaplibreglMap;
 
+  @Prop() id  = Math.random().toString(36).substring(2,7);
+
   /** Layer to use from a vector tile source. Required for vector tile sources; prohibited for all other source types, including GeoJSON sources.  */
   @Prop() sourceLayer?: string;
 
@@ -91,7 +93,6 @@ export class KortxyzMaplibreLayer {
     }
 
   }
-
 
   initPopupLayer(popup) {
     this.map.on('mouseenter', this.el.id, () => this.map.getCanvas().style.cursor = 'pointer');
@@ -172,6 +173,5 @@ export class KortxyzMaplibreLayer {
 
 
   }
-
 
 }
