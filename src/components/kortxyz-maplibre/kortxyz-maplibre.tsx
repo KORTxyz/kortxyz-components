@@ -1,6 +1,6 @@
 import { Component, Host, Element, Prop, h } from '@stencil/core';
 
-import maplibregl from 'maplibre-gl';
+import maplibregl, { FullscreenControl, GeolocateControl, NavigationControl, ScaleControl } from 'maplibre-gl';
 
 import syncMaps from '@mapbox/mapbox-gl-sync-move';
 import { isMapboxURL, transformMapboxUrl } from 'maplibregl-mapbox-request-transformer';
@@ -50,7 +50,7 @@ export class KortxyzMaplibre {
 
   @Element() mapEl: HTMLElement;
 
-  /* Mapstyle for the main map */
+  /** Mapstyle for the main map */
   @Prop() mapstyle: maplibregl.StyleSpecification | string =
     {
       "version": 8,
@@ -63,32 +63,44 @@ export class KortxyzMaplibre {
       ]
     };
 
-  /* A mapstyle used as a basemap below the main map */
+  /** A mapstyle used as a basemap below the main map */
   @Prop() basemapstyle: maplibregl.StyleSpecification | string;
 
-  /* (optional) Mapboxkey if using styles from mapbox */
+  /** (optional) Mapboxkey if using styles from mapbox */
   @Prop() mapboxkey: string;
 
-  /* Disable normal gestures for not getting caught by scrolling  */
+  /** Disable normal gestures for not getting caught by scrolling  */
   @Prop() cooperativeGestures: boolean = false;
 
-  /* Start center of the map */
+  /** Start center of the map */
   @Prop() center: string = undefined;
 
-  /* Start zoom of the map */
+  /** Start zoom of the map */
   @Prop() zoom: number = undefined;
 
-  /* Start bounds of the map. [12.4,55.6,12.282,55.636] */
+  /** Start bounds of the map. [12.4,55.6,12.282,55.636] */
   @Prop() bbox: string = undefined;
 
-  /* Eanble a hoverpopup showing all features beneath the cursor */
+  /** Eanble a hoverpopup showing all features beneath the cursor */
   @Prop() hoverpopup: boolean;
 
-  /* Show the tilegrid */
+  /** Show the tilegrid */
   @Prop() showTileBoundaries: boolean = false;
 
-  /* Show the tilegrid */
+  /** Show a legend for the layers specified in the attibute. Empty if all layers.*/
   @Prop() legend: string | boolean = false;
+
+  /** Show navigation controls */
+  @Prop() navigation: boolean = false;
+
+  /** Show a button to locate the user */
+  @Prop() gps: boolean = false;
+
+  /** Show a button to toggle fullscreen */
+  @Prop() fullscreen: boolean = false;
+
+  /** Show a scalebar at the bottom */
+  @Prop() scalebar: boolean = false;
 
   async componentWillLoad() {
     interface CustomMapOptions extends maplibregl.MapOptions {
@@ -131,6 +143,12 @@ export class KortxyzMaplibre {
     }
 
     else this.map = new maplibregl.Map(mapOptions);
+
+    if(this.navigation) this.map.addControl(new NavigationControl({visualizePitch:true}));
+    if(this.gps) this.map.addControl(new GeolocateControl({positionOptions:{enableHighAccuracy:true },trackUserLocation:true}));
+    if(this.fullscreen) this.map.addControl(new FullscreenControl({container: document.querySelector('body')}));
+    if(this.scalebar) this.map.addControl(new ScaleControl());
+
 
     if(typeof this.legend == "string") {
       let legendOptions:LegendControlOptions = {highlight:true,toggler:true};
