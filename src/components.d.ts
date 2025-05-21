@@ -76,16 +76,62 @@ export namespace Components {
      * ```
      */
     interface KortxyzMaplibre {
+        /**
+          * A mapstyle used as a basemap below the main map
+         */
         "basemapstyle": maplibregl.StyleSpecification | string;
+        /**
+          * Start bounds of the map. [12.4,55.6,12.282,55.636]
+         */
         "bbox": string;
+        /**
+          * Start center of the map
+         */
         "center": string;
+        /**
+          * Disable normal gestures for not getting caught by scrolling
+         */
         "cooperativeGestures": boolean;
+        /**
+          * Show a button to toggle fullscreen
+         */
+        "fullscreen": boolean;
+        /**
+          * Show a button to locate the user
+         */
+        "gps": boolean;
+        /**
+          * Eanble a hoverpopup showing all features beneath the cursor
+         */
         "hoverpopup": boolean;
+        /**
+          * Show a legend for the layers specified in the attibute. Empty if all layers.
+         */
         "legend": string | boolean;
         "map": maplibregl.Map;
+        /**
+          * (optional) Mapboxkey if using styles from mapbox
+         */
         "mapboxkey": string;
+        /**
+          * Mapstyle for the main map
+         */
         "mapstyle": maplibregl.StyleSpecification | string;
+        /**
+          * Show navigation controls
+         */
+        "navigation": boolean;
+        /**
+          * Show a scalebar at the bottom
+         */
+        "scalebar": boolean;
+        /**
+          * Show the tilegrid
+         */
         "showTileBoundaries": boolean;
+        /**
+          * Start zoom of the map
+         */
         "zoom": number;
     }
     /**
@@ -499,16 +545,62 @@ declare namespace LocalJSX {
      * ```
      */
     interface KortxyzMaplibre {
+        /**
+          * A mapstyle used as a basemap below the main map
+         */
         "basemapstyle"?: maplibregl.StyleSpecification | string;
+        /**
+          * Start bounds of the map. [12.4,55.6,12.282,55.636]
+         */
         "bbox"?: string;
+        /**
+          * Start center of the map
+         */
         "center"?: string;
+        /**
+          * Disable normal gestures for not getting caught by scrolling
+         */
         "cooperativeGestures"?: boolean;
+        /**
+          * Show a button to toggle fullscreen
+         */
+        "fullscreen"?: boolean;
+        /**
+          * Show a button to locate the user
+         */
+        "gps"?: boolean;
+        /**
+          * Eanble a hoverpopup showing all features beneath the cursor
+         */
         "hoverpopup"?: boolean;
+        /**
+          * Show a legend for the layers specified in the attibute. Empty if all layers.
+         */
         "legend"?: string | boolean;
         "map"?: maplibregl.Map;
+        /**
+          * (optional) Mapboxkey if using styles from mapbox
+         */
         "mapboxkey"?: string;
+        /**
+          * Mapstyle for the main map
+         */
         "mapstyle"?: maplibregl.StyleSpecification | string;
+        /**
+          * Show navigation controls
+         */
+        "navigation"?: boolean;
+        /**
+          * Show a scalebar at the bottom
+         */
+        "scalebar"?: boolean;
+        /**
+          * Show the tilegrid
+         */
         "showTileBoundaries"?: boolean;
+        /**
+          * Start zoom of the map
+         */
         "zoom"?: number;
     }
     /**
