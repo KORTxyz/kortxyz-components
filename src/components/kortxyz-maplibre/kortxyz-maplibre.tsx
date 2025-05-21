@@ -7,6 +7,10 @@ import { isMapboxURL, transformMapboxUrl } from 'maplibregl-mapbox-request-trans
 
 import { initHoverPopup } from '../../utils/mapUtils';
 
+import LegendControl from 'mapboxgl-legend';
+import {LegendControlOptions} from 'mapboxgl-legend';
+
+
 /**
  
   ## Intro
@@ -83,7 +87,8 @@ export class KortxyzMaplibre {
   /* Show the tilegrid */
   @Prop() showTileBoundaries: boolean = false;
 
-
+  /* Show the tilegrid */
+  @Prop() legend: string | boolean = false;
 
   async componentWillLoad() {
     interface CustomMapOptions extends maplibregl.MapOptions {
@@ -126,6 +131,15 @@ export class KortxyzMaplibre {
     }
 
     else this.map = new maplibregl.Map(mapOptions);
+
+    if(typeof this.legend == "string") {
+      let legendOptions:LegendControlOptions = {highlight:true,toggler:true};
+      if(this.legend.length>0) legendOptions.layers = this.legend.split(",");
+
+      this.map.addControl(new LegendControl(legendOptions), 'bottom-right');
+    }
+    
+
     this.map.on('dataloading', () => this.mapEl.classList.add("loading"))
     this.map.on('idle', () => this.mapEl.classList.remove("loading"))
 

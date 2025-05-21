@@ -39,7 +39,7 @@ export class KortxyzMaplibreLayer {
   @Element() el: HTMLElement;
   map: MaplibreglMap;
 
-  @Prop() id  = Math.random().toString(36).substring(2,7);
+  @Prop() id = Math.random().toString(36).substring(2, 7);
 
   /** Layer to use from a vector tile source. Required for vector tile sources; prohibited for all other source types, including GeoJSON sources.  */
   @Prop() sourceLayer?: string;
@@ -54,8 +54,11 @@ export class KortxyzMaplibreLayer {
   @Prop() paint: any = {};
 
   /** Layout properties for the layer. */
-  @Prop() layout: any;
+  @Prop() layout: any = {};
 
+  /** Customize legend with a object like this {name:string,unit:string,labels:object (Map a value to a text that replaces it as a label) }*/
+  @Prop() legendMetadata: any = {} ;
+  
   /** (optional) When clicking a feature a Popup shows. Accept HTML and replacement of {} with a attribute. \<div>{placename}\</div>*/
   @Prop() popup: string | boolean;
 
@@ -67,8 +70,8 @@ export class KortxyzMaplibreLayer {
 
   @Listen('rowClicked', { target: 'window' })
   rowClickedHandler(event) {
-    
-    const parentEl:any = this.el.parentElement;
+
+    const parentEl: any = this.el.parentElement;
     if (event.detail.store == parentEl.store) {
 
       const coords: LngLatBoundsLike = (([x1, y1, x2, y2]) => [[x1, y1], [x2, y2]])(bbox(event.detail.geometry));
@@ -134,7 +137,6 @@ export class KortxyzMaplibreLayer {
 
   async componentDidLoad() {
     const { map } = this.el.closest('kortxyz-maplibre');
-
     this.map = map;
 
     const { id }: { id: string } = this.el.closest('kortxyz-maplibre-source');
@@ -143,9 +145,10 @@ export class KortxyzMaplibreLayer {
       'id': this.el.id,
       'type': this.type,
       'source': id,
-      'paint': typeof this.paint == "string" ? JSON.parse(this.paint) : this.paint
+      'paint': typeof this.paint == "string" ? JSON.parse(this.paint) : this.paint,
+      'layout': typeof this.layout == "string" ? JSON.parse(this.layout) : this.layout,
+      'metadata': typeof this.legendMetadata == "string" ? JSON.parse(this.legendMetadata) : this.legendMetadata,
     };
-
 
     if (this.sourceLayer) layerObject["source-layer"] = this.sourceLayer;
     if (this.filter) layerObject["filter"] = JSON.parse(this.filter);

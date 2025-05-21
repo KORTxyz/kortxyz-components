@@ -81,6 +81,7 @@ export namespace Components {
         "center": string;
         "cooperativeGestures": boolean;
         "hoverpopup": boolean;
+        "legend": string | boolean;
         "map": maplibregl.Map;
         "mapboxkey": string;
         "mapstyle": maplibregl.StyleSpecification | string;
@@ -123,6 +124,10 @@ export namespace Components {
           * Layout properties for the layer.
          */
         "layout": any;
+        /**
+          * Customize legend with a object like this {name:string,unit:string,labels:object (Map a value to a text that replaces it as a label) }
+         */
+        "legendMetadata": any;
         /**
           * Paint properties for the layer.
          */
@@ -499,6 +504,7 @@ declare namespace LocalJSX {
         "center"?: string;
         "cooperativeGestures"?: boolean;
         "hoverpopup"?: boolean;
+        "legend"?: string | boolean;
         "map"?: maplibregl.Map;
         "mapboxkey"?: string;
         "mapstyle"?: maplibregl.StyleSpecification | string;
@@ -541,6 +547,10 @@ declare namespace LocalJSX {
           * Layout properties for the layer.
          */
         "layout"?: any;
+        /**
+          * Customize legend with a object like this {name:string,unit:string,labels:object (Map a value to a text that replaces it as a label) }
+         */
+        "legendMetadata"?: any;
         /**
           * Emit the ID of the first feature clicked
          */
