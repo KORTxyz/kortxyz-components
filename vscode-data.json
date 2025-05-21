@@ -44,27 +44,35 @@
       "attributes": [
         {
           "name": "basemapstyle",
-          "description": ""
+          "description": "A mapstyle used as a basemap below the main map"
         },
         {
           "name": "bbox",
-          "description": ""
+          "description": "Start bounds of the map. [12.4,55.6,12.282,55.636]"
         },
         {
           "name": "center",
-          "description": ""
+          "description": "Start center of the map"
         },
         {
           "name": "cooperative-gestures",
-          "description": ""
+          "description": "Disable normal gestures for not getting caught by scrolling"
+        },
+        {
+          "name": "fullscreen",
+          "description": "Show a button to toggle fullscreen"
+        },
+        {
+          "name": "gps",
+          "description": "Show a button to locate the user"
         },
         {
           "name": "hoverpopup",
-          "description": ""
+          "description": "Eanble a hoverpopup showing all features beneath the cursor"
         },
         {
           "name": "legend",
-          "description": ""
+          "description": "Show a legend for the layers specified in the attibute. Empty if all layers."
         },
         {
           "name": "map",
@@ -72,19 +80,27 @@
         },
         {
           "name": "mapboxkey",
-          "description": ""
+          "description": "(optional) Mapboxkey if using styles from mapbox"
         },
         {
           "name": "mapstyle",
-          "description": ""
+          "description": "Mapstyle for the main map"
+        },
+        {
+          "name": "navigation",
+          "description": "Show navigation controls"
+        },
+        {
+          "name": "scalebar",
+          "description": "Show a scalebar at the bottom"
         },
         {
           "name": "show-tile-boundaries",
-          "description": ""
+          "description": "Show the tilegrid"
         },
         {
           "name": "zoom",
-          "description": ""
+          "description": "Start zoom of the map"
         }
       ]
     },
