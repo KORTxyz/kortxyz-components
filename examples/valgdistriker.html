@@ -6,12 +6,14 @@
 <kortxyz-maplibre 
     style="width:100%;height:600px;display:block"
     center="[12.34,55.616]" zoom="12"
+    legend="afstemningsområder"
 >
+
 <kortxyz-maplibre-searchbox resultzoom="" resulttype="click"></kortxyz-maplibre-searchbox>
 
 <kortxyz-maplibre-source id="afstemningsomraader" store="afstemningsomraader">
-<kortxyz-maplibre-layer  id="afstemningsomraader_line" type="line" paint='{"line-color":"white"}'></kortxyz-maplibre-layer>
-<kortxyz-maplibre-layer  id="afstemningsomraader" type="fill" 
+<kortxyz-maplibre-layer  id="afstemningsomraader_line" type="line" paint='{"line-color":"white","line-width":2}'></kortxyz-maplibre-layer>
+<kortxyz-maplibre-layer  id="afstemningsområder" type="fill" 
   paint='{
     "fill-color":["match",["get","navn"],
     "Ishøj Landsby","#d7191c",
@@ -28,6 +30,7 @@
     <a href='https://www.google.dk/maps/dir//{afstemningsstedadressebetegnelse}'>Find vej</a>
   </div>
   "
+  legend-metadata='{"labels":{"other":false}}'
 ></kortxyz-maplibre-layer>
 
 </kortxyz-maplibre-source>

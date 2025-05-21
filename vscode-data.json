@@ -63,6 +63,10 @@
           "description": ""
         },
         {
+          "name": "legend",
+          "description": ""
+        },
+        {
           "name": "map",
           "description": ""
         },
@@ -106,6 +110,10 @@
         {
           "name": "layout",
           "description": "Layout properties for the layer."
+        },
+        {
+          "name": "legend-metadata",
+          "description": "Customize legend with a object like this {name:string,unit:string,labels:object (Map a value to a text that replaces it as a label) }"
         },
         {
           "name": "paint",
