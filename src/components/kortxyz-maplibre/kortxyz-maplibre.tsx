@@ -154,7 +154,7 @@ export class KortxyzMaplibre {
       let legendOptions:LegendControlOptions = {highlight:true,toggler:true};
       if(this.legend.length>0) legendOptions.layers = this.legend.split(",");
 
-      this.map.addControl(new LegendControl(legendOptions), 'bottom-right');
+      this.map.addControl(new LegendControl(legendOptions) as unknown as maplibregl.IControl, 'bottom-right');
     }
     
 
