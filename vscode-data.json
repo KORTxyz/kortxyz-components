@@ -248,6 +248,84 @@
           ]
         }
       ]
+    },
+    {
+      "name": "kortxyz-tauchart",
+      "description": {
+        "kind": "markdown",
+        "value": "\r\n## Intro\r\nWebcomponent to visualise data on charts.\r\n\r\n## Example\r\n\r\n### From data url\r\n```html\r\n<kortxyz-tauchart\r\n  data=\"https://geodk.kort.xyz/collections/bygning/items?limit=100&properties=vertikalnoejagtighed,plannoejagtighed,planstedfaestelsesmetode\"\r\n  type=\"scatterplot\"\r\n  y=\"vertikalnoejagtighed\"\r\n  x=\"plannoejagtighed\"\r\n  color=\"planstedfaestelsesmetode\"\r\n  tooltip\r\n  legend\r\n></kortxyz-tauchart>\r\n```\r\n\r\n### From store\r\n```html\r\n<kortxyz-datastore style=\"visibility: hidden;\"\r\n  store=\"items\" \r\n  data=\"https://geodk.kort.xyz/collections/vejmidte/items?limit=7000&properties=Trafikart,Vejkategori,Vejmidtetype\"\r\n></kortxyz-datastore>\r\n\r\n<kortxyz-tauchart\r\n  store=\"items\"\r\n  type=\"horizontal-stacked-bar\"\r\n  y=\"vejkategori\"\r\n  x=\"count\"\r\n  color=\"trafikart\"\r\n  colorbrewer=\"Dark2\"\r\n  group-by-keys=\"trafikart,vejkategori,vejmidtetype\"\r\n  tooltip\r\n  legend\r\n></kortxyz-tauchart>\r\n```"
+      },
+      "attributes": [
+        {
+          "name": "color",
+          "description": "Attribute to use for color"
+        },
+        {
+          "name": "colorbrewer",
+          "description": "Colorscheme based on Colorbrewer2"
+        },
+        {
+          "name": "data",
+          "description": "Fetch data from a url"
+        },
+        {
+          "name": "group-by-keys",
+          "description": "Group data by these keys returning a attribute called \"count\""
+        },
+        {
+          "name": "legend",
+          "description": "Add a legend"
+        },
+        {
+          "name": "store",
+          "description": "Fetch data from a store"
+        },
+        {
+          "name": "tooltip",
+          "description": "Show tooltips on hover"
+        },
+        {
+          "name": "type",
+          "description": "Type of chart",
+          "values": [
+            {
+              "name": "bar"
+            },
+            {
+              "name": "horizontal-bar"
+            },
+            {
+              "name": "horizontal-stacked-bar"
+            },
+            {
+              "name": "line"
+            },
+            {
+              "name": "map"
+            },
+            {
+              "name": "parallel"
+            },
+            {
+              "name": "scatterplot"
+            },
+            {
+              "name": "stacked-area"
+            },
+            {
+              "name": "stacked-bar"
+            }
+          ]
+        },
+        {
+          "name": "x",
+          "description": "Attribute to use on the x axis"
+        },
+        {
+          "name": "y",
+          "description": "Attribute to use on the y axis"
+        }
+      ]
     }
   ]
 }

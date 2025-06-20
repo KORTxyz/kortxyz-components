@@ -285,22 +285,46 @@ export namespace Components {
     }
     /**
      * ## Intro
-     * Webcomponent to store data that multiple components can use.
+     * Webcomponent to visualise data on charts.
      * ## Example
+     * ### From data url
      * ```html
-     * <kortxyz-datastore
-     * store="teststore"
-     * data="https://example.geojson"
+     * <kortxyz-tauchart
+     *   data="https://geodk.kort.xyz/collections/bygning/items?limit=100&properties=vertikalnoejagtighed,plannoejagtighed,planstedfaestelsesmetode"
+     *   type="scatterplot"
+     *   y="vertikalnoejagtighed"
+     *   x="plannoejagtighed"
+     *   color="planstedfaestelsesmetode"
+     *   tooltip
+     *   legend
+     * ></kortxyz-tauchart>
+     * ```
+     * ### From store
+     * ```html
+     * <kortxyz-datastore style="visibility: hidden;"
+     *   store="items" 
+     *   data="https://geodk.kort.xyz/collections/vejmidte/items?limit=7000&properties=Trafikart,Vejkategori,Vejmidtetype"
      * ></kortxyz-datastore>
+     * <kortxyz-tauchart
+     *   store="items"
+     *   type="horizontal-stacked-bar"
+     *   y="vejkategori"
+     *   x="count"
+     *   color="trafikart"
+     *   colorbrewer="Dark2"
+     *   group-by-keys="trafikart,vejkategori,vejmidtetype"
+     *   tooltip
+     *   legend
+     * ></kortxyz-tauchart>
      * ```
      */
     interface KortxyzTauchart {
         /**
-          * Fetch data from a store
+          * Attribute to use for color
          */
         "color": string;
         /**
-          * Fetch data from a store
+          * Colorscheme based on Colorbrewer2
          */
         "colorbrewer": string;
         /**
@@ -308,7 +332,7 @@ export namespace Components {
          */
         "data": string;
         /**
-          * Fetch data from a store
+          * Group data by these keys returning a attribute called "count"
          */
         "groupByKeys": string;
         /**
@@ -324,15 +348,15 @@ export namespace Components {
          */
         "tooltip": boolean;
         /**
-          * Fetch data from a store
+          * Type of chart
          */
         "type": "map" | "bar" | "horizontal-bar" | "horizontal-stacked-bar" | "line" | "parallel" | "scatterplot" | "stacked-area" | "stacked-bar";
         /**
-          * Fetch data from a store
+          * Attribute to use on the x axis
          */
         "x": string;
         /**
-          * Fetch data from a store
+          * Attribute to use on the y axis
          */
         "y": string;
     }
@@ -516,13 +540,37 @@ declare global {
     };
     /**
      * ## Intro
-     * Webcomponent to store data that multiple components can use.
+     * Webcomponent to visualise data on charts.
      * ## Example
+     * ### From data url
      * ```html
-     * <kortxyz-datastore
-     * store="teststore"
-     * data="https://example.geojson"
+     * <kortxyz-tauchart
+     *   data="https://geodk.kort.xyz/collections/bygning/items?limit=100&properties=vertikalnoejagtighed,plannoejagtighed,planstedfaestelsesmetode"
+     *   type="scatterplot"
+     *   y="vertikalnoejagtighed"
+     *   x="plannoejagtighed"
+     *   color="planstedfaestelsesmetode"
+     *   tooltip
+     *   legend
+     * ></kortxyz-tauchart>
+     * ```
+     * ### From store
+     * ```html
+     * <kortxyz-datastore style="visibility: hidden;"
+     *   store="items" 
+     *   data="https://geodk.kort.xyz/collections/vejmidte/items?limit=7000&properties=Trafikart,Vejkategori,Vejmidtetype"
      * ></kortxyz-datastore>
+     * <kortxyz-tauchart
+     *   store="items"
+     *   type="horizontal-stacked-bar"
+     *   y="vejkategori"
+     *   x="count"
+     *   color="trafikart"
+     *   colorbrewer="Dark2"
+     *   group-by-keys="trafikart,vejkategori,vejmidtetype"
+     *   tooltip
+     *   legend
+     * ></kortxyz-tauchart>
      * ```
      */
     interface HTMLKortxyzTauchartElement extends Components.KortxyzTauchart, HTMLStencilElement {
@@ -829,22 +877,46 @@ declare namespace LocalJSX {
     }
     /**
      * ## Intro
-     * Webcomponent to store data that multiple components can use.
+     * Webcomponent to visualise data on charts.
      * ## Example
+     * ### From data url
      * ```html
-     * <kortxyz-datastore
-     * store="teststore"
-     * data="https://example.geojson"
+     * <kortxyz-tauchart
+     *   data="https://geodk.kort.xyz/collections/bygning/items?limit=100&properties=vertikalnoejagtighed,plannoejagtighed,planstedfaestelsesmetode"
+     *   type="scatterplot"
+     *   y="vertikalnoejagtighed"
+     *   x="plannoejagtighed"
+     *   color="planstedfaestelsesmetode"
+     *   tooltip
+     *   legend
+     * ></kortxyz-tauchart>
+     * ```
+     * ### From store
+     * ```html
+     * <kortxyz-datastore style="visibility: hidden;"
+     *   store="items" 
+     *   data="https://geodk.kort.xyz/collections/vejmidte/items?limit=7000&properties=Trafikart,Vejkategori,Vejmidtetype"
      * ></kortxyz-datastore>
+     * <kortxyz-tauchart
+     *   store="items"
+     *   type="horizontal-stacked-bar"
+     *   y="vejkategori"
+     *   x="count"
+     *   color="trafikart"
+     *   colorbrewer="Dark2"
+     *   group-by-keys="trafikart,vejkategori,vejmidtetype"
+     *   tooltip
+     *   legend
+     * ></kortxyz-tauchart>
      * ```
      */
     interface KortxyzTauchart {
         /**
-          * Fetch data from a store
+          * Attribute to use for color
          */
         "color"?: string;
         /**
-          * Fetch data from a store
+          * Colorscheme based on Colorbrewer2
          */
         "colorbrewer"?: string;
         /**
@@ -852,7 +924,7 @@ declare namespace LocalJSX {
          */
         "data"?: string;
         /**
-          * Fetch data from a store
+          * Group data by these keys returning a attribute called "count"
          */
         "groupByKeys"?: string;
         /**
@@ -868,15 +940,15 @@ declare namespace LocalJSX {
          */
         "tooltip"?: boolean;
         /**
-          * Fetch data from a store
+          * Type of chart
          */
         "type"?: "map" | "bar" | "horizontal-bar" | "horizontal-stacked-bar" | "line" | "parallel" | "scatterplot" | "stacked-area" | "stacked-bar";
         /**
-          * Fetch data from a store
+          * Attribute to use on the x axis
          */
         "x"?: string;
         /**
-          * Fetch data from a store
+          * Attribute to use on the y axis
          */
         "y"?: string;
     }
@@ -1012,13 +1084,37 @@ declare module "@stencil/core" {
             "kortxyz-maplibre-source": LocalJSX.KortxyzMaplibreSource & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreSourceElement>;
             /**
              * ## Intro
-             * Webcomponent to store data that multiple components can use.
+             * Webcomponent to visualise data on charts.
              * ## Example
+             * ### From data url
              * ```html
-             * <kortxyz-datastore
-             * store="teststore"
-             * data="https://example.geojson"
+             * <kortxyz-tauchart
+             *   data="https://geodk.kort.xyz/collections/bygning/items?limit=100&properties=vertikalnoejagtighed,plannoejagtighed,planstedfaestelsesmetode"
+             *   type="scatterplot"
+             *   y="vertikalnoejagtighed"
+             *   x="plannoejagtighed"
+             *   color="planstedfaestelsesmetode"
+             *   tooltip
+             *   legend
+             * ></kortxyz-tauchart>
+             * ```
+             * ### From store
+             * ```html
+             * <kortxyz-datastore style="visibility: hidden;"
+             *   store="items" 
+             *   data="https://geodk.kort.xyz/collections/vejmidte/items?limit=7000&properties=Trafikart,Vejkategori,Vejmidtetype"
              * ></kortxyz-datastore>
+             * <kortxyz-tauchart
+             *   store="items"
+             *   type="horizontal-stacked-bar"
+             *   y="vejkategori"
+             *   x="count"
+             *   color="trafikart"
+             *   colorbrewer="Dark2"
+             *   group-by-keys="trafikart,vejkategori,vejmidtetype"
+             *   tooltip
+             *   legend
+             * ></kortxyz-tauchart>
              * ```
              */
             "kortxyz-tauchart": LocalJSX.KortxyzTauchart & JSXBase.HTMLAttributes<HTMLKortxyzTauchartElement>;
