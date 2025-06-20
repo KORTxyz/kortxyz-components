@@ -1,4 +1,5 @@
 import { Component, Element, Prop } from '@stencil/core';
+import { FeatureCollection } from 'geojson';
 
 import Taucharts from 'taucharts';
 
@@ -34,6 +35,8 @@ import { getStore } from '../../utils/store';
 export class KortxyzTauchart {
   @Element() chartEl: HTMLElement;
 
+  private chart: any;
+
   private loading: boolean = true;
 
   /** Fetch data from a url */
@@ -66,29 +69,35 @@ export class KortxyzTauchart {
   /** Add a legend */
   @Prop() legend: boolean = false;
 
-  async componentDidLoad() {
-    let geojson
 
-    if (this.data) {
-      const res = await fetch(this.data);
-      if (!res.ok) throw new Error(`An error has occured: ${res.status}`);
-      geojson = await res.json();
-    }
-    else if (this.store) {
-      while (this.loading) {
-        const datastore = getStore(this.store);
-        if (datastore == undefined) await new Promise(r => setTimeout(r, 200));
+  fetchfromStore = async () => {
+    let geojson 
+    while (this.loading) {
+      const datastore = getStore(this.store);
+      if (datastore == undefined) await new Promise(r => setTimeout(r, 200));
+      else {
+        if (!datastore) return;
+        geojson = datastore.get("data");
+        if (!geojson.features) await new Promise(r => setTimeout(r, 200));
         else {
-          if (!datastore) return;
-          geojson = datastore.get("data");
-          if (!geojson.features) await new Promise(r => setTimeout(r, 200));
-          else this.loading = false;
-        }
+          this.loading = false;
+          datastore.onChange("data", (e) => this.chart.setData(this.refactorData(e)))}
       }
     }
+    
+    return geojson;
+  }
 
+
+  fetchfromURL = async (url) => {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`An error has occured: ${res.status}`);
+    return await res.json();
+  }
+
+
+  refactorData = (geojson: FeatureCollection) => {
     const properties = geojson.features.map(e => ({ ...e.properties }))
-
     const groupByKeys = this.groupByKeys.split(",");
 
     const dataset = Object.values(properties.reduce((acc, e) => (
@@ -99,12 +108,23 @@ export class KortxyzTauchart {
       )
     )(groupByKeys.map(k => e[k]).join('|')), {}));
 
-    let plugins = [
-    ];
+    return dataset
+  }
+
+
+  async componentDidLoad() {
+    let geojson
+
+    if (this.data) geojson = await this.fetchfromURL(this.data)
+    else if (this.store) geojson = await this.fetchfromStore()
+    
+    const dataset = this.refactorData(geojson)
+
+    let plugins = [];
     if (this.tooltip) plugins.push(Taucharts.api.plugins.get('tooltip')());
     if (this.legend) plugins.push(Taucharts.api.plugins.get('legend')());
 
-    const chart = new Taucharts.Chart({
+    this.chart = new Taucharts.Chart({
       data: dataset,
       type: this.type,
       y: this.y,
@@ -122,8 +142,8 @@ export class KortxyzTauchart {
       }
     });
 
-    chart.renderTo(this.chartEl);
-    chart.refresh();
+    this.chart.renderTo(this.chartEl);
+    this.chart.refresh();
 
   }
 

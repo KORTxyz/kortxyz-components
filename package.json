@@ -46,10 +46,14 @@
     "@types/mapbox-gl": "^3.4.1",
     "ag-grid-community": "^33.2.3",
     "chart.js": "^4.4.9",
-    "d3-color": "^3.1.0",
     "mapboxgl-legend": "^1.15.0",
     "maplibre-gl": "^5.3.1",
     "maplibregl-mapbox-request-transformer": "^0.0.2",
     "taucharts": "^2.8.0"
+  },
+  "overrides": {
+    "taucharts": {
+      "d3-color": "3.1.0"
+    }
   }
 }
