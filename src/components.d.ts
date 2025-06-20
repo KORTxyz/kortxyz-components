@@ -283,6 +283,59 @@ export namespace Components {
          */
         "type": 'vector' | 'geojson' | 'raster';
     }
+    /**
+     * ## Intro
+     * Webcomponent to store data that multiple components can use.
+     * ## Example
+     * ```html
+     * <kortxyz-datastore
+     * store="teststore"
+     * data="https://example.geojson"
+     * ></kortxyz-datastore>
+     * ```
+     */
+    interface KortxyzTauchart {
+        /**
+          * Fetch data from a store
+         */
+        "color": string;
+        /**
+          * Fetch data from a store
+         */
+        "colorbrewer": string;
+        /**
+          * Fetch data from a url
+         */
+        "data": string;
+        /**
+          * Fetch data from a store
+         */
+        "groupByKeys": string;
+        /**
+          * Add a legend
+         */
+        "legend": boolean;
+        /**
+          * Fetch data from a store
+         */
+        "store": string;
+        /**
+          * Show tooltips on hover
+         */
+        "tooltip": boolean;
+        /**
+          * Fetch data from a store
+         */
+        "type": "map" | "bar" | "horizontal-bar" | "horizontal-stacked-bar" | "line" | "parallel" | "scatterplot" | "stacked-area" | "stacked-bar";
+        /**
+          * Fetch data from a store
+         */
+        "x": string;
+        /**
+          * Fetch data from a store
+         */
+        "y": string;
+    }
 }
 export interface KortxyzAggridCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -461,6 +514,23 @@ declare global {
         prototype: HTMLKortxyzMaplibreSourceElement;
         new (): HTMLKortxyzMaplibreSourceElement;
     };
+    /**
+     * ## Intro
+     * Webcomponent to store data that multiple components can use.
+     * ## Example
+     * ```html
+     * <kortxyz-datastore
+     * store="teststore"
+     * data="https://example.geojson"
+     * ></kortxyz-datastore>
+     * ```
+     */
+    interface HTMLKortxyzTauchartElement extends Components.KortxyzTauchart, HTMLStencilElement {
+    }
+    var HTMLKortxyzTauchartElement: {
+        prototype: HTMLKortxyzTauchartElement;
+        new (): HTMLKortxyzTauchartElement;
+    };
     interface HTMLElementTagNameMap {
         "kortxyz-aggrid": HTMLKortxyzAggridElement;
         "kortxyz-datastore": HTMLKortxyzDatastoreElement;
@@ -468,6 +538,7 @@ declare global {
         "kortxyz-maplibre-layer": HTMLKortxyzMaplibreLayerElement;
         "kortxyz-maplibre-searchbox": HTMLKortxyzMaplibreSearchboxElement;
         "kortxyz-maplibre-source": HTMLKortxyzMaplibreSourceElement;
+        "kortxyz-tauchart": HTMLKortxyzTauchartElement;
     }
 }
 declare namespace LocalJSX {
@@ -756,6 +827,59 @@ declare namespace LocalJSX {
          */
         "type"?: 'vector' | 'geojson' | 'raster';
     }
+    /**
+     * ## Intro
+     * Webcomponent to store data that multiple components can use.
+     * ## Example
+     * ```html
+     * <kortxyz-datastore
+     * store="teststore"
+     * data="https://example.geojson"
+     * ></kortxyz-datastore>
+     * ```
+     */
+    interface KortxyzTauchart {
+        /**
+          * Fetch data from a store
+         */
+        "color"?: string;
+        /**
+          * Fetch data from a store
+         */
+        "colorbrewer"?: string;
+        /**
+          * Fetch data from a url
+         */
+        "data"?: string;
+        /**
+          * Fetch data from a store
+         */
+        "groupByKeys"?: string;
+        /**
+          * Add a legend
+         */
+        "legend"?: boolean;
+        /**
+          * Fetch data from a store
+         */
+        "store"?: string;
+        /**
+          * Show tooltips on hover
+         */
+        "tooltip"?: boolean;
+        /**
+          * Fetch data from a store
+         */
+        "type"?: "map" | "bar" | "horizontal-bar" | "horizontal-stacked-bar" | "line" | "parallel" | "scatterplot" | "stacked-area" | "stacked-bar";
+        /**
+          * Fetch data from a store
+         */
+        "x"?: string;
+        /**
+          * Fetch data from a store
+         */
+        "y"?: string;
+    }
     interface IntrinsicElements {
         "kortxyz-aggrid": KortxyzAggrid;
         "kortxyz-datastore": KortxyzDatastore;
@@ -763,6 +887,7 @@ declare namespace LocalJSX {
         "kortxyz-maplibre-layer": KortxyzMaplibreLayer;
         "kortxyz-maplibre-searchbox": KortxyzMaplibreSearchbox;
         "kortxyz-maplibre-source": KortxyzMaplibreSource;
+        "kortxyz-tauchart": KortxyzTauchart;
     }
 }
 export { LocalJSX as JSX };
@@ -885,6 +1010,18 @@ declare module "@stencil/core" {
              * ```
              */
             "kortxyz-maplibre-source": LocalJSX.KortxyzMaplibreSource & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreSourceElement>;
+            /**
+             * ## Intro
+             * Webcomponent to store data that multiple components can use.
+             * ## Example
+             * ```html
+             * <kortxyz-datastore
+             * store="teststore"
+             * data="https://example.geojson"
+             * ></kortxyz-datastore>
+             * ```
+             */
+            "kortxyz-tauchart": LocalJSX.KortxyzTauchart & JSXBase.HTMLAttributes<HTMLKortxyzTauchartElement>;
         }
     }
 }

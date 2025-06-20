@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+  <title>Stencil Component Starter</title>
+
+  <script type="module" src="/build/kortxyz-components.esm.js"></script>
+  <link rel="stylesheet" href="/build/kortxyz-components.css" />
+
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    kortxyz-maplibre {
+      flex: 1;
+    }
+
+    kortxyz-aggrid {
+      flex: 300px 0 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <kortxyz-datastore store="items" style="visibility: hidden;"
+    data="https://demo.kort.xyz/collections/vejmidte/items?f=json&limit=10000"></kortxyz-datastore>
+
+
+
+  <kortxyz-maplibre style="width:100%;display:block;background:whitesmoke;" center="[11,55]" zoom="15" navigation gps fullscreen scalebar legend="Vejtyper"
+    mapstyle="https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_moerkt.json?token=bfe350080dc1da9dbb948d6fd59a8e96"
+
+>
+    <kortxyz-maplibre-source id="test" type="geojson" store="items" fit >
+      <kortxyz-maplibre-layer id="Vejtyper" type="line" popup paint='{"line-color": [
+            "match",
+            ["get", "vejmidtetype"],
+            "Sti", "red",
+            "Vej", "green",
+            "#ccc"
+          ],"line-width": [
+            "match",
+            ["get", "vejmidtetype"],
+            "Sti", 1,
+            "Vej", 3,
+            0
+          ]}'
+          legend-metadata='{
+            "name":"Vej type",
+            "labels":{
+              "other":false
+            }
+          }'>
+      </kortxyz-maplibre-layer>
+
+    </kortxyz-maplibre-source>
+
+    <kortxyz-maplibre-source id="skov" type="geojson"
+      data="https://demo.kort.xyz/collections/skov/items?f=json&limit=200&properties=anvendelse" fit>
+      <kortxyz-maplibre-layer id="skov" type="fill" layout='{
+          "visibility":"none"
+        }' paint='{"fill-color": [
+            "match",
+            ["get", "anvendelse"],
+            "Plantebælte", "lightgreen",
+            "Skov", "green",
+            "#ccc"
+          ]}'>
+      </kortxyz-maplibre-layer>
+    </kortxyz-maplibre-source>
+
+  </kortxyz-maplibre>
+
+  <kortxyz-aggrid store="items"></kortxyz-aggrid>
+
+
+</body>
+
+</html>

@@ -24,64 +24,32 @@
 
     kortxyz-aggrid {
       flex: 300px 0 0;
+    }    
+    
+    kortxyz-tauchart {
+      flex: 500px 0 0;
     }
   </style>
 </head>
 
 <body>
+  <kortxyz-datastore style="visibility: hidden;"
+    store="items" 
+    data="https://geodk.kort.xyz/collections/vejmidte/items?limit=7000&properties=Trafikart,Vejkategori,Vejmidtetype"
+  ></kortxyz-datastore>
 
-  <kortxyz-datastore store="items" style="visibility: hidden;"
-    data="https://demo.kort.xyz/collections/vejmidte/items?f=json&limit=10000"></kortxyz-datastore>
-
-
-
-  <kortxyz-maplibre style="width:100%;display:block;background:whitesmoke;" center="[11,55]" zoom="15" legend navigation gps fullscreen scalebar
->
-    <kortxyz-maplibre-source id="test" type="geojson" store="items" fit>
-      <kortxyz-maplibre-layer id="Vejtyper" type="line" paint='{"line-color": [
-            "match",
-            ["get", "vejmidtetype"],
-            "Sti", "red",
-            "Vej", "green",
-            "#ccc"
-          ],"line-width": [
-            "match",
-            ["get", "vejmidtetype"],
-            "Sti", 1,
-            "Vej", 3,
-            0
-          ]}'
-          legend-metadata='{
-            "name":"Vej type",
-            "labels":{
-              "other":false
-            }
-          }'>
-      </kortxyz-maplibre-layer>
-
-    </kortxyz-maplibre-source>
-
-    <kortxyz-maplibre-source id="skov" type="geojson"
-      data="https://demo.kort.xyz/collections/skov/items?f=json&limit=200&properties=anvendelse" fit>
-      <kortxyz-maplibre-layer id="skov" type="fill" layout='{
-          "visibility":"none"
-        }' paint='{"fill-color": [
-            "match",
-            ["get", "anvendelse"],
-            "Plantebælte", "lightgreen",
-            "Skov", "green",
-            "#ccc"
-          ]}'>
-      </kortxyz-maplibre-layer>
-    </kortxyz-maplibre-source>
-    <kortxyz-maplibre-source type="raster" tilesize="256" maxzoom="20"
-      tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}">
-    </kortxyz-maplibre-source>
-
-  </kortxyz-maplibre>
-
-  <kortxyz-aggrid store="items"></kortxyz-aggrid>
-
+  <kortxyz-tauchart
+    store="items"
+    type="horizontal-stacked-bar"
+    y="vejkategori"
+    x="count"
+    color="trafikart"
+    colorbrewer="Dark2"
+    group-by-keys="trafikart,vejkategori,vejmidtetype"
+    tooltip
+    legend
+  ></kortxyz-tauchart>
+  
 
 </body>
 
