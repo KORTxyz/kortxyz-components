@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
   <title>Stencil Component Starter</title>
 
-  <script type="module" src="/build/kortxyz-components.esm.js"></script>
-  <link rel="stylesheet" href="/build/kortxyz-components.css" />
+  <script type="module" src="../dist/kortxyz-components/kortxyz-components.esm.js"></script>
+  <link rel="stylesheet" href="../dist/kortxyz-components/kortxyz-components.css" />
 
   <style>
     body {
@@ -39,8 +39,8 @@
     mapstyle="https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_moerkt.json?token=bfe350080dc1da9dbb948d6fd59a8e96"
 
 >
-    <kortxyz-maplibre-source id="test" type="geojson" store="items" fit >
-      <kortxyz-maplibre-layer id="Vejtyper" type="line" popup paint='{"line-color": [
+    <kortxyz-maplibre-source sourceid="test" type="geojson" store="items" fit >
+      <kortxyz-maplibre-layer layerid="Vejtyper" type="line" popup paint='{"line-color": [
             "match",
             ["get", "vejmidtetype"],
             "Sti", "red",
@@ -63,9 +63,8 @@
 
     </kortxyz-maplibre-source>
 
-    <kortxyz-maplibre-source id="skov" type="geojson"
-      data="https://demo.kort.xyz/collections/skov/items?f=json&limit=200&properties=anvendelse" fit>
-      <kortxyz-maplibre-layer id="skov" type="fill" layout='{
+    <kortxyz-maplibre-source sourceid="skov" type="geojson" data="https://demo.kort.xyz/collections/skov/items?f=json&limit=200&properties=anvendelse" fit>
+      <kortxyz-maplibre-layer layerid="skov" type="fill" layout='{
           "visibility":"none"
         }' paint='{"fill-color": [
             "match",

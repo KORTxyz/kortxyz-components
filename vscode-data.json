@@ -120,8 +120,8 @@
           "description": "Expression to fitler the layer"
         },
         {
-          "name": "id",
-          "description": ""
+          "name": "layerid",
+          "description": "Layer identification."
         },
         {
           "name": "layout",
@@ -213,12 +213,12 @@
           "description": "fit mapbounds to geojsonbounds"
         },
         {
-          "name": "id",
-          "description": ""
-        },
-        {
           "name": "maxzoom",
           "description": "Max zoom-level to fetch tiles. z-parameter"
+        },
+        {
+          "name": "sourceid",
+          "description": "Source identification"
         },
         {
           "name": "store",

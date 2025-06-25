@@ -39,7 +39,8 @@ export class KortxyzMaplibreLayer {
   @Element() el: HTMLElement;
   map: MaplibreglMap;
 
-  @Prop() id = Math.random().toString(36).substring(2, 7);
+  /** Layer identification.  */
+  @Prop() layerid = Math.random().toString(36).substring(2, 7);
 
   /** Layer to use from a vector tile source. Required for vector tile sources; prohibited for all other source types, including GeoJSON sources.  */
   @Prop() sourceLayer?: string;
@@ -82,26 +83,26 @@ export class KortxyzMaplibreLayer {
         maxZoom: 16
       });
 
-      const paintProperties = this.map.getPaintProperty(this.el.id, this.type + '-color')
+      const paintProperties = this.map.getPaintProperty(this.layerid, this.type + '-color')
 
-      this.map.setPaintProperty(this.el.id, this.type + '-color', [
+      this.map.setPaintProperty(this.layerid, this.type + '-color', [
         'match', ["id"],
         event.detail.id, 'yellow',
         paintProperties
       ])
 
       setTimeout(() => {
-        this.map.setPaintProperty(this.el.id, this.type + '-color', JSON.parse(this.paint)[this.type + '-color'])
+        this.map.setPaintProperty(this.layerid, this.type + '-color', JSON.parse(this.paint)[this.type + '-color'])
       }, 600);
     }
 
   }
 
   initPopupLayer(popup) {
-    this.map.on('mouseenter', this.el.id, () => this.map.getCanvas().style.cursor = 'pointer');
-    this.map.on('mouseleave', this.el.id, () => this.map.getCanvas().style.cursor = '');
+    this.map.on('mouseenter', this.layerid, () => this.map.getCanvas().style.cursor = 'pointer');
+    this.map.on('mouseleave', this.layerid, () => this.map.getCanvas().style.cursor = '');
 
-    this.map.on('click', this.el.id, async (e) => {
+    this.map.on('click', this.layerid, async (e) => {
       this.featureClicked.emit(e.features[0].id)
 
       const popupHtml = popup.length > 0 ? popup.replace(/{(\w+)}/g, (_, k) => e.features[0].properties[k]||"") : renderPopup(e.features);
@@ -123,8 +124,8 @@ export class KortxyzMaplibreLayer {
   async addLayer(layerObject) {
 
     const layerElInDom: any = document.getElementsByTagName("kortxyz-maplibre-layer");
-    const layerIdsAsList = [...layerElInDom].map(e => e.id)
-    const beforeId = layerIdsAsList[layerIdsAsList.findIndex(e => e == this.el.id) - 1]
+    const layerIdsAsList = [...layerElInDom].map(e => e.layerid)
+    const beforeId = layerIdsAsList[layerIdsAsList.findIndex(e => e == this.layerid) - 1]
 
     if (beforeId != undefined) {
       while (this.map.getLayer(beforeId) == undefined) {
@@ -139,12 +140,12 @@ export class KortxyzMaplibreLayer {
     const { map } = this.el.closest('kortxyz-maplibre');
     this.map = map;
 
-    const { id }: { id: string } = this.el.closest('kortxyz-maplibre-source');
+    const { sourceid }: { sourceid: string } = this.el.closest('kortxyz-maplibre-source');
 
     let layerObject: LayerSpecification = {
-      'id': this.el.id,
+      'id': this.layerid,
       'type': this.type,
-      'source': id,
+      'source': sourceid,
       'paint': typeof this.paint == "string" ? JSON.parse(this.paint) : this.paint,
       'layout': typeof this.layout == "string" ? JSON.parse(this.layout) : this.layout,
       'metadata': typeof this.legendMetadata == "string" ? JSON.parse(this.legendMetadata) : this.legendMetadata,
@@ -156,14 +157,14 @@ export class KortxyzMaplibreLayer {
     if (this.popup != undefined) this.initPopupLayer(this.popup);
 
     if (this.clicklink) {
-      map.on('click', this.el.id, (e) => {
+      map.on('click', this.layerid, (e) => {
         const link = this.clicklink.replace(/{(\w+)}/g, (_, k) => e.features[0].properties[k]);
         window.open(link, '_blank');
       })
     }
 
 
-    if (map.getSource(id)) this.addLayer(layerObject)
+    if (map.getSource(sourceid)) this.addLayer(layerObject)
     else {
       map.on('load', async () => {
         map.once('styledata', async () => {

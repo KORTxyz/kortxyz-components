@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
   <title>Stencil Component Starter</title>
 
-  <script type="module" src="https://cdn.kort.xyz/kortxyz-components%400.1.0/kortxyz-components.esm.js"></script>
+  <script type="module" src="../dist/kortxyz-components/kortxyz-components.esm.js"></script>
   <link rel="stylesheet" href="../dist/kortxyz-components/kortxyz-components.css" />
 
   <style>
@@ -34,12 +34,12 @@
    center="[12.34,55.616]" zoom="12"
   >
     <kortxyz-maplibre-source
-    id="legepladser"
+    sourceid="legepladser"
     type="geojson"
     data="https://geofa.geodanmark.dk/api/v2/sql/fkg?q=SELECT navn, lang_beskr, geofafoto, geometri FROM fkg_foto_gpx_link.t_5800_fac_pkt WHERE facil_ty='Legeplads' AND cvr_navn='Ishøj Kommune'&format=geojson&srs=4326"
     >
     <kortxyz-maplibre-layer
-        id="legepladser"
+        layerid="legepladser"
         type="circle"
         paint='{"circle-color": "#d8504d","circle-opacity": 0.8,"circle-radius": 12}'
         popup='

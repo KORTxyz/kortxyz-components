@@ -35,9 +35,9 @@
    center="[12.34,55.616]" zoom="12"
   >
 
-    <kortxyz-maplibre-source id="bygning" type="vector" tiles="https://demo.kort.xyz/collections/bygning/tiles/WebMercatorQuad/{z}/{x}/{y}">
+    <kortxyz-maplibre-source sourceid="bygning" type="vector" tiles="https://demo.kort.xyz/collections/bygning/tiles/WebMercatorQuad/{z}/{x}/{y}">
       <kortxyz-maplibre-layer 
-        id="bygning"
+        layerid="bygning"
         layer="bygning"
         source-layer="bygning"
         type="fill"
@@ -47,8 +47,8 @@
       </kortxyz-maplibre-layer>
     </kortxyz-maplibre-source>
 
-    <kortxyz-maplibre-source id="ortofoto" type="raster" tilesize="256" maxzoom="20" tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}">
-      <kortxyz-maplibre-layer id="ortofoto" type="raster"></kortxyz-maplibre-layer>
+    <kortxyz-maplibre-source sourceid="ortofoto" type="raster" tilesize="256" maxzoom="20" tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}">
+      <kortxyz-maplibre-layer layerid="ortofoto" type="raster"></kortxyz-maplibre-layer>
     </kortxyz-maplibre-source>
 
   </kortxyz-maplibre>
