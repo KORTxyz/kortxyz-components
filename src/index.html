@@ -24,41 +24,45 @@
 
     kortxyz-aggrid {
       flex: 300px 0 0;
-    }    
-    
-    kortxyz-tauchart {
-      flex: 500px 0 0;
     }
   </style>
 </head>
 
 <body>
-  <kortxyz-datastore style="visibility: hidden;"
-    store="items" 
-    data="https://geodk.kort.xyz/collections/vejmidte/items?limit=7000&properties=Trafikart,Vejkategori,Vejmidtetype"
-  ></kortxyz-datastore>
+  <kortxyz-maplibre 
+    style="width:100%;display:block;background: whitesmoke;"
+   center="[12.34,55.616]" zoom="12"
+  >
+    <kortxyz-maplibre-source
+    id="legepladser"
+    type="geojson"
+    data="https://geofa.geodanmark.dk/api/v2/sql/fkg?q=SELECT navn, lang_beskr, geofafoto, geometri FROM fkg_foto_gpx_link.t_5800_fac_pkt WHERE facil_ty='Legeplads' AND cvr_navn='Ishøj Kommune'&format=geojson&srs=4326"
+    >
+    <kortxyz-maplibre-layer
+        id="legepladser"
+        type="circle"
+        paint='{"circle-color": "#d8504d","circle-opacity": 0.8,"circle-radius": 12}'
+        popup='
+            <div style="width:300px;border-radius:40px">
+                <img style="width:100%" src={geofafoto} alt="no image"></img>
+                <div style="padding:10px;box-sizing:border-box">
+                <p style="font-size:14px;font-weight:bold">{navn}</p>
+                <p style="font-size:12px;color:#222">{lang_beskr}</p>
+                <div>
+            </div>
+            '
+    >
+    </kortxyz-maplibre-layer>
+  </kortxyz-maplibre-source>
 
-  <kortxyz-tauchart
-    store="items"
-    type="horizontal-stacked-bar"
-    y="vejkategori"
-    x="count"
-    color="trafikart"
-    colorbrewer="Dark2"
-    group-by-keys="trafikart,vejkategori,vejmidtetype"
-    tooltip
-    legend
-  ></kortxyz-tauchart>
 
-  <kortxyz-tauchart
-    data="https://geodk.kort.xyz/collections/bygning/items?limit=100&properties=vertikalnoejagtighed,plannoejagtighed,planstedfaestelsesmetode"
-    type="scatterplot"
-    y="vertikalnoejagtighed"
-    x="plannoejagtighed"
-    color="planstedfaestelsesmetode"
-    tooltip
-    legend
-  ></kortxyz-tauchart>
+
+    <kortxyz-maplibre-source id="ortofoto" type="raster" tilesize="256" maxzoom="20" tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}">
+      <kortxyz-maplibre-layer id="ortofoto" type="raster"></kortxyz-maplibre-layer>
+    </kortxyz-maplibre-source>
+
+  </kortxyz-maplibre>
+
 
 
 </body>
