@@ -8,7 +8,9 @@ import { isMapboxURL, transformMapboxUrl } from 'maplibregl-mapbox-request-trans
 import { initHoverPopup } from '../../utils/mapUtils';
 
 import LegendControl from 'mapboxgl-legend';
-import {LegendControlOptions} from 'mapboxgl-legend';
+import { LegendControlOptions } from 'mapboxgl-legend';
+
+import { ToggleControl } from '../../utils/toggleControl';
 
 
 /**
@@ -99,6 +101,9 @@ export class KortxyzMaplibre {
   /** Show a button to toggle fullscreen */
   @Prop() fullscreen: boolean = false;
 
+  /** ID of the element that the button should toogle.*/
+  @Prop() togglebutton: string;
+
   /** Show a scalebar at the bottom */
   @Prop() scalebar: boolean = false;
 
@@ -144,19 +149,22 @@ export class KortxyzMaplibre {
 
     else this.map = new maplibregl.Map(mapOptions);
 
-    if(this.navigation) this.map.addControl(new NavigationControl({visualizePitch:true}));
-    if(this.gps) this.map.addControl(new GeolocateControl({positionOptions:{enableHighAccuracy:true },trackUserLocation:true}));
-    if(this.fullscreen) this.map.addControl(new FullscreenControl({container: document.querySelector('body')}));
-    if(this.scalebar) this.map.addControl(new ScaleControl());
+
+    if (this.navigation) this.map.addControl(new NavigationControl({ visualizePitch: true }));
+    if (this.gps) this.map.addControl(new GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: true }));
+    if (this.fullscreen) this.map.addControl(new FullscreenControl({ container: document.querySelector('body') }));
+    if (this.togglebutton) this.map.addControl(new ToggleControl({ element: this.togglebutton }), 'top-right');
+
+    if (this.scalebar) this.map.addControl(new ScaleControl());
 
 
-    if(typeof this.legend == "string") {
-      let legendOptions:LegendControlOptions = {highlight:true,toggler:true};
-      if(this.legend.length>0) legendOptions.layers = this.legend.split(",");
+    if (typeof this.legend == "string") {
+      let legendOptions: LegendControlOptions = { highlight: true, toggler: true };
+      if (this.legend.length > 0) legendOptions.layers = this.legend.split(",");
 
       this.map.addControl(new LegendControl(legendOptions) as unknown as maplibregl.IControl, 'bottom-right');
     }
-    
+
 
     this.map.on('dataloading', () => this.mapEl.classList.add("loading"))
     this.map.on('idle', () => this.mapEl.classList.remove("loading"))

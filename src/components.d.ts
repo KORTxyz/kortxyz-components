@@ -140,6 +140,10 @@ export namespace Components {
          */
         "showTileBoundaries": boolean;
         /**
+          * ID of the element that the button should toogle.
+         */
+        "togglebutton": string;
+        /**
           * Start zoom of the map
           * @default undefined
          */
@@ -761,6 +765,10 @@ declare namespace LocalJSX {
           * @default false
          */
         "showTileBoundaries"?: boolean;
+        /**
+          * ID of the element that the button should toogle.
+         */
+        "togglebutton"?: string;
         /**
           * Start zoom of the map
           * @default undefined

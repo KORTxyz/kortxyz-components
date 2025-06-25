@@ -31,7 +31,7 @@
 <body>
   <kortxyz-datastore store="afstemningsomraader" data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson" ></kortxyz-datastore>
 
-  <kortxyz-maplibre style="width:100%;display:block;background: whitesmoke;" center="[12.34,55.616]" zoom="12">
+  <kortxyz-maplibre style="width:100%;display:block;background: whitesmoke;" center="[12.34,55.616]" zoom="12" gps navigation togglebutton="aggrid">
     <kortxyz-maplibre-searchbox></kortxyz-maplibre-searchbox>
 
     
@@ -71,7 +71,7 @@
     
   </kortxyz-maplibre>
 
-  <kortxyz-aggrid store="afstemningsomraader"></kortxyz-aggrid>
+  <kortxyz-aggrid id="aggrid" store="afstemningsomraader"></kortxyz-aggrid>
 
 
 
