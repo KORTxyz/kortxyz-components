@@ -11,12 +11,12 @@
   <kortxyz-maplibre-searchbox resultzoom="" resulttype="click"></kortxyz-maplibre-searchbox>
 
   <kortxyz-maplibre-source 
-  id="afstemningsomraader" store="afstemningsomraader" fit>
+  sourceid="afstemningsomraader" store="afstemningsomraader" fit>
   <kortxyz-maplibre-layer 
-    id="afstemningsomraader_line" type="line" paint='{"line-color":"white"}'
+    layerid="afstemningsomraader_line" type="line" paint='{"line-color":"white"}'
   ></kortxyz-maplibre-layer>
   <kortxyz-maplibre-layer 
-    id="afstemningsomraader" type="fill" 
+    layerid="afstemningsomraader" type="fill" 
     paint='{
       "fill-color":["match",["get","navn"],
       "Ishøj Landsby","#d7191c",
@@ -37,8 +37,8 @@
 
   </kortxyz-maplibre-source>
 
-    <kortxyz-maplibre-source id="ortofoto" type="raster" tilesize="256" maxzoom="20" tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}">
-        <kortxyz-maplibre-layer id="ortofoto" type="raster"></kortxyz-maplibre-layer>
+    <kortxyz-maplibre-source sourceid="ortofoto" type="raster" tilesize="256" maxzoom="20" tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}">
+        <kortxyz-maplibre-layer layerid="ortofoto" type="raster"></kortxyz-maplibre-layer>
     </kortxyz-maplibre-source>
 
 

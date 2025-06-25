@@ -177,9 +177,10 @@ export namespace Components {
          */
         "filter": any;
         /**
+          * Layer identification.
           * @default Math.random().toString(36).substring(2, 7)
          */
-        "id": string;
+        "layerid": string;
         /**
           * Layout properties for the layer.
           * @default {}
@@ -286,14 +287,15 @@ export namespace Components {
          */
         "fit": boolean;
         /**
-          * @default Math.random().toString(36).substring(2,7)
-         */
-        "id": string;
-        /**
           * Max zoom-level to fetch tiles. z-parameter
           * @default 14
          */
         "maxzoom": number;
+        /**
+          * Source identification
+          * @default Math.random().toString(36).substring(2,7)
+         */
+        "sourceid": string;
         /**
           * Datastore reference.
          */
@@ -797,9 +799,10 @@ declare namespace LocalJSX {
          */
         "filter"?: any;
         /**
+          * Layer identification.
           * @default Math.random().toString(36).substring(2, 7)
          */
-        "id"?: string;
+        "layerid"?: string;
         /**
           * Layout properties for the layer.
           * @default {}
@@ -910,14 +913,15 @@ declare namespace LocalJSX {
          */
         "fit"?: boolean;
         /**
-          * @default Math.random().toString(36).substring(2,7)
-         */
-        "id"?: string;
-        /**
           * Max zoom-level to fetch tiles. z-parameter
           * @default 14
          */
         "maxzoom"?: number;
+        /**
+          * Source identification
+          * @default Math.random().toString(36).substring(2,7)
+         */
+        "sourceid"?: string;
         /**
           * Datastore reference.
          */

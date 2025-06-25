@@ -2,16 +2,14 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Overview
 
 ## Intro
-
 Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
 
 ## Example
-
- Show a demo map
-
+ Show a demo map 
 ```html
 <kortxyz-maplibre 
     style="width:100%;height: 200px;display:block"
@@ -20,7 +18,6 @@ Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
 ```
 
  Show a map on top a official basemap
-
 ```html
 <kortxyz-maplibre 
     style="width:100%;height:500px;display:block;background: whitesmoke;"

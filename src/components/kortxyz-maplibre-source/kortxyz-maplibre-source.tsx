@@ -50,7 +50,8 @@ export class KortxyzMaplibreSource {
   private loading: boolean = true;
   private randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
 
-  @Prop() id  = Math.random().toString(36).substring(2,7);
+  /** Source identification */
+  @Prop() sourceid  = Math.random().toString(36).substring(2,7);
 
   /** Type of source. */
   @Prop() type: 'vector' | 'geojson' | 'raster' = 'geojson';
@@ -117,10 +118,10 @@ export class KortxyzMaplibreSource {
       geomTypes.forEach((geomType) => {
         const mapboxType = this.getMapboxType(geomType);
 
-        if (this.map.getLayer(this.el.id+"-"+geomType)) this.map.removeLayer(this.el.id+"-"+geomType);
+        if (this.map.getLayer(this.sourceid+"-"+geomType)) this.map.removeLayer(this.sourceid+"-"+geomType);
 
         let layerEl = document.createElement("kortxyz-maplibre-layer");
-        layerEl.id = this.el.id+"-"+geomType;
+        layerEl.id = this.sourceid+"-"+geomType;
         layerEl.setAttribute("type", mapboxType);
         layerEl.setAttribute("paint", `{"${mapboxType}-color":"${this.randomColor()}"}`);
         layerEl.setAttribute("popup", "");
@@ -152,8 +153,8 @@ export class KortxyzMaplibreSource {
     if(this.el.children.length == 0) this.autolayers = true;
 
     map.once('load', async () => {
-      map.addSource(this.el.id, this.getSourceObject())
-      this.source = map.getSource(this.el.id)
+      map.addSource(this.sourceid, this.getSourceObject())
+      this.source = map.getSource(this.sourceid)
 
       if (this.type == "geojson") {
         map.once('styledata', async () => {
@@ -179,7 +180,7 @@ export class KortxyzMaplibreSource {
       }
       else if (this.type == "raster" && this.autolayers) {
         let layerEl = document.createElement("kortxyz-maplibre-layer");
-            layerEl.id = this.el.id+"-raster";
+            layerEl.id = this.sourceid+"-raster";
             layerEl.setAttribute("type", "raster");
         this.el.appendChild(layerEl)
       }

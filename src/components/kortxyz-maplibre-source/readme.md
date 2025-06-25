@@ -13,7 +13,7 @@ Webcomponent load a new source into a kortxyz-maplibre component. An id is autog
 ```html
 <kortxyz-maplibre>
    <kortxyz-maplibre-source
-       id="afstemningsomraader"
+       sourceid="afstemningsomraader"
        data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson"
    ></kortxyz-maplibre-source>
 <kortxyz-maplibre>
@@ -24,7 +24,7 @@ Webcomponent load a new source into a kortxyz-maplibre component. An id is autog
 ```html
 <kortxyz-maplibre>
    <kortxyz-maplibre-source
-       id="orto_foraar_webm"
+       sourceid="orto_foraar_webm"
        type="raster"
        tilesize="256" 
        maxzoom="20" 
@@ -41,8 +41,8 @@ Webcomponent load a new source into a kortxyz-maplibre component. An id is autog
 | `autolayers` | `autolayers` | add a layer without specifing it. If no kortxyz-maplibre-layer children, it is automatically set to true. | `boolean`                           | `false`                                     |
 | `data`       | `data`       | URL to the geojson source.                                                                                | `string`                            | `undefined`                                 |
 | `fit`        | `fit`        | fit mapbounds to geojsonbounds                                                                            | `boolean`                           | `false`                                     |
-| `id`         | `id`         |                                                                                                           | `string`                            | `Math.random().toString(36).substring(2,7)` |
 | `maxzoom`    | `maxzoom`    | Max zoom-level to fetch tiles. z-parameter                                                                | `number`                            | `14`                                        |
+| `sourceid`   | `sourceid`   | Source identification                                                                                     | `string`                            | `Math.random().toString(36).substring(2,7)` |
 | `store`      | `store`      | Datastore reference.                                                                                      | `string`                            | `undefined`                                 |
 | `tiles`      | `tiles`      | Url to the tilesource. e.g. https://demotiles.maplibre.org/tiles/{z}/{x}/{y}.pbf                          | `string`                            | `undefined`                                 |
 | `tilesize`   | `tilesize`   | Size of the tiles in px.                                                                                  | `number`                            | `512`                                       |
