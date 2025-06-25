@@ -82,22 +82,27 @@ export namespace Components {
         "basemapstyle": maplibregl.StyleSpecification | string;
         /**
           * Start bounds of the map. [12.4,55.6,12.282,55.636]
+          * @default undefined
          */
         "bbox": string;
         /**
           * Start center of the map
+          * @default undefined
          */
         "center": string;
         /**
           * Disable normal gestures for not getting caught by scrolling
+          * @default false
          */
         "cooperativeGestures": boolean;
         /**
           * Show a button to toggle fullscreen
+          * @default false
          */
         "fullscreen": boolean;
         /**
           * Show a button to locate the user
+          * @default false
          */
         "gps": boolean;
         /**
@@ -106,6 +111,7 @@ export namespace Components {
         "hoverpopup": boolean;
         /**
           * Show a legend for the layers specified in the attibute. Empty if all layers.
+          * @default false
          */
         "legend": string | boolean;
         "map": maplibregl.Map;
@@ -115,22 +121,27 @@ export namespace Components {
         "mapboxkey": string;
         /**
           * Mapstyle for the main map
+          * @default {       "version": 8,       "name": "name",       "center": [0, 0],       "zoom": 16,       "sources": {       },       "layers": [       ]     }
          */
         "mapstyle": maplibregl.StyleSpecification | string;
         /**
           * Show navigation controls
+          * @default false
          */
         "navigation": boolean;
         /**
           * Show a scalebar at the bottom
+          * @default false
          */
         "scalebar": boolean;
         /**
           * Show the tilegrid
+          * @default false
          */
         "showTileBoundaries": boolean;
         /**
           * Start zoom of the map
+          * @default undefined
          */
         "zoom": number;
     }
@@ -165,17 +176,23 @@ export namespace Components {
           * Expression to fitler the layer
          */
         "filter": any;
+        /**
+          * @default Math.random().toString(36).substring(2, 7)
+         */
         "id": string;
         /**
           * Layout properties for the layer.
+          * @default {}
          */
         "layout": any;
         /**
           * Customize legend with a object like this {name:string,unit:string,labels:object (Map a value to a text that replaces it as a label) }
+          * @default {}
          */
         "legendMetadata": any;
         /**
           * Paint properties for the layer.
+          * @default {}
          */
         "paint": any;
         /**
@@ -188,6 +205,7 @@ export namespace Components {
         "sourceLayer"?: string;
         /**
           * Type of layer
+          * @default 'fill'
          */
         "type": 'circle' | 'line' | 'fill';
     }
@@ -207,18 +225,22 @@ export namespace Components {
     interface KortxyzMaplibreSearchbox {
         /**
           * How to format results. Replacement of {} with a attribute. {ATTRIBUTENAME}
+          * @default "{betegnelse}"
          */
         "result": string;
         /**
           * Should a result pick be a marker on the map or a click on the map
+          * @default "marker"
          */
         "resulttype": "marker" | "click";
         /**
           * How far should the map zoom in on result. Empty prop if no zooming is needed
+          * @default 14
          */
         "resultzoom": number;
         /**
           * Url to make input calls that return a geojson with points. Input are available as {input}
+          * @default "https://api.dataforsyningen.dk/adgangsadresser?q={input}&format=geojson&per_side=5&struktur=mini&autocomplete&kommunekode=183&fuzzy"
          */
         "url": string;
     }
@@ -251,6 +273,7 @@ export namespace Components {
     interface KortxyzMaplibreSource {
         /**
           * add a layer without specifing it. If no kortxyz-maplibre-layer children, it is automatically set to true.
+          * @default false
          */
         "autolayers": boolean;
         /**
@@ -259,11 +282,16 @@ export namespace Components {
         "data": string;
         /**
           * fit mapbounds to geojsonbounds
+          * @default false
          */
         "fit": boolean;
+        /**
+          * @default Math.random().toString(36).substring(2,7)
+         */
         "id": string;
         /**
           * Max zoom-level to fetch tiles. z-parameter
+          * @default 14
          */
         "maxzoom": number;
         /**
@@ -276,10 +304,12 @@ export namespace Components {
         "tiles": string;
         /**
           * Size of the tiles in px.
+          * @default 512
          */
         "tilesize": number;
         /**
           * Type of source.
+          * @default 'geojson'
          */
         "type": 'vector' | 'geojson' | 'raster';
     }
@@ -337,6 +367,7 @@ export namespace Components {
         "groupByKeys": string;
         /**
           * Add a legend
+          * @default false
          */
         "legend": boolean;
         /**
@@ -345,6 +376,7 @@ export namespace Components {
         "store": string;
         /**
           * Show tooltips on hover
+          * @default false
          */
         "tooltip": boolean;
         /**
@@ -670,22 +702,27 @@ declare namespace LocalJSX {
         "basemapstyle"?: maplibregl.StyleSpecification | string;
         /**
           * Start bounds of the map. [12.4,55.6,12.282,55.636]
+          * @default undefined
          */
         "bbox"?: string;
         /**
           * Start center of the map
+          * @default undefined
          */
         "center"?: string;
         /**
           * Disable normal gestures for not getting caught by scrolling
+          * @default false
          */
         "cooperativeGestures"?: boolean;
         /**
           * Show a button to toggle fullscreen
+          * @default false
          */
         "fullscreen"?: boolean;
         /**
           * Show a button to locate the user
+          * @default false
          */
         "gps"?: boolean;
         /**
@@ -694,6 +731,7 @@ declare namespace LocalJSX {
         "hoverpopup"?: boolean;
         /**
           * Show a legend for the layers specified in the attibute. Empty if all layers.
+          * @default false
          */
         "legend"?: string | boolean;
         "map"?: maplibregl.Map;
@@ -703,22 +741,27 @@ declare namespace LocalJSX {
         "mapboxkey"?: string;
         /**
           * Mapstyle for the main map
+          * @default {       "version": 8,       "name": "name",       "center": [0, 0],       "zoom": 16,       "sources": {       },       "layers": [       ]     }
          */
         "mapstyle"?: maplibregl.StyleSpecification | string;
         /**
           * Show navigation controls
+          * @default false
          */
         "navigation"?: boolean;
         /**
           * Show a scalebar at the bottom
+          * @default false
          */
         "scalebar"?: boolean;
         /**
           * Show the tilegrid
+          * @default false
          */
         "showTileBoundaries"?: boolean;
         /**
           * Start zoom of the map
+          * @default undefined
          */
         "zoom"?: number;
     }
@@ -753,13 +796,18 @@ declare namespace LocalJSX {
           * Expression to fitler the layer
          */
         "filter"?: any;
+        /**
+          * @default Math.random().toString(36).substring(2, 7)
+         */
         "id"?: string;
         /**
           * Layout properties for the layer.
+          * @default {}
          */
         "layout"?: any;
         /**
           * Customize legend with a object like this {name:string,unit:string,labels:object (Map a value to a text that replaces it as a label) }
+          * @default {}
          */
         "legendMetadata"?: any;
         /**
@@ -768,6 +816,7 @@ declare namespace LocalJSX {
         "onFeatureClicked"?: (event: KortxyzMaplibreLayerCustomEvent<any>) => void;
         /**
           * Paint properties for the layer.
+          * @default {}
          */
         "paint"?: any;
         /**
@@ -780,6 +829,7 @@ declare namespace LocalJSX {
         "sourceLayer"?: string;
         /**
           * Type of layer
+          * @default 'fill'
          */
         "type"?: 'circle' | 'line' | 'fill';
     }
@@ -799,18 +849,22 @@ declare namespace LocalJSX {
     interface KortxyzMaplibreSearchbox {
         /**
           * How to format results. Replacement of {} with a attribute. {ATTRIBUTENAME}
+          * @default "{betegnelse}"
          */
         "result"?: string;
         /**
           * Should a result pick be a marker on the map or a click on the map
+          * @default "marker"
          */
         "resulttype"?: "marker" | "click";
         /**
           * How far should the map zoom in on result. Empty prop if no zooming is needed
+          * @default 14
          */
         "resultzoom"?: number;
         /**
           * Url to make input calls that return a geojson with points. Input are available as {input}
+          * @default "https://api.dataforsyningen.dk/adgangsadresser?q={input}&format=geojson&per_side=5&struktur=mini&autocomplete&kommunekode=183&fuzzy"
          */
         "url"?: string;
     }
@@ -843,6 +897,7 @@ declare namespace LocalJSX {
     interface KortxyzMaplibreSource {
         /**
           * add a layer without specifing it. If no kortxyz-maplibre-layer children, it is automatically set to true.
+          * @default false
          */
         "autolayers"?: boolean;
         /**
@@ -851,11 +906,16 @@ declare namespace LocalJSX {
         "data"?: string;
         /**
           * fit mapbounds to geojsonbounds
+          * @default false
          */
         "fit"?: boolean;
+        /**
+          * @default Math.random().toString(36).substring(2,7)
+         */
         "id"?: string;
         /**
           * Max zoom-level to fetch tiles. z-parameter
+          * @default 14
          */
         "maxzoom"?: number;
         /**
@@ -868,10 +928,12 @@ declare namespace LocalJSX {
         "tiles"?: string;
         /**
           * Size of the tiles in px.
+          * @default 512
          */
         "tilesize"?: number;
         /**
           * Type of source.
+          * @default 'geojson'
          */
         "type"?: 'vector' | 'geojson' | 'raster';
     }
@@ -929,6 +991,7 @@ declare namespace LocalJSX {
         "groupByKeys"?: string;
         /**
           * Add a legend
+          * @default false
          */
         "legend"?: boolean;
         /**
@@ -937,6 +1000,7 @@ declare namespace LocalJSX {
         "store"?: string;
         /**
           * Show tooltips on hover
+          * @default false
          */
         "tooltip"?: boolean;
         /**

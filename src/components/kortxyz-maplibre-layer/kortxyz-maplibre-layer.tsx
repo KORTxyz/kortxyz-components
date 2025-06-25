@@ -104,7 +104,7 @@ export class KortxyzMaplibreLayer {
     this.map.on('click', this.el.id, async (e) => {
       this.featureClicked.emit(e.features[0].id)
 
-      const popupHtml = popup.length > 0 ? popup.replace(/{(\w+)}/g, (_, k) => e.features[0].properties[k]) : renderPopup(e.features);
+      const popupHtml = popup.length > 0 ? popup.replace(/{(\w+)}/g, (_, k) => e.features[0].properties[k]||"") : renderPopup(e.features);
 
       new Popup({
         closeButton: true,
