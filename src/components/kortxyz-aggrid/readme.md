@@ -24,10 +24,11 @@ data="https://example.geojson"
 
 ## Properties
 
-| Property | Attribute | Description             | Type     | Default     |
-| -------- | --------- | ----------------------- | -------- | ----------- |
-| `data`   | `data`    | Fetch data from a url   | `string` | `undefined` |
-| `store`  | `store`   | Fetch data from a store | `string` | `undefined` |
+| Property | Attribute | Description                                       | Type     | Default     |
+| -------- | --------- | ------------------------------------------------- | -------- | ----------- |
+| `data`   | `data`    | Fetch data from a url                             | `string` | `undefined` |
+| `schema` | `schema`  | Fetch JSON schema from a url or parse Inline JSON | `any`    | `undefined` |
+| `store`  | `store`   | Fetch data from a store                           | `string` | `undefined` |
 
 
 ## Events

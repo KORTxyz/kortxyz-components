@@ -13,6 +13,10 @@
           "description": "Fetch data from a url"
         },
         {
+          "name": "schema",
+          "description": "Fetch JSON schema from a url or parse Inline JSON"
+        },
+        {
           "name": "store",
           "description": "Fetch data from a store"
         }
