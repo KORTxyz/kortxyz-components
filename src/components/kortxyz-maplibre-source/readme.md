@@ -13,7 +13,7 @@ Webcomponent load a new source into a kortxyz-maplibre component. An id is autog
 ```html
 <kortxyz-maplibre>
    <kortxyz-maplibre-source
-       sourceid="afstemningsomraader"
+       id="afstemningsomraader"
        data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson"
    ></kortxyz-maplibre-source>
 <kortxyz-maplibre>
@@ -24,7 +24,7 @@ Webcomponent load a new source into a kortxyz-maplibre component. An id is autog
 ```html
 <kortxyz-maplibre>
    <kortxyz-maplibre-source
-       sourceid="orto_foraar_webm"
+       id="orto_foraar_webm"
        type="raster"
        tilesize="256" 
        maxzoom="20" 

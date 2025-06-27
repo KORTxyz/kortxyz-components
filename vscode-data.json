@@ -99,6 +99,10 @@
           "description": "Show the tilegrid"
         },
         {
+          "name": "togglebutton",
+          "description": "ID of the element that the button should toogle."
+        },
+        {
           "name": "zoom",
           "description": "Start zoom of the map"
         }
