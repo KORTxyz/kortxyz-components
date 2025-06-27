@@ -45,7 +45,7 @@ export class KortxyzAggrid {
   /** Fetch data from a url */
   @Prop() data: string;
 
-  /** Fetch json schema? from a url or parse */
+  /** Fetch JSON schema from a url or parse Inline JSON*/
   @Prop({ mutable: true }) schema?: any;
 
   /** Fetch data from a store */
