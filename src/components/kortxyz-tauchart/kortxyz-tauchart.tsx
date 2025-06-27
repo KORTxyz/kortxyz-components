@@ -137,7 +137,6 @@ export class KortxyzTauchart {
         )
       )(groupByKeys.map(k => e[k]).join('|')), {}));
     }
-    console.log(dataset)
     return dataset
   }
   
@@ -168,7 +167,6 @@ export class KortxyzTauchart {
     if (this.tooltip) plugins.push(Taucharts.api.plugins.get('tooltip')());
     if (this.legend) plugins.push(Taucharts.api.plugins.get('legend')());
 
-    console.log(new Set(dataset.map(e => e[this.color])))
       
     let chartSpec = {
       data: dataset,

@@ -45,7 +45,7 @@ export class KortxyzDatastore {
     if(this.data && isvalidURL(this.data)){
       const res = await fetch(this.data)
       const geojson = await res.json();
-      if(!geojson.features[0].id) geojson.features.forEach((feat,idx)=>(feat.id=idx+1))
+      if(isNaN(geojson.features[0].id)) geojson.features.forEach((feat,idx)=>(feat.id=idx+1))
       getStore(this.store).set("data", geojson)
     }
     else{

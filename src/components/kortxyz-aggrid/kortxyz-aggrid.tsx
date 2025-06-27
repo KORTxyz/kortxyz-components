@@ -4,9 +4,10 @@ import { Listen, Event, EventEmitter } from '@stencil/core';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { createGrid, GridOptions, FilterChangedEvent, GridApi, RowClickedEvent } from 'ag-grid-community';
 
-import { themeBalham, colorSchemeDark } from 'ag-grid-community';
+import { themeBalham, colorSchemeDark, ColDef, ColGroupDef, ITooltipParams } from 'ag-grid-community';
 
-import {getStore} from '../../utils/store';
+import { getStore } from '../../utils/store';
+import {isvalidURL} from '../../utils/checkUtils';
 
 /**
   ## Intro
@@ -44,9 +45,12 @@ export class KortxyzAggrid {
   /** Fetch data from a url */
   @Prop() data: string;
 
+  /** Fetch json schema? from a url or parse */
+  @Prop({ mutable: true }) schema?: any;
+
   /** Fetch data from a store */
   @Prop() store: string;
-  
+
   /** Event when row is clicked */
   @Event() rowClicked: EventEmitter;
 
@@ -56,20 +60,17 @@ export class KortxyzAggrid {
     if (rowNode) {
       this.api.ensureIndexVisible(rowNode.rowIndex)
       this.api.flashCells({
-        rowNodes: [rowNode], // Flash this row
-        //columns: Object.keys(rowNode.data) // Flash all columns
+        rowNodes: [rowNode] 
       });
     }
   }
 
   clickedEvent = (e: RowClickedEvent) => {
-    const {id,geometry} = e.data;
-    this.rowClicked.emit({store:this.store,id,geometry});
-    const rowNode = this.api.getRowNode(String(id - 1)); // Get row node
+    const { id, geometry } = e.data;
+    this.rowClicked.emit({ store: this.store, id, geometry });
 
     this.api.flashCells({
-      rowNodes: [rowNode], // Flash this row
-      columns: Object.keys(rowNode.data) // Flash all columns
+      rowNodes: [e.node]
     });
 
   }
@@ -87,11 +88,45 @@ export class KortxyzAggrid {
     getStore(this.store).set("data", geojson)
   }
 
+  getColumnDef = columnKey => {
+    const columnSchema = this.schema?.properties[columnKey];
+
+    return {
+      field: columnKey,
+      headerName: columnSchema?.title || columnKey,
+      tooltipValueGetter: (p: ITooltipParams) => {
+        const valueSchema = columnSchema?.oneOf?.find(e => e.const == p.data[columnKey]);
+        if(!valueSchema) return;
+        else {
+          const {title,description} = valueSchema;
+          return  `${title}. ${description}`;
+        }
+
+      },
+      cellEditor: this.editorTypes(columnSchema) || null,
+      cellEditorParams: {
+        values: columnSchema?.oneOf?.map(e => e.const) || columnSchema?.enum
+      },
+      headerTooltip: columnSchema?.description || null,
+    }
+  }
+
+  editorTypes = (property?: any) => {
+      if (!property) return undefined;
+      const { type, enum: enumVals, oneOf } = property;
+      if (enumVals || oneOf) return 'agSelectCellEditor';
+      if (type === 'integer') return 'agNumberCellEditor';
+      if (type === 'string') return 'agTextCellEditor';
+      if (type === 'boolean') return 'agCheckboxCellEditor';
+    };
+
   updateGrid = (geojson) => {
     const data = geojson.features.map(e => ({ id: e.id, ...e.properties, geometry: e.geometry }))
-    const columnDefs = Object.keys(data[0]).filter(key => key != "id" && key != "geometry").map(key => ({ field: key }))
+    const columns = Object.keys(data[0]).filter(key => key != "id" && key != "geometry");
 
-    this.api.setGridOption('columnDefs',columnDefs)
+    const columnDefs: (ColDef | ColGroupDef)[] = columns.map(key => this.getColumnDef(key))
+
+    this.api.setGridOption('columnDefs', columnDefs)
     this.api.setGridOption('rowData', data);
   }
 
@@ -101,11 +136,12 @@ export class KortxyzAggrid {
     this.gridOptions = {
       theme: themeBalham.withPart(colorSchemeDark),
       defaultColDef: {
-        editable: true,
         filter: true,
+        editable: true,
         flex: 1,
         minWidth: 100,
       },
+      tooltipShowDelay: 100,
       pagination: false,
       onFilterChanged: e => this.filterEvent(e),
       onRowClicked: e => this.clickedEvent(e)
@@ -115,7 +151,19 @@ export class KortxyzAggrid {
     this.api = createGrid(this.gridEl, this.gridOptions, {});
   }
 
+  async componentWillLoad() {
+    if(this.schema){
+      if(!isvalidURL(this.schema)) this.schema = JSON.parse(this.schema)
+      else{
+        const res = await fetch(this.schema)
+        this.schema = await res.json();
+      }
+    }
+
+  }
+
   async componentDidLoad() {
+
     this.createGrid();
 
     let geojson
@@ -129,12 +177,12 @@ export class KortxyzAggrid {
     else if (this.store) {
       while (this.loading) {
         const datastore = getStore(this.store);
-        if(datastore == undefined ) await new Promise(r => setTimeout(r, 200));
+        if (datastore == undefined) await new Promise(r => setTimeout(r, 200));
         else {
-          if(!datastore) return;
+          if (!datastore) return;
           geojson = datastore.get("data");
           if (!geojson.features) await new Promise(r => setTimeout(r, 200));
-          else this.loading=false;
+          else this.loading = false;
         }
       }
     }

@@ -71,10 +71,8 @@ export class KortxyzMaplibreLayer {
 
   @Listen('rowClicked', { target: 'window' })
   rowClickedHandler(event) {
-
     const parentEl: any = this.el.parentElement;
-    if (event.detail.store == parentEl.store) {
-
+    if (event.detail.store == parentEl.store && ['circle','line','fill'].includes(this.type)) {
       const coords: LngLatBoundsLike = (([x1, y1, x2, y2]) => [[x1, y1], [x2, y2]])(bbox(event.detail.geometry));
 
       this.map.fitBounds(coords, {

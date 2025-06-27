@@ -39,27 +39,30 @@
     mapstyle="https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_moerkt.json?token=bfe350080dc1da9dbb948d6fd59a8e96"
 
 >
-    <kortxyz-maplibre-source sourceid="test" type="geojson" store="items" fit >
-      <kortxyz-maplibre-layer layerid="Vejtyper" type="line" popup paint='{"line-color": [
-            "match",
-            ["get", "vejmidtetype"],
-            "Sti", "red",
-            "Vej", "green",
-            "#ccc"
-          ],"line-width": [
-            "match",
-            ["get", "vejmidtetype"],
-            "Sti", 1,
-            "Vej", 3,
-            0
-          ]}'
-          legend-metadata='{
-            "name":"Vej type",
-            "labels":{
-              "other":false
-            }
-          }'>
-      </kortxyz-maplibre-layer>
+    <kortxyz-maplibre-source sourceid="vejmidte" type="geojson" store="items" fit >
+      <kortxyz-maplibre-layer layerid="Vejtyper" type="line" popup paint='
+      {
+        "line-color": [
+          "match",
+          ["get", "vejmidtetype"],
+          "Sti", "red",
+          "Vej", "green",
+          "#ccc"
+        ],
+        "line-width": [
+          "match",
+          ["get", "vejmidtetype"],
+          "Sti", 1,
+          "Vej", 3,
+          0
+        ]}'
+        legend-metadata='{
+          "name":"Vej type",
+          "labels":{
+            "other":false
+          }
+        }'
+      ></kortxyz-maplibre-layer>
 
     </kortxyz-maplibre-source>
 

@@ -29,6 +29,10 @@ export namespace Components {
          */
         "data": string;
         /**
+          * Fetch json schema? from a url or parse
+         */
+        "schema"?: any;
+        /**
           * Fetch data from a store
          */
         "store": string;
@@ -654,6 +658,10 @@ declare namespace LocalJSX {
           * Event when row is clicked
          */
         "onRowClicked"?: (event: KortxyzAggridCustomEvent<any>) => void;
+        /**
+          * Fetch json schema? from a url or parse
+         */
+        "schema"?: any;
         /**
           * Fetch data from a store
          */

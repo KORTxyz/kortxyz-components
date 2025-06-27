@@ -94,7 +94,6 @@ export class KortxyzMaplibreSearchbox {
         lngLat: result.geometry.coordinates
       })
     }
-    console.log(this.resultzoom)
     map.flyTo({
       center: result.geometry.coordinates,
       ...(Number.isNaN(this.resultzoom) ? {} : { zoom: this.resultzoom })

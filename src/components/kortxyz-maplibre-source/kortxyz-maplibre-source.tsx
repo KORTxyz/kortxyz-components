@@ -127,14 +127,12 @@ export class KortxyzMaplibreSource {
         layerEl.setAttribute("popup", "");
 
         this.el.appendChild(layerEl)
-
-
       })
     }
 
     this.source.setData(geojson)
+    
     if (this.fit) {
-      4
       const bounds: any = bbox(geojson);
       this.map.fitBounds(bounds, {
         animate: false,
