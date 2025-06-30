@@ -1,8 +1,8 @@
-import { Component, Prop, Element} from '@stencil/core';
+import { Component, Prop, Element } from '@stencil/core';
 
-import {createNewStore, getStore} from '../../utils/store';
+import { createNewStore, getStore } from '../../utils/store';
 
-import {isvalidURL} from '../../utils/checkUtils';
+import { isvalidURL } from '../../utils/checkUtils';
 
 /**
  
@@ -34,23 +34,25 @@ export class KortxyzDatastore {
   /** Name of the store */
   @Prop() store?: string;
 
-  initStore(){
+  initStore() {
     createNewStore(this.store)
-    getStore(this.store).set("data", JSON.parse(this.storeEl.innerHTML))     
+    getStore(this.store).set("data", JSON.parse(this.storeEl.innerHTML))
   }
 
   async componentWillLoad() {
-    createNewStore(this.store)
-
-    if(this.data && isvalidURL(this.data)){
-      const res = await fetch(this.data)
-      const geojson = await res.json();
-      if(isNaN(geojson.features[0].id)) geojson.features.forEach((feat,idx)=>(feat.id=idx+1))
-      getStore(this.store).set("data", geojson)
-    }
-    else{
-      getStore(this.store).set("data", JSON.parse(this.storeEl.innerHTML))     
-    }
+    createNewStore(this.store);
     
+    let geojson;
+    if (this.data && isvalidURL(this.data)) {
+      const res = await fetch(this.data)
+      geojson = await res.json();
+    }
+    else {
+      geojson = JSON.parse(this.storeEl.innerHTML);
+    }
+
+    if (isNaN(geojson.features[0].id)) geojson.features.forEach((feat, idx) => (feat.id = idx + 1))
+    getStore(this.store).set("data", geojson)
+
   }
 }
