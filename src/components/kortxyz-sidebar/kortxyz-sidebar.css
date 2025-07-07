@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+}
+
+iconbar{
+  display: flex;
+  flex-direction: column;
+}
+
+panel{
+ background-color: olive;
+}

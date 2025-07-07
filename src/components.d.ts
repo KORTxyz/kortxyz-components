@@ -58,6 +58,20 @@ export namespace Components {
          */
         "store"?: string;
     }
+    interface KortxyzIcon {
+        /**
+          * @default "inherit"
+         */
+        "color": string;
+        /**
+          * @default 'layers'
+         */
+        "icon": string;
+        /**
+          * @default "16"
+         */
+        "size": string;
+    }
     /**
      * ## Intro
      * Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
@@ -324,6 +338,18 @@ export namespace Components {
          */
         "type": 'vector' | 'geojson' | 'raster';
     }
+    interface KortxyzShell {
+    }
+    interface KortxyzSidebar {
+    }
+    interface KortxyzSidebarButton {
+    }
+    interface KortxyzSidebarPanel {
+        /**
+          * @default true
+         */
+        "closed": boolean;
+    }
     /**
      * ## Intro
      * Webcomponent to visualise data on charts.
@@ -412,6 +438,10 @@ export interface KortxyzMaplibreLayerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLKortxyzMaplibreLayerElement;
 }
+export interface KortxyzSidebarButtonCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLKortxyzSidebarButtonElement;
+}
 declare global {
     interface HTMLKortxyzAggridElementEventMap {
         "rowClicked": any;
@@ -463,6 +493,12 @@ declare global {
     var HTMLKortxyzDatastoreElement: {
         prototype: HTMLKortxyzDatastoreElement;
         new (): HTMLKortxyzDatastoreElement;
+    };
+    interface HTMLKortxyzIconElement extends Components.KortxyzIcon, HTMLStencilElement {
+    }
+    var HTMLKortxyzIconElement: {
+        prototype: HTMLKortxyzIconElement;
+        new (): HTMLKortxyzIconElement;
     };
     /**
      * ## Intro
@@ -581,6 +617,41 @@ declare global {
         prototype: HTMLKortxyzMaplibreSourceElement;
         new (): HTMLKortxyzMaplibreSourceElement;
     };
+    interface HTMLKortxyzShellElement extends Components.KortxyzShell, HTMLStencilElement {
+    }
+    var HTMLKortxyzShellElement: {
+        prototype: HTMLKortxyzShellElement;
+        new (): HTMLKortxyzShellElement;
+    };
+    interface HTMLKortxyzSidebarElement extends Components.KortxyzSidebar, HTMLStencilElement {
+    }
+    var HTMLKortxyzSidebarElement: {
+        prototype: HTMLKortxyzSidebarElement;
+        new (): HTMLKortxyzSidebarElement;
+    };
+    interface HTMLKortxyzSidebarButtonElementEventMap {
+        "toggleRequest": any;
+    }
+    interface HTMLKortxyzSidebarButtonElement extends Components.KortxyzSidebarButton, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLKortxyzSidebarButtonElementEventMap>(type: K, listener: (this: HTMLKortxyzSidebarButtonElement, ev: KortxyzSidebarButtonCustomEvent<HTMLKortxyzSidebarButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLKortxyzSidebarButtonElementEventMap>(type: K, listener: (this: HTMLKortxyzSidebarButtonElement, ev: KortxyzSidebarButtonCustomEvent<HTMLKortxyzSidebarButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLKortxyzSidebarButtonElement: {
+        prototype: HTMLKortxyzSidebarButtonElement;
+        new (): HTMLKortxyzSidebarButtonElement;
+    };
+    interface HTMLKortxyzSidebarPanelElement extends Components.KortxyzSidebarPanel, HTMLStencilElement {
+    }
+    var HTMLKortxyzSidebarPanelElement: {
+        prototype: HTMLKortxyzSidebarPanelElement;
+        new (): HTMLKortxyzSidebarPanelElement;
+    };
     /**
      * ## Intro
      * Webcomponent to visualise data on charts.
@@ -625,10 +696,15 @@ declare global {
     interface HTMLElementTagNameMap {
         "kortxyz-aggrid": HTMLKortxyzAggridElement;
         "kortxyz-datastore": HTMLKortxyzDatastoreElement;
+        "kortxyz-icon": HTMLKortxyzIconElement;
         "kortxyz-maplibre": HTMLKortxyzMaplibreElement;
         "kortxyz-maplibre-layer": HTMLKortxyzMaplibreLayerElement;
         "kortxyz-maplibre-searchbox": HTMLKortxyzMaplibreSearchboxElement;
         "kortxyz-maplibre-source": HTMLKortxyzMaplibreSourceElement;
+        "kortxyz-shell": HTMLKortxyzShellElement;
+        "kortxyz-sidebar": HTMLKortxyzSidebarElement;
+        "kortxyz-sidebar-button": HTMLKortxyzSidebarButtonElement;
+        "kortxyz-sidebar-panel": HTMLKortxyzSidebarPanelElement;
         "kortxyz-tauchart": HTMLKortxyzTauchartElement;
     }
 }
@@ -688,6 +764,20 @@ declare namespace LocalJSX {
           * Name of the store
          */
         "store"?: string;
+    }
+    interface KortxyzIcon {
+        /**
+          * @default "inherit"
+         */
+        "color"?: string;
+        /**
+          * @default 'layers'
+         */
+        "icon"?: string;
+        /**
+          * @default "16"
+         */
+        "size"?: string;
     }
     /**
      * ## Intro
@@ -959,6 +1049,19 @@ declare namespace LocalJSX {
          */
         "type"?: 'vector' | 'geojson' | 'raster';
     }
+    interface KortxyzShell {
+    }
+    interface KortxyzSidebar {
+    }
+    interface KortxyzSidebarButton {
+        "onToggleRequest"?: (event: KortxyzSidebarButtonCustomEvent<any>) => void;
+    }
+    interface KortxyzSidebarPanel {
+        /**
+          * @default true
+         */
+        "closed"?: boolean;
+    }
     /**
      * ## Intro
      * Webcomponent to visualise data on charts.
@@ -1041,10 +1144,15 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "kortxyz-aggrid": KortxyzAggrid;
         "kortxyz-datastore": KortxyzDatastore;
+        "kortxyz-icon": KortxyzIcon;
         "kortxyz-maplibre": KortxyzMaplibre;
         "kortxyz-maplibre-layer": KortxyzMaplibreLayer;
         "kortxyz-maplibre-searchbox": KortxyzMaplibreSearchbox;
         "kortxyz-maplibre-source": KortxyzMaplibreSource;
+        "kortxyz-shell": KortxyzShell;
+        "kortxyz-sidebar": KortxyzSidebar;
+        "kortxyz-sidebar-button": KortxyzSidebarButton;
+        "kortxyz-sidebar-panel": KortxyzSidebarPanel;
         "kortxyz-tauchart": KortxyzTauchart;
     }
 }
@@ -1082,6 +1190,7 @@ declare module "@stencil/core" {
              * ```
              */
             "kortxyz-datastore": LocalJSX.KortxyzDatastore & JSXBase.HTMLAttributes<HTMLKortxyzDatastoreElement>;
+            "kortxyz-icon": LocalJSX.KortxyzIcon & JSXBase.HTMLAttributes<HTMLKortxyzIconElement>;
             /**
              * ## Intro
              * Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
@@ -1168,6 +1277,10 @@ declare module "@stencil/core" {
              * ```
              */
             "kortxyz-maplibre-source": LocalJSX.KortxyzMaplibreSource & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreSourceElement>;
+            "kortxyz-shell": LocalJSX.KortxyzShell & JSXBase.HTMLAttributes<HTMLKortxyzShellElement>;
+            "kortxyz-sidebar": LocalJSX.KortxyzSidebar & JSXBase.HTMLAttributes<HTMLKortxyzSidebarElement>;
+            "kortxyz-sidebar-button": LocalJSX.KortxyzSidebarButton & JSXBase.HTMLAttributes<HTMLKortxyzSidebarButtonElement>;
+            "kortxyz-sidebar-panel": LocalJSX.KortxyzSidebarPanel & JSXBase.HTMLAttributes<HTMLKortxyzSidebarPanelElement>;
             /**
              * ## Intro
              * Webcomponent to visualise data on charts.
