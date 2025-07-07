@@ -174,6 +174,7 @@ export class KortxyzMaplibre {
 
     if (this.hoverpopup) initHoverPopup(this.map)
     if (this.showTileBoundaries) this.map.showTileBoundaries = true
+    
   }
 
 
