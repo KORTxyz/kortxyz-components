@@ -27,11 +27,7 @@
         }
     },
     "layers": [
-        {
-            "id": "orto_foraar",
-            "type": "raster",
-            "source": "orto_foraar_webm"
-        },
+
 
         {
             "id": "skoledistrikter",

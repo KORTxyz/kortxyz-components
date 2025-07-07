@@ -80,6 +80,7 @@ export namespace Components {
      * ```
      */
     interface KortxyzMaplibre {
+        "basemaps": string;
         /**
           * A mapstyle used as a basemap below the main map
          */
@@ -710,6 +711,7 @@ declare namespace LocalJSX {
      * ```
      */
     interface KortxyzMaplibre {
+        "basemaps"?: string;
         /**
           * A mapstyle used as a basemap below the main map
          */

@@ -47,6 +47,10 @@
       },
       "attributes": [
         {
+          "name": "basemaps",
+          "description": ""
+        },
+        {
           "name": "basemapstyle",
           "description": "A mapstyle used as a basemap below the main map"
         },

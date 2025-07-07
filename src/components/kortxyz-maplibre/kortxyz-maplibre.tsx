@@ -10,7 +10,7 @@ import { initHoverPopup } from '../../utils/mapUtils';
 import LegendControl from 'mapboxgl-legend';
 import { LegendControlOptions } from 'mapboxgl-legend';
 
-import { ToggleControl } from '../../utils/toggleControl';
+import { ToggleControl, BasemapSwitcherControl } from '../../utils/mapControl';
 
 
 /**
@@ -67,6 +67,9 @@ export class KortxyzMaplibre {
 
   /** A mapstyle used as a basemap below the main map */
   @Prop() basemapstyle: maplibregl.StyleSpecification | string;
+
+  /** Basemapswitcher configuretd by an array of object with title, icon (url), url (style) for a basemaps. First entry is set as basemap */
+  @Prop() basemaps: string;
 
   /** (optional) Mapboxkey if using styles from mapbox */
   @Prop() mapboxkey: string;
@@ -132,30 +135,30 @@ export class KortxyzMaplibre {
     if (this.center) mapOptions["center"] = JSON.parse(this.center);
     if (this.zoom) mapOptions["zoom"] = Number(this.zoom);
 
-    if (this.basemapstyle) {
-      this.basemap = new maplibregl.Map({
-        container: this.mapEl,
-        style: this.basemapstyle,
-        attributionControl: false,
-        transformRequest: (url: string, resourceType: string) => {
-          if (isMapboxURL(url)) return transformMapboxUrl(url, resourceType, this.mapboxkey)
-          return { url }
-        }
-      });
+    this.basemap = new maplibregl.Map({
+      container: this.mapEl,
+      style: this.basemapstyle,
+      attributionControl: false,
+      transformRequest: (url: string, resourceType: string) => {
+        if (isMapboxURL(url)) return transformMapboxUrl(url, resourceType, this.mapboxkey)
+        return { url }
+      }
+    });
 
-      this.map = new maplibregl.Map(mapOptions);
-      syncMaps(this.basemap, this.map)
-    }
+    this.map = new maplibregl.Map(mapOptions);
+    syncMaps(this.basemap, this.map)
 
-    else this.map = new maplibregl.Map(mapOptions);
 
+    if (this.scalebar) this.map.addControl(new ScaleControl());
 
     if (this.navigation) this.map.addControl(new NavigationControl({ visualizePitch: true }));
     if (this.gps) this.map.addControl(new GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: true }));
     if (this.fullscreen) this.map.addControl(new FullscreenControl({ container: document.querySelector('body') }));
     if (this.togglebutton) this.map.addControl(new ToggleControl({ element: this.togglebutton }), 'top-right');
 
-    if (this.scalebar) this.map.addControl(new ScaleControl());
+    if (this.basemaps) this.map.addControl(new BasemapSwitcherControl({ basemap:this.basemap, basemaplist:JSON.parse(this.basemaps) }), 'bottom-left');
+
+
 
 
     if (typeof this.legend == "string") {
@@ -171,9 +174,13 @@ export class KortxyzMaplibre {
 
     if (this.hoverpopup) initHoverPopup(this.map)
     if (this.showTileBoundaries) this.map.showTileBoundaries = true
+
   }
 
 
+  async componentDidLoad() {
+    this.map.resize();
+  }
 
   render() {
     return (

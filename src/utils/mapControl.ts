@@ -59,3 +59,63 @@ export class ToggleControl implements IControl {
     }
 
 }
+
+
+
+interface basemapOptions {
+    title: string, 
+    icon: string, 
+    url: string
+}
+
+interface BasemapSwitcherControlOptions {
+    basemap,
+    basemaplist?: basemapOptions[]
+}
+
+export class BasemapSwitcherControl implements IControl {
+    private container!: HTMLElement;
+
+    private img!: HTMLImageElement;
+
+    private options: BasemapSwitcherControlOptions;
+
+    constructor(options?: BasemapSwitcherControlOptions) {
+        this.options = options;
+    }
+
+    onAdd(): HTMLElement {
+        const { basemap, basemaplist } = this.options;
+        basemap.setStyle(basemaplist[0].url)        
+        
+        this.container = document.createElement('div');
+        this.container.className = 'maplibregl-ctrl maplibregl-ctrl-basemapswicther';
+
+        basemaplist.forEach((basemapConfig) => {
+            this.img = document.createElement('img');
+            this.img.src = basemapConfig.icon;
+            this.img.title = basemapConfig.title;
+            this.img.className = "maplibregl-ctrl-basemapimage"
+
+            const _img = this.img
+            this.img.onclick = () => this.changeBasemap(basemap,basemapConfig,_img);
+
+            this.container.appendChild(this.img);
+        });
+
+
+        return this.container;
+
+    }
+
+    onRemove(): void {
+        if (this.container && this.container.parentNode) {
+            this.container.parentNode.removeChild(this.container);
+        }
+    }
+
+    changeBasemap(basemap,basemapConfig,image): void {
+        this.container.prepend(image);
+        basemap.setStyle(basemapConfig.url)
+    }
+}
