@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  width: 300px;
+  background-color: grey;
+}
+
+:host(.closed) {
+  display: none;
+}

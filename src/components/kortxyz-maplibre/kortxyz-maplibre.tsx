@@ -146,9 +146,7 @@ export class KortxyzMaplibre {
       this.map = new maplibregl.Map(mapOptions);
       syncMaps(this.basemap, this.map)
     }
-
     else this.map = new maplibregl.Map(mapOptions);
-
 
     if (this.navigation) this.map.addControl(new NavigationControl({ visualizePitch: true }));
     if (this.gps) this.map.addControl(new GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: true }));
@@ -171,9 +169,13 @@ export class KortxyzMaplibre {
 
     if (this.hoverpopup) initHoverPopup(this.map)
     if (this.showTileBoundaries) this.map.showTileBoundaries = true
+    
   }
 
 
+  async componentDidLoad() {
+    this.map.resize();
+  }
 
   render() {
     return (
