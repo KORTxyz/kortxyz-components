@@ -7,6 +7,11 @@
 }
 
 :host(:hover){
-  fill: grey;
+  background-color: #0084ff;
+  fill:white;
   cursor: pointer;
+}
+
+:host(.active){
+  background-color: #00b7ff;
 }

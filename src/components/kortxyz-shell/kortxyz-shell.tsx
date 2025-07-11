@@ -14,7 +14,7 @@ export class KortxyzShell {
     const slots = this.host.shadowRoot.querySelectorAll('slot');
     slots.forEach(slot=>{
       const nodes = slot.assignedNodes({flatten: true});
-      if(nodes.length>0) slot.parentElement.classList.add('has-content')
+      if(nodes.length>0) slot.classList.add('has-content')
     })
 
   };
@@ -22,17 +22,9 @@ export class KortxyzShell {
   render() {
     return (
       <Host>
-        <left>
           <slot name="left" onSlotchange={this.onSlotChange}></slot>
-        </left>
-
-        <main>
           <slot name="main" onSlotchange={this.onSlotChange}></slot>
-        </main>
-
-        <right>
           <slot name="right" onSlotchange={this.onSlotChange}></slot>
-        </right>
       </Host>
     );
   }

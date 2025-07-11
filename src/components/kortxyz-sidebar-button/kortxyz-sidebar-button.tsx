@@ -1,4 +1,4 @@
-import { Component, Host, Element, Event, EventEmitter, h } from '@stencil/core';
+import { Component, Host, Element, Event, EventEmitter, Prop, h } from '@stencil/core';
 
 @Component({
   tag: 'kortxyz-sidebar-button',
@@ -11,10 +11,14 @@ export class KortxyzSidebarButton {
 
   @Event() toggleRequest: EventEmitter;
 
+  @Prop() placement = "top";
+
+  @Prop() icon = "layers";
+
   render() {
     return (
-      <Host slot="icon" onClick={() => this.toggleRequest.emit()}>
-        <kortxyz-icon></kortxyz-icon>
+      <Host slot={"icon-"+this.placement} onClick={() => this.toggleRequest.emit()}>
+        <kortxyz-icon icon={this.icon}></kortxyz-icon>
       </Host>
     );
   }

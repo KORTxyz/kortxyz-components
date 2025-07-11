@@ -1,4 +1,4 @@
-import { Component, Host, Prop, h } from '@stencil/core';
+import { Component, Host, Prop, Element, h } from '@stencil/core';
 
 @Component({
   tag: 'kortxyz-sidebar-panel',
@@ -6,15 +6,17 @@ import { Component, Host, Prop, h } from '@stencil/core';
   shadow: true,
 })
 export class KortxyzSidebarPanel {
+  @Element() panelEl: HTMLElement;
+  
   @Prop() closed = true
   
   render() {
-    console.log(this.closed)
        return (
-      <Host slot="panel" class={{
-          'closed': this.closed,
-        }}>
-        {this.closed ? 'Closed' : 'Open'}
+      <Host slot="panel" class={{ 'closed': this.closed }}>
+        <header> {this.panelEl.id} </header>
+        <panel>
+          <slot></slot>
+        </panel>
       </Host>
     );
   }

@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+collection {
+  display: flex;
+  flex: 0 0 36px;
+  width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  justify-content: flex-start;
+  align-items: center;
+}

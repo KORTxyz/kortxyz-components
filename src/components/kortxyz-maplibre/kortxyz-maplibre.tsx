@@ -2,10 +2,9 @@ import { Component, Host, Element, Prop, h } from '@stencil/core';
 
 import maplibregl, { FullscreenControl, GeolocateControl, NavigationControl, ScaleControl } from 'maplibre-gl';
 
-import syncMaps from '@mapbox/mapbox-gl-sync-move';
 import { isMapboxURL, transformMapboxUrl } from 'maplibregl-mapbox-request-transformer';
 
-import { initHoverPopup } from '../../utils/mapUtils';
+import { initHoverPopup,syncMaps} from '../../utils/mapUtils';
 
 import LegendControl from 'mapboxgl-legend';
 import { LegendControlOptions } from 'mapboxgl-legend';
@@ -57,8 +56,6 @@ export class KortxyzMaplibre {
     {
       "version": 8,
       "name": "name",
-      "center": [0, 0],
-      "zoom": 16,
       "sources": {
       },
       "layers": [
@@ -66,7 +63,15 @@ export class KortxyzMaplibre {
     };
 
   /** A mapstyle used as a basemap below the main map */
-  @Prop() basemapstyle: maplibregl.StyleSpecification | string;
+  @Prop() basemapstyle: maplibregl.StyleSpecification | string =
+    {
+      "version": 8,
+      "name": "name",
+      "sources": {
+      },
+      "layers": [
+      ]
+    };
 
   /** Basemapswitcher configuretd by an array of object with title, icon (url), url (style) for a basemaps. First entry is set as basemap */
   @Prop() basemaps: string;
@@ -78,10 +83,10 @@ export class KortxyzMaplibre {
   @Prop() cooperativeGestures: boolean = false;
 
   /** Start center of the map */
-  @Prop() center: string = undefined;
+  @Prop() center: string;
 
   /** Start zoom of the map */
-  @Prop() zoom: number = undefined;
+  @Prop() zoom: number;
 
   /** Start bounds of the map. [12.4,55.6,12.282,55.636] */
   @Prop() bbox: string = undefined;
@@ -135,18 +140,15 @@ export class KortxyzMaplibre {
     if (this.center) mapOptions["center"] = JSON.parse(this.center);
     if (this.zoom) mapOptions["zoom"] = Number(this.zoom);
 
-    this.basemap = new maplibregl.Map({
-      container: this.mapEl,
-      style: this.basemapstyle,
-      attributionControl: false,
-      transformRequest: (url: string, resourceType: string) => {
-        if (isMapboxURL(url)) return transformMapboxUrl(url, resourceType, this.mapboxkey)
-        return { url }
-      }
-    });
+
+    let basemapOptions = {...mapOptions};
+    basemapOptions.style = this.basemapstyle;
+
+    this.basemap = new maplibregl.Map(basemapOptions);
 
     this.map = new maplibregl.Map(mapOptions);
-    syncMaps(this.basemap, this.map)
+
+    syncMaps(this.map,this.basemap)
 
 
     if (this.scalebar) this.map.addControl(new ScaleControl());
@@ -156,7 +158,7 @@ export class KortxyzMaplibre {
     if (this.fullscreen) this.map.addControl(new FullscreenControl({ container: document.querySelector('body') }));
     if (this.togglebutton) this.map.addControl(new ToggleControl({ element: this.togglebutton }), 'top-right');
 
-    if (this.basemaps) this.map.addControl(new BasemapSwitcherControl({ basemap:this.basemap, basemaplist:JSON.parse(this.basemaps) }), 'bottom-left');
+    if(this.basemaps) this.map.addControl(new BasemapSwitcherControl({ basemap:this.basemap, basemaplist:JSON.parse(this.basemaps) }), 'bottom-left');
 
 
 
@@ -177,8 +179,8 @@ export class KortxyzMaplibre {
     
   }
 
-
   async componentDidLoad() {
+    this.basemap.resize();
     this.map.resize();
   }
 

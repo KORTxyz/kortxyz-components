@@ -11,37 +11,87 @@
   <style>
     body {
       margin: 0;
-      display: flex;
-      flex-direction: column;
       height: 100vh;
       width: 100vw;
+    }
+
+    kortxyz-shell {
+      height: 100vh;
+      width: 100vw;
+      position: absolute;
+      z-index: 10;
     }
   </style>
 </head>
 
 <body>
 
-  <kortxyz-datastore store="items" data="https://demo.kort.xyz/collections/vejmidte/items?f=json&limit=1000&properties=vejkategori"></kortxyz-datastore>
+  <kortxyz-datastore store="items"
+    data="https://demo.kort.xyz/collections/vejmidte/items?f=json&limit=1000&properties=vejkategori"></kortxyz-datastore>
 
 
-  <kortxyz-shell style="flex:1;">
-
-    <kortxyz-maplibre slot="main" center="[11,55]" zoom="15">
-      <kortxyz-maplibre-source sourceid="items" type="geojson" store="items" fit></kortxyz-maplibre-source>
-      <kortxyz-maplibre-source type="raster" tilesize="256" maxzoom="20" tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}"></kortxyz-maplibre-source>
-    </kortxyz-maplibre>
-
-
+  <kortxyz-shell>
     <kortxyz-sidebar slot="left">
-      <kortxyz-sidebar-button title="test" panel="test"></kortxyz-sidebar-button>  
-      <kortxyz-sidebar-button></kortxyz-sidebar-button>
-      
-       <kortxyz-sidebar-panel id="test"></kortxyz-sidebar-panel>
+      <kortxyz-sidebar-button title="collections" panel="collections" icon="collections"></kortxyz-sidebar-button>
+      <kortxyz-sidebar-button title="layers" panel="layers" icon="layers"></kortxyz-sidebar-button>
+
+
+      <kortxyz-sidebar-panel id="collections">
+        <kortxyz-ogcapi-collectionlist url="https://geodk.kort.xyz/collections"></kortxyz-ogcapi-collectionlist>
+      </kortxyz-sidebar-panel>
+
+      <kortxyz-sidebar-panel id="layers">
+        <kortxyz-maplibre-layerlist></kortxyz-maplibre-layerlist>
+      </kortxyz-sidebar-panel>
+
     </kortxyz-sidebar>
-    
-   
 
   </kortxyz-shell>
+
+  <kortxyz-maplibre slot="main" center="[12.34,55.616]" zoom="12" basemaps='[
+      {
+        "title": "3857_skaermkort_daempet",
+        "icon": "https://vectortiles.dataforsyningen.dk/img/daempet.png",
+        "url": "https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_daempet.json?token=bfe350080dc1da9dbb948d6fd59a8e96"
+      },
+      {
+        "title": "Skærmkort Mørkt",
+        "icon": "https://vectortiles.dataforsyningen.dk/img/moerkt.png",
+        "url": "https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_moerkt.json?token=bfe350080dc1da9dbb948d6fd59a8e96"
+      },
+      {
+        "title": "3857_skaermkort_graa",
+        "icon": "https://vectortiles.dataforsyningen.dk/img/graa.png",
+        "url": "https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_graa.json?token=bfe350080dc1da9dbb948d6fd59a8e96"
+      },
+      {
+        "title": "3857_skaermkort_klassisk",
+        "icon": "https://vectortiles.dataforsyningen.dk/img/klassisk.png",
+        "url": "https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_klassisk.json?token=bfe350080dc1da9dbb948d6fd59a8e96"
+      }
+   ]'>
+    <kortxyz-maplibre-source sourceid="legepladser" type="geojson"
+      data="https://geofa.geodanmark.dk/api/v2/sql/fkg?q=SELECT navn, lang_beskr, geofafoto, geometri FROM fkg_foto_gpx_link.t_5800_fac_pkt WHERE facil_ty='Legeplads' AND cvr_navn='Ishøj Kommune'&format=geojson&srs=4326">
+      <kortxyz-maplibre-layer layerid="legepladser" type="circle"
+        paint='{"circle-color": "#d8504d","circle-opacity": 0.8,"circle-radius": 12}' popup='
+            <div style="width:300px;border-radius:40px">
+                <img style="width:100%" src={geofafoto} alt="no image"></img>
+                <div style="padding:10px;box-sizing:border-box">
+                <p style="font-size:14px;font-weight:bold">{navn}</p>
+                <p style="font-size:12px;color:#222">{lang_beskr}</p>
+                <div>
+            </div>
+            '>
+      </kortxyz-maplibre-layer>
+    </kortxyz-maplibre-source>
+  </kortxyz-maplibre>
+
+
+
+
+
+  </main>
+
 
 </body>
 

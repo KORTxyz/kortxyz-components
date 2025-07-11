@@ -94,9 +94,13 @@ export namespace Components {
      * ```
      */
     interface KortxyzMaplibre {
+        /**
+          * Basemapswitcher configuretd by an array of object with title, icon (url), url (style) for a basemaps. First entry is set as basemap
+         */
         "basemaps": string;
         /**
           * A mapstyle used as a basemap below the main map
+          * @default {       "version": 8,       "name": "name",       "sources": {       },       "layers": [       ]     }
          */
         "basemapstyle": maplibregl.StyleSpecification | string;
         /**
@@ -106,7 +110,6 @@ export namespace Components {
         "bbox": string;
         /**
           * Start center of the map
-          * @default undefined
          */
         "center": string;
         /**
@@ -140,7 +143,7 @@ export namespace Components {
         "mapboxkey": string;
         /**
           * Mapstyle for the main map
-          * @default {       "version": 8,       "name": "name",       "center": [0, 0],       "zoom": 16,       "sources": {       },       "layers": [       ]     }
+          * @default {       "version": 8,       "name": "name",       "sources": {       },       "layers": [       ]     }
          */
         "mapstyle": maplibregl.StyleSpecification | string;
         /**
@@ -164,7 +167,6 @@ export namespace Components {
         "togglebutton": string;
         /**
           * Start zoom of the map
-          * @default undefined
          */
         "zoom": number;
     }
@@ -232,6 +234,8 @@ export namespace Components {
           * @default 'fill'
          */
         "type": 'circle' | 'line' | 'fill';
+    }
+    interface KortxyzMaplibreLayerlist {
     }
     /**
      * ### Intro
@@ -338,11 +342,22 @@ export namespace Components {
          */
         "type": 'vector' | 'geojson' | 'raster';
     }
+    interface KortxyzOgcapiCollectionlist {
+        "url": any;
+    }
     interface KortxyzShell {
     }
     interface KortxyzSidebar {
     }
     interface KortxyzSidebarButton {
+        /**
+          * @default "layers"
+         */
+        "icon": string;
+        /**
+          * @default "top"
+         */
+        "placement": string;
     }
     interface KortxyzSidebarPanel {
         /**
@@ -437,6 +452,10 @@ export interface KortxyzAggridCustomEvent<T> extends CustomEvent<T> {
 export interface KortxyzMaplibreLayerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLKortxyzMaplibreLayerElement;
+}
+export interface KortxyzSidebarCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLKortxyzSidebarElement;
 }
 export interface KortxyzSidebarButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -566,6 +585,12 @@ declare global {
         prototype: HTMLKortxyzMaplibreLayerElement;
         new (): HTMLKortxyzMaplibreLayerElement;
     };
+    interface HTMLKortxyzMaplibreLayerlistElement extends Components.KortxyzMaplibreLayerlist, HTMLStencilElement {
+    }
+    var HTMLKortxyzMaplibreLayerlistElement: {
+        prototype: HTMLKortxyzMaplibreLayerlistElement;
+        new (): HTMLKortxyzMaplibreLayerlistElement;
+    };
     /**
      * ### Intro
      * Webcomponent to use inside kortxyz-maplibre to search for a point.
@@ -617,13 +642,30 @@ declare global {
         prototype: HTMLKortxyzMaplibreSourceElement;
         new (): HTMLKortxyzMaplibreSourceElement;
     };
+    interface HTMLKortxyzOgcapiCollectionlistElement extends Components.KortxyzOgcapiCollectionlist, HTMLStencilElement {
+    }
+    var HTMLKortxyzOgcapiCollectionlistElement: {
+        prototype: HTMLKortxyzOgcapiCollectionlistElement;
+        new (): HTMLKortxyzOgcapiCollectionlistElement;
+    };
     interface HTMLKortxyzShellElement extends Components.KortxyzShell, HTMLStencilElement {
     }
     var HTMLKortxyzShellElement: {
         prototype: HTMLKortxyzShellElement;
         new (): HTMLKortxyzShellElement;
     };
+    interface HTMLKortxyzSidebarElementEventMap {
+        "open": any;
+    }
     interface HTMLKortxyzSidebarElement extends Components.KortxyzSidebar, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLKortxyzSidebarElementEventMap>(type: K, listener: (this: HTMLKortxyzSidebarElement, ev: KortxyzSidebarCustomEvent<HTMLKortxyzSidebarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLKortxyzSidebarElementEventMap>(type: K, listener: (this: HTMLKortxyzSidebarElement, ev: KortxyzSidebarCustomEvent<HTMLKortxyzSidebarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLKortxyzSidebarElement: {
         prototype: HTMLKortxyzSidebarElement;
@@ -699,8 +741,10 @@ declare global {
         "kortxyz-icon": HTMLKortxyzIconElement;
         "kortxyz-maplibre": HTMLKortxyzMaplibreElement;
         "kortxyz-maplibre-layer": HTMLKortxyzMaplibreLayerElement;
+        "kortxyz-maplibre-layerlist": HTMLKortxyzMaplibreLayerlistElement;
         "kortxyz-maplibre-searchbox": HTMLKortxyzMaplibreSearchboxElement;
         "kortxyz-maplibre-source": HTMLKortxyzMaplibreSourceElement;
+        "kortxyz-ogcapi-collectionlist": HTMLKortxyzOgcapiCollectionlistElement;
         "kortxyz-shell": HTMLKortxyzShellElement;
         "kortxyz-sidebar": HTMLKortxyzSidebarElement;
         "kortxyz-sidebar-button": HTMLKortxyzSidebarButtonElement;
@@ -801,9 +845,13 @@ declare namespace LocalJSX {
      * ```
      */
     interface KortxyzMaplibre {
+        /**
+          * Basemapswitcher configuretd by an array of object with title, icon (url), url (style) for a basemaps. First entry is set as basemap
+         */
         "basemaps"?: string;
         /**
           * A mapstyle used as a basemap below the main map
+          * @default {       "version": 8,       "name": "name",       "sources": {       },       "layers": [       ]     }
          */
         "basemapstyle"?: maplibregl.StyleSpecification | string;
         /**
@@ -813,7 +861,6 @@ declare namespace LocalJSX {
         "bbox"?: string;
         /**
           * Start center of the map
-          * @default undefined
          */
         "center"?: string;
         /**
@@ -847,7 +894,7 @@ declare namespace LocalJSX {
         "mapboxkey"?: string;
         /**
           * Mapstyle for the main map
-          * @default {       "version": 8,       "name": "name",       "center": [0, 0],       "zoom": 16,       "sources": {       },       "layers": [       ]     }
+          * @default {       "version": 8,       "name": "name",       "sources": {       },       "layers": [       ]     }
          */
         "mapstyle"?: maplibregl.StyleSpecification | string;
         /**
@@ -871,7 +918,6 @@ declare namespace LocalJSX {
         "togglebutton"?: string;
         /**
           * Start zoom of the map
-          * @default undefined
          */
         "zoom"?: number;
     }
@@ -943,6 +989,8 @@ declare namespace LocalJSX {
           * @default 'fill'
          */
         "type"?: 'circle' | 'line' | 'fill';
+    }
+    interface KortxyzMaplibreLayerlist {
     }
     /**
      * ### Intro
@@ -1049,12 +1097,24 @@ declare namespace LocalJSX {
          */
         "type"?: 'vector' | 'geojson' | 'raster';
     }
+    interface KortxyzOgcapiCollectionlist {
+        "url"?: any;
+    }
     interface KortxyzShell {
     }
     interface KortxyzSidebar {
+        "onOpen"?: (event: KortxyzSidebarCustomEvent<any>) => void;
     }
     interface KortxyzSidebarButton {
+        /**
+          * @default "layers"
+         */
+        "icon"?: string;
         "onToggleRequest"?: (event: KortxyzSidebarButtonCustomEvent<any>) => void;
+        /**
+          * @default "top"
+         */
+        "placement"?: string;
     }
     interface KortxyzSidebarPanel {
         /**
@@ -1147,8 +1207,10 @@ declare namespace LocalJSX {
         "kortxyz-icon": KortxyzIcon;
         "kortxyz-maplibre": KortxyzMaplibre;
         "kortxyz-maplibre-layer": KortxyzMaplibreLayer;
+        "kortxyz-maplibre-layerlist": KortxyzMaplibreLayerlist;
         "kortxyz-maplibre-searchbox": KortxyzMaplibreSearchbox;
         "kortxyz-maplibre-source": KortxyzMaplibreSource;
+        "kortxyz-ogcapi-collectionlist": KortxyzOgcapiCollectionlist;
         "kortxyz-shell": KortxyzShell;
         "kortxyz-sidebar": KortxyzSidebar;
         "kortxyz-sidebar-button": KortxyzSidebarButton;
@@ -1236,6 +1298,7 @@ declare module "@stencil/core" {
              * ```
              */
             "kortxyz-maplibre-layer": LocalJSX.KortxyzMaplibreLayer & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreLayerElement>;
+            "kortxyz-maplibre-layerlist": LocalJSX.KortxyzMaplibreLayerlist & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreLayerlistElement>;
             /**
              * ### Intro
              * Webcomponent to use inside kortxyz-maplibre to search for a point.
@@ -1277,6 +1340,7 @@ declare module "@stencil/core" {
              * ```
              */
             "kortxyz-maplibre-source": LocalJSX.KortxyzMaplibreSource & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreSourceElement>;
+            "kortxyz-ogcapi-collectionlist": LocalJSX.KortxyzOgcapiCollectionlist & JSXBase.HTMLAttributes<HTMLKortxyzOgcapiCollectionlistElement>;
             "kortxyz-shell": LocalJSX.KortxyzShell & JSXBase.HTMLAttributes<HTMLKortxyzShellElement>;
             "kortxyz-sidebar": LocalJSX.KortxyzSidebar & JSXBase.HTMLAttributes<HTMLKortxyzSidebarElement>;
             "kortxyz-sidebar-button": LocalJSX.KortxyzSidebarButton & JSXBase.HTMLAttributes<HTMLKortxyzSidebarButtonElement>;
