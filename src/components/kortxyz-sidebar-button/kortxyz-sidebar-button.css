@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+}
+
+:host(:hover){
+  background-color: var(--primary, #1976d2);
+  fill:white;
+  cursor: pointer;
+}
+
+:host(.active){
+  background-color: var(--primary-light, #63a4ff);
+}

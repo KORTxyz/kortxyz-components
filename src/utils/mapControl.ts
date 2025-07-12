@@ -86,7 +86,7 @@ export class BasemapSwitcherControl implements IControl {
 
     onAdd(): HTMLElement {
         const { basemap, basemaplist } = this.options;
-        basemap.setStyle(basemaplist[0].url)        
+        basemap.setStyle(basemaplist[0].url)
         
         this.container = document.createElement('div');
         this.container.className = 'maplibregl-ctrl maplibregl-ctrl-basemapswicther';

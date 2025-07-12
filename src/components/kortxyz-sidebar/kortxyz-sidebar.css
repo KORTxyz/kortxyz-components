@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  width: 48px;
+  flex-direction: row;
+  pointer-events: none;
+}
+
+iconbar[is-active]  {
+  background-color: #eee;
+}
+
+iconbar > icons {
+  pointer-events: all;
+}
+
+iconbar{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+panel{
+  background-color: white;
+  pointer-events: all;
+  height: 100%;
+}

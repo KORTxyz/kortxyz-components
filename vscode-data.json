@@ -40,6 +40,27 @@
       ]
     },
     {
+      "name": "kortxyz-icon",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "color",
+          "description": ""
+        },
+        {
+          "name": "icon",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": ""
+        }
+      ]
+    },
+    {
       "name": "kortxyz-maplibre",
       "description": {
         "kind": "markdown",
@@ -48,7 +69,7 @@
       "attributes": [
         {
           "name": "basemaps",
-          "description": ""
+          "description": "Basemapswitcher configuretd by an array of object with title, icon (url), url (style) for a basemaps. First entry is set as basemap"
         },
         {
           "name": "basemapstyle",
@@ -173,6 +194,14 @@
       ]
     },
     {
+      "name": "kortxyz-maplibre-layerlist",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
       "name": "kortxyz-maplibre-searchbox",
       "description": {
         "kind": "markdown",
@@ -258,6 +287,76 @@
               "name": "vector"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "kortxyz-ogcapi-collectionlist",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "url",
+          "description": "Url to a OGC API"
+        }
+      ]
+    },
+    {
+      "name": "kortxyz-shell",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
+      "name": "kortxyz-sidebar",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
+    },
+    {
+      "name": "kortxyz-sidebar-button",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "icon",
+          "description": "Which icon to use from kortxyz-icon"
+        },
+        {
+          "name": "placement",
+          "description": "Where in the sidebar to place the button",
+          "values": [
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "middle"
+            },
+            {
+              "name": "top"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kortxyz-sidebar-panel",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "closed",
+          "description": "Controls if the panel should be shown or not."
         }
       ]
     },

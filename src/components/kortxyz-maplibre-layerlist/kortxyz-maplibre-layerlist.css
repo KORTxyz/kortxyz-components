@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.open{
+  display:flex;
+}
+
+list {
+  flex: 1;
+  flex-direction: column;
+  display: none;
+}
+
+list > layer {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 36px;
+  box-sizing: border-box;
+  width: 100%;
+  padding-left: 24px;
+  cursor: pointer;
+  font-family: monospace;
+  justify-content: center;
+}
+
+list > layer:hover {
+  background-color: var(--primary, #1976d2);
+}
+
+config {
+  flex: 1;
+  display: none;
+}

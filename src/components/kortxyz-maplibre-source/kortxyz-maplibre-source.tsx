@@ -121,9 +121,9 @@ export class KortxyzMaplibreSource {
         if (this.map.getLayer(this.sourceid+"-"+geomType)) this.map.removeLayer(this.sourceid+"-"+geomType);
 
         let layerEl = document.createElement("kortxyz-maplibre-layer");
-        layerEl.id = this.sourceid+"-"+geomType;
+        layerEl.layerid = this.sourceid+"-"+geomType;
         layerEl.setAttribute("type", mapboxType);
-        layerEl.setAttribute("paint", `{"${mapboxType}-color":"${this.randomColor()}"}`);
+        layerEl.setAttribute("paint", `{"${mapboxType}-color":"${this.randomColor()}","${mapboxType}-opacity":0.8}`);
         layerEl.setAttribute("popup", "");
 
         this.el.appendChild(layerEl)
@@ -147,10 +147,9 @@ export class KortxyzMaplibreSource {
   async componentWillLoad() {
     const { map } = this.el.closest('kortxyz-maplibre');
     this.map = map;
-
     if(this.el.children.length == 0) this.autolayers = true;
 
-    map.once('load', async () => {
+
       map.addSource(this.sourceid, this.getSourceObject())
       this.source = map.getSource(this.sourceid)
 
@@ -172,7 +171,6 @@ export class KortxyzMaplibreSource {
             const res = await fetch(this.data)
             const geojson = await res.json();
             this.updateGeojson(geojson)
-
           }
         });
       }
@@ -182,7 +180,7 @@ export class KortxyzMaplibreSource {
             layerEl.setAttribute("type", "raster");
         this.el.appendChild(layerEl)
       }
-    });
+   
 
   }
 
