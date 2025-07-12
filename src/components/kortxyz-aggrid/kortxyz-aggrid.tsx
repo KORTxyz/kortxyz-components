@@ -7,7 +7,7 @@ import { createGrid, GridOptions, FilterChangedEvent, GridApi, RowClickedEvent }
 import { themeBalham, colorSchemeDark, ColDef, ColGroupDef, ITooltipParams } from 'ag-grid-community';
 
 import { getStore } from '../../utils/store';
-import {isvalidURL} from '../../utils/checkUtils';
+import {isvalidURL, isValidDateString} from '../../utils/checkUtils';
 
 /**
   ## Intro
@@ -88,27 +88,34 @@ export class KortxyzAggrid {
     getStore(this.store).set("data", geojson)
   }
 
-  getColumnDef = columnKey => {
+  getColumnDef = (columnKey,exampleData) => {
     const columnSchema = this.schema?.properties[columnKey];
 
-    return {
+    let columnDef:ColDef = {
       field: columnKey,
       headerName: columnSchema?.title || columnKey,
+      headerTooltip: columnSchema?.description || null,
       tooltipValueGetter: (p: ITooltipParams) => {
-        const valueSchema = columnSchema?.oneOf?.find(e => e.const == p.data[columnKey]);
-        if(!valueSchema) return;
-        else {
-          const {title,description} = valueSchema;
-          return  `${title}. ${description}`;
-        }
-
+        const value = columnSchema?.oneOf?.find(e => e.const === p.data[columnKey]);
+        if (!value) return;
+        return value.description;
       },
       cellEditor: this.editorTypes(columnSchema) || null,
       cellEditorParams: {
         values: columnSchema?.oneOf?.map(e => e.const) || columnSchema?.enum
       },
-      headerTooltip: columnSchema?.description || null,
+    };
+
+    if(isValidDateString(exampleData)){
+      columnDef = {...columnDef,
+        cellDataType : 'date',
+        filter: 'agDateColumnFilter',
+        valueGetter :  (params) => new Date(params.data[columnKey]),
+        cellEditor: 'agDateCellEditor',
+      }
     }
+
+    return columnDef
   }
 
   editorTypes = (property?: any) => {
@@ -123,8 +130,8 @@ export class KortxyzAggrid {
   updateGrid = (geojson) => {
     const data = geojson.features.map(e => ({ id: e.id, ...e.properties, geometry: e.geometry }))
     const columns = Object.keys(data[0]).filter(key => key != "id" && key != "geometry");
-
-    const columnDefs: (ColDef | ColGroupDef)[] = columns.map(key => this.getColumnDef(key))
+    
+    const columnDefs: (ColDef | ColGroupDef)[] = columns.map(key => this.getColumnDef(key,data[0][key]))
 
     this.api.setGridOption('columnDefs', columnDefs)
     this.api.setGridOption('rowData', data);
