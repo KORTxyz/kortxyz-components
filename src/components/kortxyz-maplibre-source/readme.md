@@ -51,6 +51,10 @@ Webcomponent load a new source into a kortxyz-maplibre component. An id is autog
 
 ## Dependencies
 
+### Used by
+
+ - [kortxyz-ogcapi-collectionlist](../kortxyz-ogcapi-collectionlist)
+
 ### Depends on
 
 - [kortxyz-maplibre-layer](../kortxyz-maplibre-layer)
@@ -59,6 +63,7 @@ Webcomponent load a new source into a kortxyz-maplibre component. An id is autog
 ```mermaid
 graph TD;
   kortxyz-maplibre-source --> kortxyz-maplibre-layer
+  kortxyz-ogcapi-collectionlist --> kortxyz-maplibre-source
   style kortxyz-maplibre-source fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

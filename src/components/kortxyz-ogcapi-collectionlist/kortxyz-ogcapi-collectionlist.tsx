@@ -7,7 +7,9 @@ import { Component, Host, Prop, h } from '@stencil/core';
 })
 export class KortxyzOgcapiCollectionlist {
 
+  /** Url to a OGC API */
   @Prop() url;
+
   private collections;
 
   async addCollection(id){
@@ -17,25 +19,23 @@ export class KortxyzOgcapiCollectionlist {
     const sourceDiv = document.createElement("kortxyz-maplibre-source");
     sourceDiv.sourceid = id;
     sourceDiv.type = "geojson";
-    sourceDiv.data = `${this.url}/${id}/items?f=json`;
+    sourceDiv.data = `${this.url}/collections/${id}/items?f=json&limit=1000`;
 
     mapDiv.append(sourceDiv)
   }
 
   async componentWillLoad() {
-    const res = await fetch(this.url)
+    const res = await fetch(this.url+"/collections?f=json")
     this.collections = (await res.json()).collections;
   }
 
   render() {
     return (
       <Host>
-        {this.collections.map(({id,title,description}) => (
+        {this.collections.map(({id,title}) => (
           
         <collection onClick={()=>this.addCollection(id)}>
-          <div>{title}</div>
-          <div>{description}</div>
-
+          <div>{id||title}</div>
         </collection>
       ))}
       </Host>

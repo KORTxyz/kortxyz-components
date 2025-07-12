@@ -8,6 +8,7 @@ import { Component, Host, Prop, Element, h } from '@stencil/core';
 export class KortxyzSidebarPanel {
   @Element() panelEl: HTMLElement;
   
+  /** Controls if the panel should be shown or not.*/
   @Prop() closed = true
   
   render() {

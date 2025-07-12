@@ -121,7 +121,7 @@ export class KortxyzMaplibreSource {
         if (this.map.getLayer(this.sourceid+"-"+geomType)) this.map.removeLayer(this.sourceid+"-"+geomType);
 
         let layerEl = document.createElement("kortxyz-maplibre-layer");
-        layerEl.id = this.sourceid+"-"+geomType;
+        layerEl.layerid = this.sourceid+"-"+geomType;
         layerEl.setAttribute("type", mapboxType);
         layerEl.setAttribute("paint", `{"${mapboxType}-color":"${this.randomColor()}","${mapboxType}-opacity":0.8}`);
         layerEl.setAttribute("popup", "");
@@ -171,7 +171,6 @@ export class KortxyzMaplibreSource {
             const res = await fetch(this.data)
             const geojson = await res.json();
             this.updateGeojson(geojson)
-
           }
         });
       }

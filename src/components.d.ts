@@ -343,6 +343,9 @@ export namespace Components {
         "type": 'vector' | 'geojson' | 'raster';
     }
     interface KortxyzOgcapiCollectionlist {
+        /**
+          * Url to a OGC API
+         */
         "url": any;
     }
     interface KortxyzShell {
@@ -351,16 +354,19 @@ export namespace Components {
     }
     interface KortxyzSidebarButton {
         /**
+          * Which icon to use from kortxyz-icon
           * @default "layers"
          */
         "icon": string;
         /**
+          * Where in the sidebar to place the button
           * @default "top"
          */
-        "placement": string;
+        "placement": "top"|"middle"|"bottom";
     }
     interface KortxyzSidebarPanel {
         /**
+          * Controls if the panel should be shown or not.
           * @default true
          */
         "closed": boolean;
@@ -655,7 +661,7 @@ declare global {
         new (): HTMLKortxyzShellElement;
     };
     interface HTMLKortxyzSidebarElementEventMap {
-        "open": any;
+        "openPanel": any;
     }
     interface HTMLKortxyzSidebarElement extends Components.KortxyzSidebar, HTMLStencilElement {
         addEventListener<K extends keyof HTMLKortxyzSidebarElementEventMap>(type: K, listener: (this: HTMLKortxyzSidebarElement, ev: KortxyzSidebarCustomEvent<HTMLKortxyzSidebarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1098,26 +1104,32 @@ declare namespace LocalJSX {
         "type"?: 'vector' | 'geojson' | 'raster';
     }
     interface KortxyzOgcapiCollectionlist {
+        /**
+          * Url to a OGC API
+         */
         "url"?: any;
     }
     interface KortxyzShell {
     }
     interface KortxyzSidebar {
-        "onOpen"?: (event: KortxyzSidebarCustomEvent<any>) => void;
+        "onOpenPanel"?: (event: KortxyzSidebarCustomEvent<any>) => void;
     }
     interface KortxyzSidebarButton {
         /**
+          * Which icon to use from kortxyz-icon
           * @default "layers"
          */
         "icon"?: string;
         "onToggleRequest"?: (event: KortxyzSidebarButtonCustomEvent<any>) => void;
         /**
+          * Where in the sidebar to place the button
           * @default "top"
          */
-        "placement"?: string;
+        "placement"?: "top"|"middle"|"bottom";
     }
     interface KortxyzSidebarPanel {
         /**
+          * Controls if the panel should be shown or not.
           * @default true
          */
         "closed"?: boolean;

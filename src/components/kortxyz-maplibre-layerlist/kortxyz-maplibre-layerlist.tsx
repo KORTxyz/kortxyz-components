@@ -1,4 +1,4 @@
-import { Component, Host, State,Listen, Element, h } from '@stencil/core';
+import { Component, Host, State, Listen, Element, h } from '@stencil/core';
 
 @Component({
   tag: 'kortxyz-maplibre-layerlist',
@@ -7,25 +7,24 @@ import { Component, Host, State,Listen, Element, h } from '@stencil/core';
 })
 export class KortxyzMaplibreLayerlist {
   @Element() layerlistEl: HTMLElement;
-  
-  private list?: HTMLElement;
-  private config?: HTMLElement;
 
-  @Listen('open', { target: 'document' })
+  @State() mapstyle: maplibregl.StyleSpecification;
+  @State() selectedLayer: maplibregl.LayerSpecification = null;
+
+  private config?: HTMLElement;
+  private list?: HTMLElement;
+
+  @Listen('openPanel', { target: 'document' })
   onSidebarOpen(e) {
-    console.log(e.detail,this.layerlistEl.parentElement.id)
-    if(e.detail.panel==this.layerlistEl.parentElement.id){
+    if (e.detail == this.layerlistEl.parentElement.id) {
       const mapDiv = document.querySelector("kortxyz-maplibre");
       this.mapstyle = mapDiv.map.getStyle()
-      console.log(this.mapstyle)
     }
 
   }
 
-  @State() mapstyle;
-  
-
-  async openConfig(){
+  async toogleConfig(layer) {
+    this.selectedLayer =  layer;
     this.list.classList.toggle("open");
     this.config.classList.toggle("open");
   }
@@ -34,19 +33,24 @@ export class KortxyzMaplibreLayerlist {
     return (
       <Host>
         <list ref={el => this.list = el as HTMLElement} class="open">
-         {this.mapstyle?.layers.map((layers) => (
-              
-            <div onClick={()=>this.openConfig()}>
-              <div>{layers.id}</div>
+          {this.mapstyle?.layers.map((layer) => (
 
-            </div>
+            <layer onClick={() => this.toogleConfig(layer)}>
+              <div>{layer.id}</div>
+
+            </layer>
           ))}
         </list>
 
-        <config ref={el => this.config = el as HTMLElement} onClick={()=>this.openConfig()}>
-        
+        <config ref={el => this.config = el as HTMLElement} onClick={() => this.toogleConfig(null)}>
+          {this.selectedLayer && (
+            <div>
+              <h3>{this.selectedLayer.id}</h3>
+              <pre>{JSON.stringify(this.selectedLayer, null, 2)}</pre>
+            </div>
+          )}
         </config>
-       
+
       </Host>
     );
   }

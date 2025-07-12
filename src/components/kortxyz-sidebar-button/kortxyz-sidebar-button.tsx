@@ -8,11 +8,12 @@ import { Component, Host, Element, Event, EventEmitter, Prop, h } from '@stencil
 
 export class KortxyzSidebarButton {
   @Element() buttonEl: HTMLElement;
-
   @Event() toggleRequest: EventEmitter;
-
-  @Prop() placement = "top";
-
+  
+  /** Where in the sidebar to place the button */
+  @Prop() placement: "top"|"middle"|"bottom"= "top";
+  
+  /** Which icon to use from kortxyz-icon */
   @Prop() icon = "layers";
 
   render() {

@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
   <title>Webapp</title>
 
+
+  <link rel="stylesheet" href="build/kortxyz-components.css" />
   <script type="module" src="build/kortxyz-components.esm.js"></script>
 
   <style>
@@ -32,15 +34,15 @@
 
   <kortxyz-shell>
     <kortxyz-sidebar slot="left">
-      <kortxyz-sidebar-button title="collections" panel="collections" icon="collections"></kortxyz-sidebar-button>
-      <kortxyz-sidebar-button title="layers" panel="layers" icon="layers"></kortxyz-sidebar-button>
+      <kortxyz-sidebar-button title="Add collection from a OGCAPI" panel="collectionlist" icon="collections"></kortxyz-sidebar-button>
+      <kortxyz-sidebar-button title="Show layers on the map" panel="layerlist" icon="layers"></kortxyz-sidebar-button>
 
 
-      <kortxyz-sidebar-panel id="collections">
-        <kortxyz-ogcapi-collectionlist url="https://geodk.kort.xyz/collections"></kortxyz-ogcapi-collectionlist>
+      <kortxyz-sidebar-panel id="collectionlist">
+        <kortxyz-ogcapi-collectionlist url="https://geodk.kort.xyz"></kortxyz-ogcapi-collectionlist>
       </kortxyz-sidebar-panel>
 
-      <kortxyz-sidebar-panel id="layers">
+      <kortxyz-sidebar-panel id="layerlist">
         <kortxyz-maplibre-layerlist></kortxyz-maplibre-layerlist>
       </kortxyz-sidebar-panel>
 

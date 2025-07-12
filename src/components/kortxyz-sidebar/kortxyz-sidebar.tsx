@@ -8,11 +8,9 @@ import { KortxyzSidebarPanel } from '../kortxyz-sidebar-panel/kortxyz-sidebar-pa
 })
 
 export class KortxyzSidebar {
-
   @Element() sidebarEl: HTMLElement;
-
   @State() panelActive = false;
-  @Event() open: EventEmitter;
+  @Event() openPanel: EventEmitter;
 
   private activePanel;
   private activeIcon;
@@ -41,7 +39,7 @@ export class KortxyzSidebar {
     this.activePanel.closed = false;
 
     this.panelActive = true;
-    this.open.emit({ panel: panelId });
+    this.openPanel.emit(panelId);
   };
 
   render() {
