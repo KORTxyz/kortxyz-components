@@ -29,19 +29,18 @@
 </head>
 
 <body>
-  <kortxyz-datastore store="bygning" data="https://geodk.kort.xyz/collections/bygning/items?limit=1000&properties=registreringfra,virkningfra" ></kortxyz-datastore>
 
-  <kortxyz-maplibre>
+  <kortxyz-datastore store="items" style="visibility: hidden;"
+    data="http://127.0.0.1:3000/collections/points/items?f=json"
+  ></kortxyz-datastore>
 
-    <kortxyz-maplibre-source store="bygning" fit></kortxyz-maplibre-source>  
-
-    <kortxyz-maplibre-source type="raster" tilesize="256" maxzoom="20" tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}">
-    </kortxyz-maplibre-source>
-    
+  <kortxyz-maplibre style="width:100%;display:block;background:whitesmoke;"
+  mapstyle="http://127.0.0.1:3000/styles/default?f=mbs"
+   center="[11,55]" zoom="15">
+    <kortxyz-maplibre-source sourceid="items" type="geojson" store="items" fit></kortxyz-maplibre-source>
   </kortxyz-maplibre>
 
-  <kortxyz-aggrid id="aggrid" store="bygning"></kortxyz-aggrid>
-
+  <kortxyz-aggrid store="items"></kortxyz-aggrid>
 
 
 </body>
