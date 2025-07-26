@@ -1,16 +1,19 @@
-import { Component, Host, Element, Prop, h } from '@stencil/core';
+import { Component, Host, Element, Prop, Method, h } from '@stencil/core';
 
 import maplibregl, { FullscreenControl, GeolocateControl, NavigationControl, ScaleControl } from 'maplibre-gl';
 
 import { isMapboxURL, transformMapboxUrl } from 'maplibregl-mapbox-request-transformer';
 
-import { initHoverPopup,syncMaps} from '../../utils/mapUtils';
+import { initHoverPopup, syncMaps } from '../../utils/mapUtils';
 
 import LegendControl from 'mapboxgl-legend';
 import { LegendControlOptions } from 'mapboxgl-legend';
 
 import { ToggleControl, BasemapSwitcherControl } from '../../utils/mapControl';
 
+import { TerraDraw } from 'terra-draw';
+import { TerraDrawMapLibreGLAdapter } from 'terra-draw-maplibre-gl-adapter';
+import { TerraDrawSelectMode, TerraDrawPointMode, TerraDrawLineStringMode, TerraDrawPolygonMode } from 'terra-draw';
 
 /**
  
@@ -115,6 +118,77 @@ export class KortxyzMaplibre {
   /** Show a scalebar at the bottom */
   @Prop() scalebar: boolean = false;
 
+  /**
+   * Opens the geometry editor for a given GeoJSON feature.
+   *
+   * @param feature A GeoJSON Feature object to edit.
+   * @returns A promise that resolves with the edited feature.
+   */
+  @Method()
+  async editGeometry(feature) {
+    const draw = new TerraDraw({
+      adapter: new TerraDrawMapLibreGLAdapter({
+        map: this.map,
+        coordinatePrecision: 20
+      }),
+      modes: [
+        new TerraDrawSelectMode({
+          flags: {
+            point: {
+              feature: {
+                draggable: true,     // Can move the point
+              },
+            },
+            linestring: {
+              feature: {
+                draggable: true,     // Move entire linestring
+                coordinates: {
+                  draggable: true,   // Drag individual coordinates
+                  deletable: true,   // Remove individual coordinates
+                  midpoints: {
+                    draggable: true  // Insert midpoints and drag to create new nodes
+                  },
+                },
+              },
+            },
+            polygon: {
+              feature: {
+                coordinates: {
+                  draggable: true,
+                  deletable: true,
+                  midpoints: {
+                    draggable: true
+                  }
+                },
+              },
+            },
+          },
+        }),
+        new TerraDrawPointMode(),
+        new TerraDrawLineStringMode(),
+        new TerraDrawPolygonMode()
+      ],
+
+    });
+
+    draw.start();
+    feature.properties.mode = feature.geometry.type.toLowerCase();
+
+    const result = draw.addFeatures([feature])[0];
+    if (!result.valid) console.error(result)
+
+    draw.setMode("select");
+    draw.selectFeature(result.id);
+    return new Promise(resolve => {
+      draw.on("deselect", () => {
+        const edited = draw.getSnapshotFeature(result.id);
+        draw.stop();
+        resolve(edited);
+      });
+    });
+
+  }
+
   async componentWillLoad() {
     interface CustomMapOptions extends maplibregl.MapOptions {
       /**
@@ -141,14 +215,17 @@ export class KortxyzMaplibre {
     if (this.zoom) mapOptions["zoom"] = Number(this.zoom);
 
 
-    let basemapOptions = {...mapOptions};
+    let basemapOptions = { ...mapOptions };
     basemapOptions.style = this.basemapstyle;
 
     this.basemap = new maplibregl.Map(basemapOptions);
 
     this.map = new maplibregl.Map(mapOptions);
+    console.log(this.map)
 
-    syncMaps(this.map,this.basemap)
+
+
+    syncMaps(this.map, this.basemap)
 
 
     if (this.scalebar) this.map.addControl(new ScaleControl());
@@ -158,7 +235,7 @@ export class KortxyzMaplibre {
     if (this.fullscreen) this.map.addControl(new FullscreenControl({ container: document.querySelector('body') }));
     if (this.togglebutton) this.map.addControl(new ToggleControl({ element: this.togglebutton }), 'top-right');
 
-    if(this.basemaps) this.map.addControl(new BasemapSwitcherControl({ basemap:this.basemap, basemaplist:JSON.parse(this.basemaps) }), 'bottom-left');
+    if (this.basemaps) this.map.addControl(new BasemapSwitcherControl({ basemap: this.basemap, basemaplist: JSON.parse(this.basemaps) }), 'bottom-left');
 
 
 
@@ -176,7 +253,8 @@ export class KortxyzMaplibre {
 
     if (this.hoverpopup) initHoverPopup(this.map)
     if (this.showTileBoundaries) this.map.showTileBoundaries = true
-    
+    console.log(this)
+
   }
 
   async componentDidLoad() {

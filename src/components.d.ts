@@ -118,6 +118,12 @@ export namespace Components {
          */
         "cooperativeGestures": boolean;
         /**
+          * Opens the geometry editor for a given GeoJSON feature.
+          * @param feature A GeoJSON Feature object to edit.
+          * @returns A promise that resolves with the edited feature.
+         */
+        "editGeometry": (feature: any) => Promise<unknown>;
+        /**
           * Show a button to toggle fullscreen
           * @default false
          */

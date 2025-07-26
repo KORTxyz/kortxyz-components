@@ -50,6 +50,25 @@ Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
 | `zoom`                | `zoom`                 | Start zoom of the map                                                                                                               | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | `undefined`                                                                                               |
 
 
+## Methods
+
+### `editGeometry(feature: any) => Promise<unknown>`
+
+Opens the geometry editor for a given GeoJSON feature.
+
+#### Parameters
+
+| Name      | Type  | Description                       |
+| --------- | ----- | --------------------------------- |
+| `feature` | `any` | A GeoJSON Feature object to edit. |
+
+#### Returns
+
+Type: `Promise<unknown>`
+
+A promise that resolves with the edited feature.
+
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

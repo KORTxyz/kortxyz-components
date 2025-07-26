@@ -48,7 +48,9 @@
     "mapboxgl-legend": "^1.16.0",
     "maplibre-gl": "^5.6.0",
     "maplibregl-mapbox-request-transformer": "^0.0.2",
-    "taucharts": "^2.8.0"
+    "taucharts": "^2.8.0",
+    "terra-draw": "^1.11.0",
+    "terra-draw-maplibre-gl-adapter": "^1.1.1"
   },
   "overrides": {
     "taucharts": {
