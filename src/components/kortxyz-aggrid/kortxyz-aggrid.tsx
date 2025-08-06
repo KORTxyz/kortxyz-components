@@ -7,7 +7,7 @@ import { createGrid, GridOptions, FilterChangedEvent, GridApi, RowClickedEvent }
 import { themeBalham, colorSchemeDark, ColDef, ColGroupDef, ITooltipParams } from 'ag-grid-community';
 
 import { getStore } from '../../utils/store';
-import {isvalidURL, isValidDateString} from '../../utils/checkUtils';
+import { isvalidURL, isValidDateString } from '../../utils/checkUtils';
 
 /**
   ## Intro
@@ -60,12 +60,12 @@ export class KortxyzAggrid {
     if (rowNode) {
       this.api.ensureIndexVisible(rowNode.rowIndex)
       this.api.flashCells({
-        rowNodes: [rowNode] 
+        rowNodes: [rowNode]
       });
     }
   }
 
-  clickedEvent = (e: RowClickedEvent) => {
+  onRowClicked = (e: RowClickedEvent) => {
     const { id, geometry } = e.data;
     this.rowClicked.emit({ store: this.store, id, geometry });
 
@@ -75,9 +75,13 @@ export class KortxyzAggrid {
 
   }
 
-  filterEvent = (e: FilterChangedEvent) => {
+  onFilterChanged = (e: FilterChangedEvent) => {
     let filteredRows = []
-    e.api.forEachNodeAfterFilter(node => filteredRows.push(node.data))
+    e.api.forEachNodeAfterFilter(node => filteredRows.push(node.data));
+
+    if (filteredRows.length == 0) this.api.showNoRowsOverlay();
+    else this.api.hideOverlay();
+
     const geojson = {
       "type": "FeatureCollection",
       "features": filteredRows.map(r => {
@@ -85,13 +89,13 @@ export class KortxyzAggrid {
         return { id, properties, geometry }
       })
     }
+
     getStore(this.store).set("data", geojson)
   }
 
-  getColumnDef = (columnKey,exampleData) => {
-    const columnSchema = this.schema?.properties[columnKey];
+  getColumnDef = (columnKey, columnSchema, exampleData) => {
 
-    let columnDef:ColDef = {
+    let columnDef: ColDef = {
       field: columnKey,
       headerName: columnSchema?.title || columnKey,
       headerTooltip: columnSchema?.description || null,
@@ -106,11 +110,12 @@ export class KortxyzAggrid {
       },
     };
 
-    if(isValidDateString(exampleData)){
-      columnDef = {...columnDef,
-        cellDataType : 'date',
+    if (isValidDateString(exampleData)) {
+      columnDef = {
+        ...columnDef,
+        cellDataType: 'date',
         filter: 'agDateColumnFilter',
-        valueGetter :  (params) => new Date(params.data[columnKey]),
+        valueGetter: (params) => new Date(params.data[columnKey]),
         cellEditor: 'agDateCellEditor',
       }
     }
@@ -119,25 +124,20 @@ export class KortxyzAggrid {
   }
 
   editorTypes = (property?: any) => {
-      if (!property) return undefined;
-      const { type, enum: enumVals, oneOf } = property;
-      if (enumVals || oneOf) return 'agSelectCellEditor';
-      if (type === 'integer') return 'agNumberCellEditor';
-      if (type === 'string') return 'agTextCellEditor';
-      if (type === 'boolean') return 'agCheckboxCellEditor';
-    };
+    if (!property) return undefined;
+    const { type, enum: enumVals, oneOf } = property;
+    if (enumVals || oneOf) return 'agSelectCellEditor';
+    if (type === 'integer') return 'agNumberCellEditor';
+    if (type === 'string') return 'agTextCellEditor';
+    if (type === 'boolean') return 'agCheckboxCellEditor';
+  };
 
-  updateGrid = (geojson) => {
+  updateRows = (geojson) => {
     const data = geojson.features.map(e => ({ id: e.id, ...e.properties, geometry: e.geometry }))
-    const columns = Object.keys(data[0]).filter(key => key != "id" && key != "geometry");
-    
-    const columnDefs: (ColDef | ColGroupDef)[] = columns.map(key => this.getColumnDef(key,data[0][key]))
-
-    this.api.setGridOption('columnDefs', columnDefs)
     this.api.setGridOption('rowData', data);
   }
 
-  createGrid = () => {
+  initGrid = () => {
     ModuleRegistry.registerModules([AllCommunityModule]);
 
     this.gridOptions = {
@@ -150,37 +150,44 @@ export class KortxyzAggrid {
       },
       tooltipShowDelay: 100,
       pagination: false,
-      onFilterChanged: e => this.filterEvent(e),
-      onRowClicked: e => this.clickedEvent(e)
-    }
+      onFilterChanged: e => this.onFilterChanged(e),
+      onRowClicked: e => this.onRowClicked(e)
+    };
 
     this.gridEl.innerHTML = null;
     this.api = createGrid(this.gridEl, this.gridOptions, {});
   }
 
-  async componentWillLoad() {
-    if(this.schema){
-      if(!isvalidURL(this.schema)) this.schema = JSON.parse(this.schema)
-      else{
-        const res = await fetch(this.schema)
-        this.schema = await res.json();
-      }
+  columnDefsFromSchema = async () => {
+    let schemaDef;
+    if (isvalidURL(this.schema)) {
+      const res = await fetch(this.schema)
+      const json = await res.json();
+      schemaDef = json.properties.properties;
     }
+    else schemaDef = JSON.parse(this.schema)
 
+    const columns = Object.keys(schemaDef.properties).filter(prop => !["id", "geometry"].includes(prop))
+    const columnDefs: (ColDef | ColGroupDef)[] = columns.map(key => this.getColumnDef(key, schemaDef.properties[key], null))
+
+    this.api.setGridOption('columnDefs', columnDefs)
   }
 
-  async componentDidLoad() {
+  columnDefsFromGeojson = async (geojson) => {
+    const columns = Object.keys(geojson.features[0].properties);
+    const columnDefs: (ColDef | ColGroupDef)[] = columns.map(key => this.getColumnDef(key, null, geojson.features[0].properties[key]))
+    this.api.setGridOption('columnDefs', columnDefs)
+  }
 
-    this.createGrid();
-
-    let geojson
-
+  getGeojson = async () =>{
+    let geojson;
+    
     if (this.data) {
       const response = await fetch(this.data);
       const json = await response.json();
       geojson = json;
-
     }
+
     else if (this.store) {
       while (this.loading) {
         const datastore = getStore(this.store);
@@ -194,7 +201,19 @@ export class KortxyzAggrid {
       }
     }
 
-    this.updateGrid(geojson)
+    return geojson;
+  }
+
+
+  async componentDidLoad() {
+    this.initGrid();
+    if (this.schema) this.columnDefsFromSchema();
+
+    let geojson = await this.getGeojson();
+    
+    if(!this.schema) this.columnDefsFromGeojson(geojson);
+
+    this.updateRows(geojson)
 
   }
 
