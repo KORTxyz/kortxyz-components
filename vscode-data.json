@@ -69,7 +69,7 @@
       "attributes": [
         {
           "name": "basemaps",
-          "description": "The data source to render.\r\n\r\nExample JSON:\r\n```json\r\n[\r\n  { \"id\": 1, \"title\": \"Item A\" },\r\n  { \"id\": 2, \"title\": \"Item B\" }\r\n]\r\n```"
+          "description": "Basemapswitcher configuretd by an array of objects or an URL to a OGCAPI - Styles"
         },
         {
           "name": "basemapstyle",

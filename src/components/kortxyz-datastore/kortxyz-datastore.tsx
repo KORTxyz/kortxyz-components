@@ -51,7 +51,7 @@ export class KortxyzDatastore {
       geojson = JSON.parse(this.storeEl.innerHTML);
     }
 
-    if (isNaN(geojson.features[0].id)) geojson.features.forEach((feat, idx) => (feat.id = idx + 1))
+    if (isNaN(geojson.features[0]?.id)) geojson.features.forEach((feat, idx) => (feat.id = idx + 1))
     getStore(this.store).set("data", geojson)
 
   }

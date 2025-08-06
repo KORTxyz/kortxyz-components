@@ -193,7 +193,6 @@ export class KortxyzMaplibre {
   async loadStyles(url) {
     const response = await fetch(url);
     const { styles } = await response.json();
-    console.log(styles[0])
     return styles.map(style => ({
       title: style.title || style.id,
       icon: style.links.find(e => e.rel == "preview")?.href || null,
@@ -234,9 +233,6 @@ export class KortxyzMaplibre {
     this.basemap = new maplibregl.Map(basemapOptions);
 
     this.map = new maplibregl.Map(mapOptions);
-    console.log(this.map)
-
-
 
     syncMaps(this.map, this.basemap)
 
@@ -249,11 +245,8 @@ export class KortxyzMaplibre {
     if (this.togglebutton) this.map.addControl(new ToggleControl({ element: this.togglebutton }), 'top-right');
 
     if (this.basemaps) {
-      console.log(isvalidURL(this.basemaps))
-      const basemaplist = isvalidURL(this.basemaps) ?
-        await this.loadStyles(this.basemaps)
-        : JSON.parse(String(this.basemaps))
-      console.log(basemaplist)
+      const basemaplist = isvalidURL(this.basemaps) ? await this.loadStyles(this.basemaps) : JSON.parse(String(this.basemaps));
+
       this.map.addControl(new BasemapSwitcherControl({ basemap: this.basemap, basemaplist }), 'bottom-left');
     }
 
