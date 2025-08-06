@@ -14,6 +14,7 @@ import { ToggleControl, BasemapSwitcherControl } from '../../utils/mapControl';
 import { TerraDraw } from 'terra-draw';
 import { TerraDrawMapLibreGLAdapter } from 'terra-draw-maplibre-gl-adapter';
 import { TerraDrawSelectMode, TerraDrawPointMode, TerraDrawLineStringMode, TerraDrawPolygonMode } from 'terra-draw';
+import { isvalidURL } from '../../utils/checkUtils';
 
 /**
  
@@ -76,8 +77,8 @@ export class KortxyzMaplibre {
       ]
     };
 
-  /** Basemapswitcher configuretd by an array of object with title, icon (url), url (style) for a basemaps. First entry is set as basemap */
-  @Prop() basemaps: string;
+  /** Basemapswitcher configuretd by an array of objects or an URL to a OGCAPI - Styles */
+  @Prop() basemaps: string | { title: string; icon: URL; url: URL }[];
 
   /** (optional) Mapboxkey if using styles from mapbox */
   @Prop() mapboxkey: string;
@@ -189,6 +190,18 @@ export class KortxyzMaplibre {
 
   }
 
+  async loadStyles(url) {
+    const response = await fetch(url);
+    const { styles } = await response.json();
+    console.log(styles[0])
+    return styles.map(style => ({
+      title: style.title || style.id,
+      icon: style.links.find(e => e.rel == "preview")?.href || null,
+      url: style.links.find(e => e.type == "application/vnd.mapbox.style+json").href
+    }));
+
+  }
+
   async componentWillLoad() {
     interface CustomMapOptions extends maplibregl.MapOptions {
       /**
@@ -235,7 +248,14 @@ export class KortxyzMaplibre {
     if (this.fullscreen) this.map.addControl(new FullscreenControl({ container: document.querySelector('body') }));
     if (this.togglebutton) this.map.addControl(new ToggleControl({ element: this.togglebutton }), 'top-right');
 
-    if (this.basemaps) this.map.addControl(new BasemapSwitcherControl({ basemap: this.basemap, basemaplist: JSON.parse(this.basemaps) }), 'bottom-left');
+    if (this.basemaps) {
+      console.log(isvalidURL(this.basemaps))
+      const basemaplist = isvalidURL(this.basemaps) ?
+        await this.loadStyles(this.basemaps)
+        : JSON.parse(String(this.basemaps))
+      console.log(basemaplist)
+      this.map.addControl(new BasemapSwitcherControl({ basemap: this.basemap, basemaplist }), 'bottom-left');
+    }
 
 
 
@@ -253,7 +273,6 @@ export class KortxyzMaplibre {
 
     if (this.hoverpopup) initHoverPopup(this.map)
     if (this.showTileBoundaries) this.map.showTileBoundaries = true
-    console.log(this)
 
   }
 
