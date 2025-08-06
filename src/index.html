@@ -37,11 +37,12 @@
   <kortxyz-datastore store="items" style="visibility: hidden;"
     data="http://127.0.0.1:3000/collections/points/items?f=json"></kortxyz-datastore>
 
-  <kortxyz-maplibre style="width:100%;display:block;background:whitesmoke;"
-    mapstyle="http://127.0.0.1:3000/styles/3857_skaermkort_moerkt?f=mbs" center="[11,55]" zoom="9">
+  <kortxyz-maplibre 
+    style="width:100%;display:block;background:whitesmoke;" 
+    basemaps='http://localhost:3000/styles?f=json' 
+    center="[11,55]" 
+    zoom="9">
   </kortxyz-maplibre>
-
-  <kortxyz-aggrid store="items"></kortxyz-aggrid>
 
 
 </body>

@@ -63,8 +63,8 @@ export class ToggleControl implements IControl {
 
 
 interface basemapOptions {
-    title: string, 
-    icon: string, 
+    title: string,
+    icon: string,
     url: string
 }
 
@@ -87,20 +87,29 @@ export class BasemapSwitcherControl implements IControl {
     onAdd(): HTMLElement {
         const { basemap, basemaplist } = this.options;
         basemap.setStyle(basemaplist[0].url)
-        
+
         this.container = document.createElement('div');
         this.container.className = 'maplibregl-ctrl maplibregl-ctrl-basemapswicther';
 
-        basemaplist.forEach((basemapConfig) => {
+        basemaplist.forEach(({title, icon, url}) => {
+            if(icon){
             this.img = document.createElement('img');
-            this.img.src = basemapConfig.icon;
-            this.img.title = basemapConfig.title;
-            this.img.className = "maplibregl-ctrl-basemapimage"
+            this.img.src = icon;
+            this.img.title = title;
+            this.img.className = "maplibregl-ctrl-basemapimage";
 
-            const _img = this.img
-            this.img.onclick = () => this.changeBasemap(basemap,basemapConfig,_img);
-
+            this.img.onclick = (e) => this.changeBasemap(basemap, url,e);
             this.container.appendChild(this.img);
+
+            }
+            else{
+            const fallbackText = document.createElement('span');
+                fallbackText.innerText = title;
+                fallbackText.className = "maplibregl-ctrl-basemaptext";
+
+                fallbackText.onclick = (e) => this.changeBasemap(basemap, url, e);
+                this.container.appendChild(fallbackText);
+            }
         });
 
 
@@ -114,8 +123,14 @@ export class BasemapSwitcherControl implements IControl {
         }
     }
 
-    changeBasemap(basemap,basemapConfig,image): void {
-        this.container.prepend(image);
-        basemap.setStyle(basemapConfig.url)
+    changeBasemap(basemap, url, event: MouseEvent): void {
+        //this.container.prepend(image);
+        basemap.setStyle(url)
+            // Move the clicked element to the front
+    const target = (event?.currentTarget || event?.target) as HTMLElement;
+    if (target && this.container.contains(target)) {
+        this.container.removeChild(target);
+        this.container.insertBefore(target, this.container.firstChild);
+    }
     }
 }

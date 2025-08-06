@@ -95,9 +95,9 @@ export namespace Components {
      */
     interface KortxyzMaplibre {
         /**
-          * Basemapswitcher configuretd by an array of object with title, icon (url), url (style) for a basemaps. First entry is set as basemap
+          * Basemapswitcher configuretd by an array of objects or an URL to a OGCAPI - Styles
          */
-        "basemaps": string;
+        "basemaps": string | { title: string; icon: URL; url: URL }[];
         /**
           * A mapstyle used as a basemap below the main map
           * @default {       "version": 8,       "name": "name",       "sources": {       },       "layers": [       ]     }
@@ -858,9 +858,9 @@ declare namespace LocalJSX {
      */
     interface KortxyzMaplibre {
         /**
-          * Basemapswitcher configuretd by an array of object with title, icon (url), url (style) for a basemaps. First entry is set as basemap
+          * Basemapswitcher configuretd by an array of objects or an URL to a OGCAPI - Styles
          */
-        "basemaps"?: string;
+        "basemaps"?: string | { title: string; icon: URL; url: URL }[];
         /**
           * A mapstyle used as a basemap below the main map
           * @default {       "version": 8,       "name": "name",       "sources": {       },       "layers": [       ]     }
