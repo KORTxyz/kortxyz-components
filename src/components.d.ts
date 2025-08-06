@@ -54,6 +54,10 @@ export namespace Components {
          */
         "data"?: string;
         /**
+          * Query geojson features using jsonpath-plus
+         */
+        "query"?: string;
+        /**
           * Name of the store
          */
         "store"?: string;
@@ -816,6 +820,10 @@ declare namespace LocalJSX {
           * URL to the data to be fetch into the Store AA
          */
         "data"?: string;
+        /**
+          * Query geojson features using jsonpath-plus
+         */
+        "query"?: string;
         /**
           * Name of the store
          */
