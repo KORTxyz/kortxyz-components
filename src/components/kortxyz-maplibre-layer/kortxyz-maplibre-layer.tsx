@@ -52,13 +52,13 @@ export class KortxyzMaplibreLayer {
   @Prop() filter: any;
 
   /** Paint properties for the layer. */
-  @Prop() paint: any = {};
+  @Prop({mutable:true}) paint: any = {};
 
   /** Layout properties for the layer. */
-  @Prop() layout: any = {};
+  @Prop({mutable:true}) layout: any = {};
 
   /** Customize legend with a object like this {name:string,unit:string,labels:object (Map a value to a text that replaces it as a label) }*/
-  @Prop() legendMetadata: any = {} ;
+  @Prop({mutable:true}) legendMetadata: any = {} ;
   
   /** (optional) When clicking a feature a Popup shows. Accept HTML and replacement of {} with a attribute. \<div>{placename}\</div>*/
   @Prop() popup: string | boolean;
@@ -90,7 +90,7 @@ export class KortxyzMaplibreLayer {
       ])
 
       setTimeout(() => {
-        this.map.setPaintProperty(this.layerid, this.type + '-color', JSON.parse(this.paint)[this.type + '-color'])
+        this.map.setPaintProperty(this.layerid, this.type + '-color', this.paint[this.type + '-color'])
       }, 600);
     }
 
@@ -140,13 +140,17 @@ export class KortxyzMaplibreLayer {
 
     const { sourceid }: { sourceid: string } = this.el.closest('kortxyz-maplibre-source');
 
+    this.paint = typeof this.paint == "string" ? JSON.parse(this.paint) : this.paint;
+    this.layout = typeof this.layout == "string" ? JSON.parse(this.layout) : this.layout;
+    this.legendMetadata = typeof this.legendMetadata == "string" ? JSON.parse(this.legendMetadata) : this.legendMetadata;
+
     let layerObject: LayerSpecification = {
       'id': this.layerid,
       'type': this.type,
       'source': sourceid,
-      'paint': typeof this.paint == "string" ? JSON.parse(this.paint) : this.paint,
-      'layout': typeof this.layout == "string" ? JSON.parse(this.layout) : this.layout,
-      'metadata': typeof this.legendMetadata == "string" ? JSON.parse(this.legendMetadata) : this.legendMetadata,
+      'paint': this.paint,
+      'layout': this.layout,
+      'metadata': this.legendMetadata,
     };
 
     if (this.sourceLayer) layerObject["source-layer"] = this.sourceLayer;

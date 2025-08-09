@@ -9,7 +9,7 @@ import { initHoverPopup, syncMaps } from '../../utils/mapUtils';
 import LegendControl from 'mapboxgl-legend';
 import { LegendControlOptions } from 'mapboxgl-legend';
 
-import { ToggleControl, BasemapSwitcherControl } from '../../utils/mapControl';
+import { DrawControl, ToggleControl, BasemapSwitcherControl } from '../../utils/mapControl';
 
 import { TerraDraw } from 'terra-draw';
 import { TerraDrawMapLibreGLAdapter } from 'terra-draw-maplibre-gl-adapter';
@@ -52,6 +52,8 @@ import { isvalidURL } from '../../utils/checkUtils';
 export class KortxyzMaplibre {
   @Prop({ mutable: true }) map: maplibregl.Map;
   basemap: maplibregl.Map;
+
+  private terraDraw;
 
   @Element() mapEl: HTMLElement;
 
@@ -101,7 +103,7 @@ export class KortxyzMaplibre {
   /** Show the tilegrid */
   @Prop() showTileBoundaries: boolean = false;
 
-  /** Show a legend for the layers specified in the attibute. Empty if all layers.*/
+  /** Show a legend for the layers specified in the attibute. Empty if all layers */
   @Prop() legend: string | boolean = false;
 
   /** Show navigation controls */
@@ -113,11 +115,14 @@ export class KortxyzMaplibre {
   /** Show a button to toggle fullscreen */
   @Prop() fullscreen: boolean = false;
 
-  /** ID of the element that the button should toogle.*/
+  /** ID of the element that the button should toogle */
   @Prop() togglebutton: string;
 
   /** Show a scalebar at the bottom */
   @Prop() scalebar: boolean = false;
+
+  /** Enable adding a new feature to the named source with a button */
+  @Prop() draw: string;
 
   /**
    * Opens the geometry editor for a given GeoJSON feature.
@@ -127,63 +132,18 @@ export class KortxyzMaplibre {
    */
   @Method()
   async editGeometry(feature) {
-    const draw = new TerraDraw({
-      adapter: new TerraDrawMapLibreGLAdapter({
-        map: this.map,
-        coordinatePrecision: 20
-      }),
-      modes: [
-        new TerraDrawSelectMode({
-          flags: {
-            point: {
-              feature: {
-                draggable: true,     // Can move the point
-              },
-            },
-            linestring: {
-              feature: {
-                draggable: true,     // Move entire linestring
-                coordinates: {
-                  draggable: true,   // Drag individual coordinates
-                  deletable: true,   // Remove individual coordinates
-                  midpoints: {
-                    draggable: true  // Insert midpoints and drag to create new nodes
-                  },
-                },
-              },
-            },
-            polygon: {
-              feature: {
-                coordinates: {
-                  draggable: true,
-                  deletable: true,
-                  midpoints: {
-                    draggable: true
-                  }
-                },
-              },
-            },
-          },
-        }),
-        new TerraDrawPointMode(),
-        new TerraDrawLineStringMode(),
-        new TerraDrawPolygonMode()
-      ],
-
-    });
-
-    draw.start();
+    this.terraDraw.start();
     feature.properties.mode = feature.geometry.type.toLowerCase();
 
-    const result = draw.addFeatures([feature])[0];
+    const result = this.terraDraw.addFeatures([feature])[0];
     if (!result.valid) console.error(result)
 
-    draw.setMode("select");
-    draw.selectFeature(result.id);
+    this.terraDraw.setMode("select");
+    this.terraDraw.selectFeature(result.id);
     return new Promise(resolve => {
-      draw.on("deselect", () => {
-        const edited = draw.getSnapshotFeature(result.id);
-        draw.stop();
+      this.terraDraw.on("deselect", () => {
+        const edited = this.terraDraw.getSnapshotFeature(result.id);
+        this.terraDraw.stop();
         resolve(edited);
       });
     });
@@ -244,14 +204,12 @@ export class KortxyzMaplibre {
     if (this.fullscreen) this.map.addControl(new FullscreenControl({ container: document.querySelector('body') }));
     if (this.togglebutton) this.map.addControl(new ToggleControl({ element: this.togglebutton }), 'top-right');
 
+
     if (this.basemaps) {
       const basemaplist = isvalidURL(this.basemaps) ? await this.loadStyles(this.basemaps) : JSON.parse(String(this.basemaps));
 
       this.map.addControl(new BasemapSwitcherControl({ basemap: this.basemap, basemaplist }), 'bottom-left');
     }
-
-
-
 
     if (typeof this.legend == "string") {
       let legendOptions: LegendControlOptions = { highlight: true, toggler: true };
@@ -272,6 +230,60 @@ export class KortxyzMaplibre {
   async componentDidLoad() {
     this.basemap.resize();
     this.map.resize();
+
+    this.terraDraw = new TerraDraw({
+      adapter: new TerraDrawMapLibreGLAdapter({
+        map: this.map,
+        coordinatePrecision: 20
+      }),
+      idStrategy: {
+        isValidId: (id) => typeof id === "number" && Number.isInteger(id),
+        getId: ( () => {
+          let id = 100;
+          return () => ++id;
+        })() 
+      },
+      modes: [
+        new TerraDrawSelectMode({
+          flags: {
+            point: {
+              feature: {
+                draggable: true,     // Can move the point
+              },
+            },
+            linestring: {
+              feature: {
+                draggable: true,     // Move entire linestring
+                coordinates: {
+                  draggable: true,   // Drag individual coordinates
+                  deletable: true,   // Remove individual coordinates
+                  midpoints: {
+                    draggable: true  // Insert midpoints and drag to create new nodes
+                  },
+                },
+              },
+            },
+            polygon: {
+              feature: {
+                coordinates: {
+                  draggable: true,
+                  deletable: true,
+                  midpoints: {
+                    draggable: true
+                  }
+                },
+              },
+            },
+          },
+        }),
+        new TerraDrawPointMode(),
+        new TerraDrawLineStringMode(),
+        new TerraDrawPolygonMode()
+      ],
+    });
+
+    if (this.draw) this.map.addControl(new DrawControl({ terraDraw: this.terraDraw, source: this.map.getSource(this.draw), sourceDiv: this.mapEl.querySelector(`[sourceid="${this.draw}"]`) } ), 'top-right');
+
   }
 
   render() {

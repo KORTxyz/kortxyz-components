@@ -2,9 +2,11 @@ import { Component, Element, Host, Prop, h } from '@stencil/core';
 import { Listen, Event, EventEmitter } from '@stencil/core';
 
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
-import { createGrid, GridOptions, FilterChangedEvent, GridApi, RowClickedEvent } from 'ag-grid-community';
+import { createGrid, GridOptions, CellEditingStoppedEvent, FilterChangedEvent, GridApi, RowClickedEvent } from 'ag-grid-community';
 
 import { themeBalham, colorSchemeDark, ColDef, ColGroupDef, ITooltipParams } from 'ag-grid-community';
+
+import { GeoJSON } from 'geojson';
 
 import { getStore } from '../../utils/store';
 import { isvalidURL, isValidDateString } from '../../utils/checkUtils';
@@ -40,19 +42,21 @@ export class KortxyzAggrid {
   api: GridApi;
   gridOptions: GridOptions;
 
-  private loading: boolean = true;
-
   /** Fetch data from a url */
   @Prop() data: string;
 
-  /** Fetch JSON schema from a url or parse Inline JSON*/
+  /** Fetch JSON schema from a url or parse Inline JSON */
   @Prop({ mutable: true }) schema?: any;
 
   /** Fetch data from a store */
   @Prop() store: string;
 
+  /** Control if the tabel can be edited. */
+  @Prop() editable: boolean;
+
   /** Event when row is clicked */
   @Event() rowClicked: EventEmitter;
+
 
   @Listen('featureClicked', { target: 'body' })
   featureClickedHandler(event) {
@@ -62,6 +66,23 @@ export class KortxyzAggrid {
       this.api.flashCells({
         rowNodes: [rowNode]
       });
+    }
+  }
+
+  convertToGeojson = (rowdata) => ({
+    "type": "FeatureCollection",
+    "features": rowdata.map(({ id, geometry, ...properties }) => ({ id, properties, geometry }))
+  })
+
+  onCellEditingStopped = (e: CellEditingStoppedEvent) => {
+    if(e.newValue !== e.oldValue){
+    const allData = [];
+    e.api.forEachNode(node => allData.push(node.data));
+    const geojson = this.convertToGeojson(allData)
+
+    const datastore = getStore(this.store);
+    datastore.set("lastOrigin", "table");
+    datastore.set("data", geojson);
     }
   }
 
@@ -82,13 +103,7 @@ export class KortxyzAggrid {
     if (filteredRows.length == 0) this.api.showNoRowsOverlay();
     else this.api.hideOverlay();
 
-    const geojson = {
-      "type": "FeatureCollection",
-      "features": filteredRows.map(r => {
-        const { id, geometry, ...properties } = r;
-        return { id, properties, geometry }
-      })
-    }
+    const geojson = this.convertToGeojson(filteredRows)
 
     getStore(this.store).set("data", geojson)
   }
@@ -144,12 +159,13 @@ export class KortxyzAggrid {
       theme: themeBalham.withPart(colorSchemeDark),
       defaultColDef: {
         filter: true,
-        editable: true,
+        editable: !!this.editable ? true : false,
         flex: 1,
         minWidth: 100,
       },
       tooltipShowDelay: 100,
       pagination: false,
+      onCellEditingStopped: e => this.onCellEditingStopped(e),
       onFilterChanged: e => this.onFilterChanged(e),
       onRowClicked: e => this.onRowClicked(e)
     };
@@ -175,13 +191,17 @@ export class KortxyzAggrid {
 
   columnDefsFromGeojson = async (geojson) => {
     const columns = Object.keys(geojson.features[0].properties);
-    const columnDefs: (ColDef | ColGroupDef)[] = columns.map(key => this.getColumnDef(key, null, geojson.features[0].properties[key]))
+    let columnDefs: (ColDef | ColGroupDef)[] = columns.map(key => this.getColumnDef(key, null, geojson.features[0].properties[key]))
+    columnDefs = [
+      ...columnDefs
+    ]
+
     this.api.setGridOption('columnDefs', columnDefs)
   }
 
-  getGeojson = async () =>{
+  getGeojson = async () => {
     let geojson;
-    
+
     if (this.data) {
       const response = await fetch(this.data);
       const json = await response.json();
@@ -189,16 +209,10 @@ export class KortxyzAggrid {
     }
 
     else if (this.store) {
-      while (this.loading) {
-        const datastore = getStore(this.store);
-        if (datastore == undefined) await new Promise(r => setTimeout(r, 200));
-        else {
-          if (!datastore) return;
-          geojson = datastore.get("data");
-          if (!geojson.features) await new Promise(r => setTimeout(r, 200));
-          else this.loading = false;
-        }
-      }
+      let datastore;
+      while ((datastore = getStore(this.store)) == undefined || !datastore.get("data").features)  await new Promise(r => setTimeout(r, 200));
+      datastore.onChange("data", (e: GeoJSON) => { if(datastore.get("lastOrigin") !== "table") this.updateRows(e)})
+      geojson = datastore.get("data");
     }
 
     return geojson;
@@ -210,11 +224,10 @@ export class KortxyzAggrid {
     if (this.schema) this.columnDefsFromSchema();
 
     let geojson = await this.getGeojson();
-    
-    if(!this.schema) this.columnDefsFromGeojson(geojson);
 
-    this.updateRows(geojson)
+    if (!this.schema) this.columnDefsFromGeojson(geojson);
 
+    this.updateRows(geojson);
   }
 
   render() {

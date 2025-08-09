@@ -29,6 +29,10 @@ export namespace Components {
          */
         "data": string;
         /**
+          * Control if the tabel can be edited.
+         */
+        "editable": boolean;
+        /**
           * Fetch JSON schema from a url or parse Inline JSON
          */
         "schema"?: any;
@@ -122,6 +126,10 @@ export namespace Components {
          */
         "cooperativeGestures": boolean;
         /**
+          * Enable adding a new feature to the named source with a button
+         */
+        "draw": string;
+        /**
           * Opens the geometry editor for a given GeoJSON feature.
           * @param feature A GeoJSON Feature object to edit.
           * @returns A promise that resolves with the edited feature.
@@ -142,7 +150,7 @@ export namespace Components {
          */
         "hoverpopup": boolean;
         /**
-          * Show a legend for the layers specified in the attibute. Empty if all layers.
+          * Show a legend for the layers specified in the attibute. Empty if all layers
           * @default false
          */
         "legend": string | boolean;
@@ -172,7 +180,7 @@ export namespace Components {
          */
         "showTileBoundaries": boolean;
         /**
-          * ID of the element that the button should toogle.
+          * ID of the element that the button should toogle
          */
         "togglebutton": string;
         /**
@@ -328,6 +336,7 @@ export namespace Components {
           * @default 14
          */
         "maxzoom": number;
+        "source": any;
         /**
           * Source identification
           * @default Math.random().toString(36).substring(2,7)
@@ -792,6 +801,10 @@ declare namespace LocalJSX {
          */
         "data"?: string;
         /**
+          * Control if the tabel can be edited.
+         */
+        "editable"?: boolean;
+        /**
           * Event when row is clicked
          */
         "onRowClicked"?: (event: KortxyzAggridCustomEvent<any>) => void;
@@ -889,6 +902,10 @@ declare namespace LocalJSX {
          */
         "cooperativeGestures"?: boolean;
         /**
+          * Enable adding a new feature to the named source with a button
+         */
+        "draw"?: string;
+        /**
           * Show a button to toggle fullscreen
           * @default false
          */
@@ -903,7 +920,7 @@ declare namespace LocalJSX {
          */
         "hoverpopup"?: boolean;
         /**
-          * Show a legend for the layers specified in the attibute. Empty if all layers.
+          * Show a legend for the layers specified in the attibute. Empty if all layers
           * @default false
          */
         "legend"?: string | boolean;
@@ -933,7 +950,7 @@ declare namespace LocalJSX {
          */
         "showTileBoundaries"?: boolean;
         /**
-          * ID of the element that the button should toogle.
+          * ID of the element that the button should toogle
          */
         "togglebutton"?: string;
         /**
@@ -1093,6 +1110,7 @@ declare namespace LocalJSX {
           * @default 14
          */
         "maxzoom"?: number;
+        "source"?: any;
         /**
           * Source identification
           * @default Math.random().toString(36).substring(2,7)
