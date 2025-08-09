@@ -3,6 +3,10 @@ import { Config } from '@stencil/core';
 export const config: Config = {
   namespace: 'kortxyz-components',
   globalStyle: 'src/global/global.css',
+  devServer: {
+    reloadStrategy: 'pageReload',
+    openBrowser:false
+  },
   outputTargets: [
     {
       type: 'dist',

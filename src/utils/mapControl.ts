@@ -1,7 +1,27 @@
 import { IControl } from 'maplibre-gl';
+import { TerraDraw } from 'terra-draw';
+
+import { getStore } from './store';
 
 interface ToggleControlOptions {
     element?: string;
+}
+
+interface basemapOptions {
+    title: string,
+    icon: string,
+    url: string
+}
+
+interface BasemapSwitcherControlOptions {
+    basemap,
+    basemaplist?: basemapOptions[]
+}
+
+interface DrawControlOptions {
+    terraDraw:TerraDraw,
+    source?: any,
+    sourceDiv
 }
 
 export class ToggleControl implements IControl {
@@ -58,19 +78,6 @@ export class ToggleControl implements IControl {
             : '<svg width="22" height="20"><path d="M15.5923 14.0631C16.1523 14.0631 16.5923 14.5031 16.5923 15.0631C16.5923 15.6231 16.1523 16.0631 15.5923 16.0631C15.0323 16.0631 14.5923 15.6131 14.5923 15.0631C14.5923 14.5131 15.0323 14.0631 15.5923 14.0631ZM15.5923 11.0631C18.3223 11.0631 20.6523 12.7231 21.5923 15.0631C20.6523 17.4031 18.3223 19.0631 15.5923 19.0631C12.8623 19.0631 10.5323 17.4031 9.59229 15.0631C10.5323 12.7231 12.8623 11.0631 15.5923 11.0631ZM15.5923 12.5631C14.2123 12.5631 13.0923 13.6831 13.0923 15.0631C13.0923 16.4431 14.2123 17.5631 15.5923 17.5631C16.9723 17.5631 18.0923 16.4431 18.0923 15.0631C18.0923 13.6831 16.9723 12.5631 15.5923 12.5631ZM16.5923 0.183105H2.59229C1.49229 0.183105 0.592285 1.08311 0.592285 2.18311V14.1831C0.592285 15.2831 1.49229 16.1831 2.59229 16.1831H8.01229C7.85229 15.8631 7.71229 15.5231 7.59229 15.1831C7.71229 14.8431 7.85229 14.5031 8.01229 14.1831H2.59229V10.1831H8.59229V13.1531C9.14229 12.2931 9.82228 11.5531 10.5923 10.9431V10.1831H11.7423C12.9023 9.54311 14.2123 9.18311 15.5923 9.18311C16.6523 9.18311 17.6623 9.39311 18.5923 9.77311V2.18311C18.5923 1.08311 17.6923 0.183105 16.5923 0.183105ZM8.59229 8.18311H2.59229V4.18311H8.59229V8.18311ZM16.5923 8.18311H10.5923V4.18311H16.5923V8.18311Z"/></svg>';
     }
 
-}
-
-
-
-interface basemapOptions {
-    title: string,
-    icon: string,
-    url: string
-}
-
-interface BasemapSwitcherControlOptions {
-    basemap,
-    basemaplist?: basemapOptions[]
 }
 
 export class BasemapSwitcherControl implements IControl {
@@ -133,4 +140,75 @@ export class BasemapSwitcherControl implements IControl {
         this.container.insertBefore(target, this.container.firstChild);
     }
     }
+}
+
+export class DrawControl implements IControl {
+    private container!: HTMLElement;
+    private button!: HTMLButtonElement;
+    private options: DrawControlOptions;
+
+    constructor(options?: DrawControlOptions) {
+        this.options = options;
+    }
+
+    onAdd(): HTMLElement {
+        const { terraDraw, source, sourceDiv } = this.options;
+        const datastore = sourceDiv.store ? getStore(sourceDiv.store) : null;
+        
+        terraDraw.on("finish", async () => {
+            const newFeature = terraDraw.getSnapshot()[0];
+            const geojson = datastore ? datastore.get("data") : await source.getData();
+            
+            if(newFeature){
+                newFeature.id = Math.max(...geojson.features.map(e => Number(e.id))) + 1;
+                newFeature.properties = {};
+
+                const newGeojson = {
+                    ...geojson,
+                    features: [...geojson.features, newFeature]
+                };
+
+                if(datastore){
+                    datastore.set("lastOrigin","map")
+                    datastore.set("data", newGeojson)
+                }
+                else source.setData(newGeojson)
+                terraDraw.stop();
+            }
+            
+        });
+
+        this.container = document.createElement('div');
+        this.container.className = 'maplibregl-ctrl maplibregl-ctrl-group';
+
+        this.button = document.createElement('button');
+        this.button.className = 'maplibregl-ctrl-icon';
+        this.button.type = 'button';
+        this.button.title = 'Toogle table';
+        this.button.style.display = 'flex';
+        this.button.style.justifyContent = 'center';
+        this.button.style.alignItems = 'center';
+        this.button.innerHTML = '<svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.98909 18.7091C9.76909 18.0091 9.37909 16.0791 8.47909 14.8591C7.58909 13.6091 6.35909 12.7491 5.11909 11.9191C4.23909 11.3591 3.42909 10.6591 2.77909 9.85907C2.49909 9.52907 1.92909 8.91907 2.50909 8.79907C3.09909 8.67907 4.11909 9.25907 4.63909 9.47907C5.54909 9.85907 6.44909 10.2991 7.28909 10.8191L8.29909 9.11907C6.73909 8.08907 4.73909 7.17907 2.87909 6.90907C1.81909 6.74907 0.699091 6.96907 0.339091 8.11907C0.0190908 9.10907 0.529091 10.1091 1.10909 10.8891C2.47909 12.7191 4.60909 13.5991 6.19909 15.1791C6.53909 15.5091 6.94909 15.8991 7.14909 16.3591C7.35909 16.7991 7.30909 16.8291 6.83909 16.8291C5.59909 16.8291 4.04909 15.8591 3.03909 15.2191L2.02909 16.9191C3.55909 17.8591 6.11909 19.3291 7.98909 18.7091ZM19.0791 3.10907C19.2991 2.88907 19.2991 2.52907 19.0791 2.31907L17.7791 1.01907C17.5691 0.809072 17.2091 0.809072 16.9991 1.01907L15.9791 2.03907L18.0591 4.11907M9.23909 8.77907V10.8591H11.3191L17.4691 4.70907L15.3891 2.62907L9.23909 8.77907Z" fill="black"/></svg>';
+
+        this.button.onclick = () => this.startDrawing(terraDraw,datastore,source)
+
+        this.container.appendChild(this.button);
+        return this.container;
+
+    }
+
+    async startDrawing(terraDraw,datastore,source): Promise<void> {
+        const geojson = datastore ? datastore.get("data") : await source.getData();
+
+        terraDraw.start();
+        terraDraw.setMode(geojson.features[0]?.geometry.type.toLowerCase());
+    }
+
+    onRemove(): void {
+        if (this.container && this.container.parentNode) {
+            this.container.parentNode.removeChild(this.container);
+        }
+    }
+
+
 }

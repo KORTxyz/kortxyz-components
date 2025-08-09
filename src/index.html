@@ -30,18 +30,18 @@
 
 <body>
 
-  <kortxyz-datastore store="bygning" style="visibility: hidden;"
-    data="https://geodk.kort.xyz/collections/bygning/items?f=json&properties=status&limit=10000"
-    query="$.features[?(@.properties.status != 'Anlagt')]"></kortxyz-datastore>
+  <kortxyz-datastore store="bygning" data="https://geodk.kort.xyz/collections/bygning/items?f=json&limit=5"></kortxyz-datastore>
 
-  <kortxyz-maplibre 
-    style="width:100%;display:block;background:whitesmoke;"
-    basemaps='http://localhost:3000/styles?f=json' center="[11,55]" zoom="9"
+  <kortxyz-maplibre style="width:100%;display:block;background:whitesmoke;" 
+    draw="bygning" 
+    mapstyle='https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_moerkt.json?token=bfe350080dc1da9dbb948d6fd59a8e96'
+    center="[11,55]" 
+    zoom="9"
   >
-    <kortxyz-maplibre-source store="bygning" fit></kortxyz-maplibre-source>
+   <kortxyz-maplibre-source sourceid="bygning" store="bygning" fit></kortxyz-maplibre-source>
   </kortxyz-maplibre>
 
-  <kortxyz-aggrid store="bygning"></kortxyz-aggrid>
+  <kortxyz-aggrid store="bygning" schema="https://geodk.kort.xyz/collections/bygning/schema" editable></kortxyz-aggrid>
 
 </body>
 

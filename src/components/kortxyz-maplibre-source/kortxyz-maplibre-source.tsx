@@ -48,7 +48,6 @@ Webcomponent load a new source into a kortxyz-maplibre component. An id is autog
 export class KortxyzMaplibreSource {
   @Element() el: HTMLElement;
   private map: MaplibreglMap;
-  private loading: boolean = true;
   private randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
 
   /** Source identification */
@@ -77,7 +76,7 @@ export class KortxyzMaplibreSource {
   /** add a layer without specifing it. If no kortxyz-maplibre-layer children, it is automatically set to true.*/
   @Prop({mutable:true}) autolayers: boolean = false;
 
-  private source: any = [];
+  @Prop({ mutable: true }) source;
 
   getMapboxType = geojsonGeomType => ({
     Point: 'circle',
@@ -113,6 +112,8 @@ export class KortxyzMaplibreSource {
   }
 
   updateGeojson = async (geojson) => {
+    this.source.setData(geojson)
+    
     if (this.autolayers) {
       const geomTypeMap = geojson.features.reduce((acc, f) => ((acc[f.geometry.type] = (acc[f.geometry.type] || 0) + 1), acc), {});
       const geomTypes = Object.keys(geomTypeMap).sort((a, b) => geomTypeMap[b] - geomTypeMap[a]);
@@ -130,9 +131,7 @@ export class KortxyzMaplibreSource {
         this.el.appendChild(layerEl)
       })
     }
-
-    this.source.setData(geojson)
-    
+   
     if (this.fit) {
       const bounds: any = bbox(geojson);
       this.map.fitBounds(bounds, {
@@ -146,25 +145,24 @@ export class KortxyzMaplibreSource {
 
   addSource = async () => {
     this.map.addSource(this.sourceid, this.getSourceObject())
+    
     this.source = this.map.getSource(this.sourceid)
 
     if (this.type == "geojson") {
-        if (this.store) {
-          while (this.loading) {
-            const datastore = getStore(this.store);
-            if (datastore == undefined) await new Promise(r => setTimeout(r, 200));
-            else {
-              this.updateGeojson(datastore.get("data"))
-              datastore.onChange("data", (e: GeoJSON) => this.updateGeojson(e))
-              this.loading = false;
-            }
-          }
-        }
-        else if (isvalidURL(this.data)) {
-          const res = await fetch(this.data)
-          const geojson = await res.json();
-          this.updateGeojson(geojson)
-        }
+      let geojson;
+
+      if (this.store) {
+        let datastore;
+        while ((datastore = getStore(this.store)) == undefined || !datastore.get("data").features)  await new Promise(r => setTimeout(r, 200));
+        datastore.onChange("data", (e: GeoJSON) => {this.source.setData(e);})
+        geojson = datastore.get("data");       
+      }
+      else if (isvalidURL(this.data)) {
+        const res = await fetch(this.data)
+        geojson = await res.json();
+      }
+
+      this.updateGeojson(geojson)
     }
     else if (this.type == "raster" && this.autolayers) {
       let layerEl = document.createElement("kortxyz-maplibre-layer");
