@@ -66,6 +66,12 @@ export namespace Components {
          */
         "store"?: string;
     }
+    interface KortxyzDragoverlay {
+        /**
+          * target variable to be sendt with the fileDropped event
+         */
+        "target": any;
+    }
     interface KortxyzIcon {
         /**
           * @default "inherit"
@@ -474,6 +480,10 @@ export interface KortxyzAggridCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLKortxyzAggridElement;
 }
+export interface KortxyzDragoverlayCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLKortxyzDragoverlayElement;
+}
 export interface KortxyzMaplibreLayerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLKortxyzMaplibreLayerElement;
@@ -537,6 +547,23 @@ declare global {
     var HTMLKortxyzDatastoreElement: {
         prototype: HTMLKortxyzDatastoreElement;
         new (): HTMLKortxyzDatastoreElement;
+    };
+    interface HTMLKortxyzDragoverlayElementEventMap {
+        "fileDropped": any;
+    }
+    interface HTMLKortxyzDragoverlayElement extends Components.KortxyzDragoverlay, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLKortxyzDragoverlayElementEventMap>(type: K, listener: (this: HTMLKortxyzDragoverlayElement, ev: KortxyzDragoverlayCustomEvent<HTMLKortxyzDragoverlayElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLKortxyzDragoverlayElementEventMap>(type: K, listener: (this: HTMLKortxyzDragoverlayElement, ev: KortxyzDragoverlayCustomEvent<HTMLKortxyzDragoverlayElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLKortxyzDragoverlayElement: {
+        prototype: HTMLKortxyzDragoverlayElement;
+        new (): HTMLKortxyzDragoverlayElement;
     };
     interface HTMLKortxyzIconElement extends Components.KortxyzIcon, HTMLStencilElement {
     }
@@ -763,6 +790,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "kortxyz-aggrid": HTMLKortxyzAggridElement;
         "kortxyz-datastore": HTMLKortxyzDatastoreElement;
+        "kortxyz-dragoverlay": HTMLKortxyzDragoverlayElement;
         "kortxyz-icon": HTMLKortxyzIconElement;
         "kortxyz-maplibre": HTMLKortxyzMaplibreElement;
         "kortxyz-maplibre-layer": HTMLKortxyzMaplibreLayerElement;
@@ -841,6 +869,13 @@ declare namespace LocalJSX {
           * Name of the store
          */
         "store"?: string;
+    }
+    interface KortxyzDragoverlay {
+        "onFileDropped"?: (event: KortxyzDragoverlayCustomEvent<any>) => void;
+        /**
+          * target variable to be sendt with the fileDropped event
+         */
+        "target"?: any;
     }
     interface KortxyzIcon {
         /**
@@ -1248,6 +1283,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "kortxyz-aggrid": KortxyzAggrid;
         "kortxyz-datastore": KortxyzDatastore;
+        "kortxyz-dragoverlay": KortxyzDragoverlay;
         "kortxyz-icon": KortxyzIcon;
         "kortxyz-maplibre": KortxyzMaplibre;
         "kortxyz-maplibre-layer": KortxyzMaplibreLayer;
@@ -1296,6 +1332,7 @@ declare module "@stencil/core" {
              * ```
              */
             "kortxyz-datastore": LocalJSX.KortxyzDatastore & JSXBase.HTMLAttributes<HTMLKortxyzDatastoreElement>;
+            "kortxyz-dragoverlay": LocalJSX.KortxyzDragoverlay & JSXBase.HTMLAttributes<HTMLKortxyzDragoverlayElement>;
             "kortxyz-icon": LocalJSX.KortxyzIcon & JSXBase.HTMLAttributes<HTMLKortxyzIconElement>;
             /**
              * ## Intro

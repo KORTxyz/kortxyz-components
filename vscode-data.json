@@ -13,6 +13,10 @@
           "description": "Fetch data from a url"
         },
         {
+          "name": "editable",
+          "description": "Control if the tabel can be edited."
+        },
+        {
           "name": "schema",
           "description": "Fetch JSON schema from a url or parse Inline JSON"
         },
@@ -34,8 +38,25 @@
           "description": "URL to the data to be fetch into the Store AA"
         },
         {
+          "name": "query",
+          "description": "Query geojson features using jsonpath-plus"
+        },
+        {
           "name": "store",
           "description": "Name of the store"
+        }
+      ]
+    },
+    {
+      "name": "kortxyz-dragoverlay",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "target",
+          "description": "target variable to be sendt with the fileDropped event"
         }
       ]
     },
@@ -88,6 +109,10 @@
           "description": "Disable normal gestures for not getting caught by scrolling"
         },
         {
+          "name": "draw",
+          "description": "Enable adding a new feature to the named source with a button"
+        },
+        {
           "name": "fullscreen",
           "description": "Show a button to toggle fullscreen"
         },
@@ -101,7 +126,7 @@
         },
         {
           "name": "legend",
-          "description": "Show a legend for the layers specified in the attibute. Empty if all layers."
+          "description": "Show a legend for the layers specified in the attibute. Empty if all layers"
         },
         {
           "name": "map",
@@ -129,7 +154,7 @@
         },
         {
           "name": "togglebutton",
-          "description": "ID of the element that the button should toogle."
+          "description": "ID of the element that the button should toogle"
         },
         {
           "name": "zoom",
@@ -256,6 +281,10 @@
         {
           "name": "maxzoom",
           "description": "Max zoom-level to fetch tiles. z-parameter"
+        },
+        {
+          "name": "source",
+          "description": ""
         },
         {
           "name": "sourceid",

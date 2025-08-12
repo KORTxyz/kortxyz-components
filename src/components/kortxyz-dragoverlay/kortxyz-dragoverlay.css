@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+}
+
+:host(.active){
+  outline: 2px dashed black;
+  outline-offset: -10px;
+  transition: outline-offset .15s ease-in-out, background-color .15s linear;
+}
