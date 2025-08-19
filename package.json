@@ -36,7 +36,10 @@
     "@types/node": "^24.0.4",
     "jest": "^30.0.3",
     "jest-cli": "^30.0.3",
-    "puppeteer": "^24.10.2"
+    "puppeteer": "^24.10.2",
+    "stencil-tailwind-plugin": "^2.0.3",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.9.2"
   },
   "license": "MIT",
   "dependencies": {

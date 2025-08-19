@@ -1,4 +1,5 @@
 import { Config } from '@stencil/core';
+import tailwind, { tailwindHMR } from 'stencil-tailwind-plugin';
 
 export const config: Config = {
   namespace: 'kortxyz-components',
@@ -7,6 +8,10 @@ export const config: Config = {
     reloadStrategy: 'pageReload',
     openBrowser:false
   },
+  plugins: [
+    tailwind(),
+    tailwindHMR(),
+  ],
   outputTargets: [
     {
       type: 'dist',

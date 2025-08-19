@@ -18,11 +18,13 @@
 
 ### Used by
 
+ - [kortxyz-list](../kortxyz-list)
  - [kortxyz-sidebar-button](../kortxyz-sidebar-button)
 
 ### Graph
 ```mermaid
 graph TD;
+  kortxyz-list --> kortxyz-icon
   kortxyz-sidebar-button --> kortxyz-icon
   style kortxyz-icon fill:#f9f,stroke:#333,stroke-width:4px
 ```

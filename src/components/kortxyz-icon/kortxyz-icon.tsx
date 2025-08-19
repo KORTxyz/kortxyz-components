@@ -14,30 +14,23 @@ export class KortxyzIcon {
 
   d = "";
 
-  loadIcon = async (icon, size) => {
-    try {
-      return await import(getAssetPath(`./assets/icons/${icon}${size}.js`))
-    } catch (e) {
-      return await import(getAssetPath(`./assets/icons/raster16.js`))
-    }
-  }
+  loadIcon = async (icon: string) => import(getAssetPath(`./assets/icons/${icon}.js`)).catch(() => import(getAssetPath('./assets/icons/layers.js')));
 
-  async componentWillLoad() {
-    const { d } = await this.loadIcon(this.icon, this.size);
-    this.d = d;
-  }
+  async componentWillLoad() { this.d = (await this.loadIcon(this.icon)).d; }
+
+
 
   render() {
     return (
-        <Host>
-          <svg width={this.size} height={this.size} viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d={this.d}
-              fill={this.color} />
-          </svg>
+      <Host>
+        <svg width={this.size} height={this.size} viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d={this.d}
+            fill={this.color} />
+        </svg>
 
-          <slot></slot>
-        </Host>
-      )
+        <slot></slot>
+      </Host>
+    )
   }
 }

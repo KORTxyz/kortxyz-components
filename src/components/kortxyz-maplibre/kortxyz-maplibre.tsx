@@ -1,4 +1,4 @@
-import { Component, Host, Element, Prop, Method, h } from '@stencil/core';
+import { Component, Host, Element, Prop, Method, Listen, h } from '@stencil/core';
 
 import maplibregl, { FullscreenControl, GeolocateControl, NavigationControl, ScaleControl } from 'maplibre-gl';
 
@@ -150,6 +150,28 @@ export class KortxyzMaplibre {
 
   }
 
+  @Listen('dragenter')
+  @Listen('drop')
+  @Listen('dragleave')
+  @Listen('dragover')
+  onEvent(e) {
+    e.preventDefault();
+
+    console.log('Event:', e.type);
+    this.mapEl.style.pointerEvents = 'none';
+
+    const targetBelow = document.elementFromPoint(
+      (e as MouseEvent).clientX,
+      (e as MouseEvent).clientY
+    );
+    this.mapEl.style.pointerEvents = 'auto';
+    if (targetBelow && targetBelow !== this.mapEl) {
+      const newEvent = new e.constructor(e.type, e);
+      targetBelow.dispatchEvent(newEvent);
+    }
+
+  }
+
   async loadStyles(url) {
     const response = await fetch(url);
     const { styles } = await response.json();
@@ -238,10 +260,10 @@ export class KortxyzMaplibre {
       }),
       idStrategy: {
         isValidId: (id) => typeof id === "number" && Number.isInteger(id),
-        getId: ( () => {
+        getId: (() => {
           let id = 100;
           return () => ++id;
-        })() 
+        })()
       },
       modes: [
         new TerraDrawSelectMode({
@@ -282,7 +304,7 @@ export class KortxyzMaplibre {
       ],
     });
 
-    if (this.draw) this.map.addControl(new DrawControl({ terraDraw: this.terraDraw, source: this.map.getSource(this.draw), sourceDiv: this.mapEl.querySelector(`[sourceid="${this.draw}"]`) } ), 'top-right');
+    if (this.draw) this.map.addControl(new DrawControl({ terraDraw: this.terraDraw, source: this.map.getSource(this.draw), sourceDiv: this.mapEl.querySelector(`[sourceid="${this.draw}"]`) }), 'top-right');
 
   }
 
