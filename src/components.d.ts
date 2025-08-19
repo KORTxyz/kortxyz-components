@@ -86,6 +86,38 @@ export namespace Components {
          */
         "size": string;
     }
+    interface KortxyzList {
+        /**
+          * Which file will be accepted
+         */
+        "accept": any;
+        "addUploadingTile": (name: any, file: File) => Promise<void>;
+        /**
+          * Url to the API that returns the list
+         */
+        "data": any;
+        /**
+          * Variable to use for description
+         */
+        "description": any;
+        /**
+          * Object in the response that contains the list
+         */
+        "group": any;
+        /**
+          * Variable to use for header
+         */
+        "header": any;
+        /**
+          * Variable to use for title
+         */
+        "name": any;
+        /**
+          * Show a tile for uplaoding files to the data path
+          * @default false
+         */
+        "uploadtile": boolean;
+    }
     /**
      * ## Intro
      * Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
@@ -571,6 +603,12 @@ declare global {
         prototype: HTMLKortxyzIconElement;
         new (): HTMLKortxyzIconElement;
     };
+    interface HTMLKortxyzListElement extends Components.KortxyzList, HTMLStencilElement {
+    }
+    var HTMLKortxyzListElement: {
+        prototype: HTMLKortxyzListElement;
+        new (): HTMLKortxyzListElement;
+    };
     /**
      * ## Intro
      * Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
@@ -792,6 +830,7 @@ declare global {
         "kortxyz-datastore": HTMLKortxyzDatastoreElement;
         "kortxyz-dragoverlay": HTMLKortxyzDragoverlayElement;
         "kortxyz-icon": HTMLKortxyzIconElement;
+        "kortxyz-list": HTMLKortxyzListElement;
         "kortxyz-maplibre": HTMLKortxyzMaplibreElement;
         "kortxyz-maplibre-layer": HTMLKortxyzMaplibreLayerElement;
         "kortxyz-maplibre-layerlist": HTMLKortxyzMaplibreLayerlistElement;
@@ -890,6 +929,37 @@ declare namespace LocalJSX {
           * @default "16"
          */
         "size"?: string;
+    }
+    interface KortxyzList {
+        /**
+          * Which file will be accepted
+         */
+        "accept"?: any;
+        /**
+          * Url to the API that returns the list
+         */
+        "data"?: any;
+        /**
+          * Variable to use for description
+         */
+        "description"?: any;
+        /**
+          * Object in the response that contains the list
+         */
+        "group"?: any;
+        /**
+          * Variable to use for header
+         */
+        "header"?: any;
+        /**
+          * Variable to use for title
+         */
+        "name"?: any;
+        /**
+          * Show a tile for uplaoding files to the data path
+          * @default false
+         */
+        "uploadtile"?: boolean;
     }
     /**
      * ## Intro
@@ -1285,6 +1355,7 @@ declare namespace LocalJSX {
         "kortxyz-datastore": KortxyzDatastore;
         "kortxyz-dragoverlay": KortxyzDragoverlay;
         "kortxyz-icon": KortxyzIcon;
+        "kortxyz-list": KortxyzList;
         "kortxyz-maplibre": KortxyzMaplibre;
         "kortxyz-maplibre-layer": KortxyzMaplibreLayer;
         "kortxyz-maplibre-layerlist": KortxyzMaplibreLayerlist;
@@ -1334,6 +1405,7 @@ declare module "@stencil/core" {
             "kortxyz-datastore": LocalJSX.KortxyzDatastore & JSXBase.HTMLAttributes<HTMLKortxyzDatastoreElement>;
             "kortxyz-dragoverlay": LocalJSX.KortxyzDragoverlay & JSXBase.HTMLAttributes<HTMLKortxyzDragoverlayElement>;
             "kortxyz-icon": LocalJSX.KortxyzIcon & JSXBase.HTMLAttributes<HTMLKortxyzIconElement>;
+            "kortxyz-list": LocalJSX.KortxyzList & JSXBase.HTMLAttributes<HTMLKortxyzListElement>;
             /**
              * ## Intro
              * Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).

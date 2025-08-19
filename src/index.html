@@ -6,26 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
   <title>Stencil Component Starter</title>
 
-  <link rel="stylesheet" href="build/kortxyz-components.css" />
   <script type="module" src="build/kortxyz-components.esm.js"></script>
+  <link rel="stylesheet" href="build/kortxyz-components.css" />
 
   <style>
 
   </style>
 </head>
 
-<body style="margin:0;background: lightcoral;display: flex;flex-direction: column;">
+<body>
+  <kortxyz-list
+    data="http://127.0.0.1:3000/"
+    group="datasets"
+    name="name"
 
-  <kortxyz-dragoverlay style="position: fixed;width: 100vw;height: 100vh;" target="test"></kortxyz-dragoverlay>
-  
-  <script>
-    const dragoverlay = document.querySelector('kortxyz-dragoverlay');
-
-    dragoverlay.addEventListener('fileDropped', ({ detail: { file } }) => {
-      console.log('File dropped:', file);
-      document.body.append(file.name)
-    });
-  </script>
+    uploadtile
+    accept=".gpkg"
+    ></kortxyz-list>
 </body>
 
 </html>

@@ -82,6 +82,43 @@
       ]
     },
     {
+      "name": "kortxyz-list",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "accept",
+          "description": "Which file will be accepted"
+        },
+        {
+          "name": "data",
+          "description": "Url to the API that returns the list"
+        },
+        {
+          "name": "description",
+          "description": "Variable to use for description"
+        },
+        {
+          "name": "group",
+          "description": "Object in the response that contains the list"
+        },
+        {
+          "name": "header",
+          "description": "Variable to use for header"
+        },
+        {
+          "name": "name",
+          "description": "Variable to use for title"
+        },
+        {
+          "name": "uploadtile",
+          "description": "Show a tile for uplaoding files to the data path"
+        }
+      ]
+    },
+    {
       "name": "kortxyz-maplibre",
       "description": {
         "kind": "markdown",
