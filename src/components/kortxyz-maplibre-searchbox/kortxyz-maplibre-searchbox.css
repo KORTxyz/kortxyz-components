@@ -1,5 +1,6 @@
 :host {
   display: block;
+  background-color: white;
   position: absolute;
   top:8px;
   left:8px;

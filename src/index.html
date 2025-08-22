@@ -10,19 +10,70 @@
   <link rel="stylesheet" href="build/kortxyz-components.css" />
 
   <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+    }
 
+    kortxyz-maplibre {
+      flex: 1;
+    }
+
+    kortxyz-aggrid {
+      flex: 300px 0 0;
+    }
   </style>
 </head>
 
 <body>
-  <kortxyz-list
-    data="http://127.0.0.1:3000/"
-    group="datasets"
-    name="name"
+  <kortxyz-datastore store="afstemningsomraader" data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson" ></kortxyz-datastore>
 
-    uploadtile
-    accept=".gpkg"
-    ></kortxyz-list>
+  <kortxyz-maplibre 
+    basemaps="http://127.0.0.1:3000/styles"
+    style="width:100%;display:block;background: whitesmoke;" center="[12.34,55.616]" zoom="12" gps navigation togglebutton="aggrid">
+    <kortxyz-maplibre-searchbox></kortxyz-maplibre-searchbox>
+
+    
+    <kortxyz-maplibre-source 
+      sourceid="afstemningsomraader" store="afstemningsomraader">
+      <kortxyz-maplibre-layer 
+        layerid="afstemningsomraader_line" type="line" paint='{"line-color":"white"}'
+      ></kortxyz-maplibre-layer>
+      <kortxyz-maplibre-layer 
+        layerid="afstemningsomraader" type="fill" 
+        paint='{
+          "fill-color":["match",["get","navn"],
+          "Ishøj Landsby","#d7191c",
+          "Vibeholmskolen","#fdae61",
+          "Gildbroskolen","#ffffbf",
+          "Ishøj Bycenter","#abdda4",
+          "Strandgårdskolen","#2b83ba",
+          "black"
+          ],"fill-opacity":0.5}' 
+        popup="
+        <div style='padding:8px'>
+          <div style='font-weight:bold'>{afstemningsstednavn}</div>
+          {afstemningsstedadressebetegnelse} <br>
+          <a href='https://www.google.dk/maps/dir/{afstemningsstedadressebetegnelse}'>Find vej</a>
+        </div>
+        "
+      ></kortxyz-maplibre-layer>
+
+    </kortxyz-maplibre-source>
+
+    
+
+
+    
+  </kortxyz-maplibre>
+
+  <kortxyz-aggrid id="aggrid" store="afstemningsomraader"></kortxyz-aggrid>
+
+
+
 </body>
 
 </html>
