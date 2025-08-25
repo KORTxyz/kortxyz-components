@@ -54,7 +54,7 @@ export namespace Components {
      */
     interface KortxyzDatastore {
         /**
-          * URL to the data to be fetch into the Store AA
+          * URL to the data to be fetch into the Store
          */
         "data"?: string;
         /**
@@ -65,6 +65,10 @@ export namespace Components {
           * Name of the store
          */
         "store"?: string;
+        /**
+          * Should edits sync back to the datasource
+         */
+        "sync"?: boolean;
     }
     interface KortxyzDragoverlay {
         /**
@@ -897,7 +901,7 @@ declare namespace LocalJSX {
      */
     interface KortxyzDatastore {
         /**
-          * URL to the data to be fetch into the Store AA
+          * URL to the data to be fetch into the Store
          */
         "data"?: string;
         /**
@@ -908,6 +912,10 @@ declare namespace LocalJSX {
           * Name of the store
          */
         "store"?: string;
+        /**
+          * Should edits sync back to the datasource
+         */
+        "sync"?: boolean;
     }
     interface KortxyzDragoverlay {
         "onFileDropped"?: (event: KortxyzDragoverlayCustomEvent<any>) => void;

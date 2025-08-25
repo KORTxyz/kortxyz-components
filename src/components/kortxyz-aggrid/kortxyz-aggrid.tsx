@@ -60,7 +60,7 @@ export class KortxyzAggrid {
 
   @Listen('featureClicked', { target: 'body' })
   featureClickedHandler(event) {
-    const rowNode = this.api.getRowNode(String(event.detail - 1)); // Get row node
+    const rowNode = this.api.getRowNode(String(event.detail)); // Get row node
     if (rowNode) {
       this.api.ensureIndexVisible(rowNode.rowIndex)
       this.api.flashCells({
@@ -71,18 +71,18 @@ export class KortxyzAggrid {
 
   convertToGeojson = (rowdata) => ({
     "type": "FeatureCollection",
-    "features": rowdata.map(({ id, geometry, ...properties }) => ({ id, properties, geometry }))
+    "features": rowdata.map(({ id, geometry, ...properties }) => ({ id, type: "Feature", properties, geometry }))
   })
 
   onCellEditingStopped = (e: CellEditingStoppedEvent) => {
-    if(e.newValue !== e.oldValue){
-    const allData = [];
-    e.api.forEachNode(node => allData.push(node.data));
-    const geojson = this.convertToGeojson(allData)
+    if (e.newValue !== e.oldValue) {
+      const allData = [];
+      e.api.forEachNode(node => allData.push(node.data));
+      const geojson = this.convertToGeojson(allData)
 
-    const datastore = getStore(this.store);
-    datastore.set("lastOrigin", "table");
-    datastore.set("data", geojson);
+      const datastore = getStore(this.store);
+      datastore.set("lastOrigin", "table");
+      datastore.set("editeddata", geojson);
     }
   }
 
@@ -147,9 +147,26 @@ export class KortxyzAggrid {
     if (type === 'boolean') return 'agCheckboxCellEditor';
   };
 
-  updateRows = (geojson) => {
-    const data = geojson.features.map(e => ({ id: e.id, ...e.properties, geometry: e.geometry }))
+  updateRows = (geojson,origin) => {
+    const data = geojson.features.map(e => ({ id: e.id, ...e.properties, geometry: e.geometry }));
     this.api.setGridOption('rowData', data);
+
+    if (origin == "newFeature") {
+      const rowNode = this.api.getRowNode(data[data.length - 1].id);
+      if (rowNode) {
+        this.api.ensureIndexVisible(rowNode.rowIndex)
+        this.api.flashCells({
+          rowNodes: [rowNode]
+        });
+
+        this.api.startEditingCell({
+          rowIndex: rowNode.rowIndex,
+          colKey: this.api.getAllDisplayedColumns()[0].getColId()
+        });
+      }
+    }
+
+
   }
 
   initGrid = () => {
@@ -157,6 +174,7 @@ export class KortxyzAggrid {
 
     this.gridOptions = {
       theme: themeBalham.withPart(colorSchemeDark),
+      getRowId: params => String(params.data.id),
       defaultColDef: {
         filter: true,
         editable: !!this.editable ? true : false,
@@ -183,20 +201,22 @@ export class KortxyzAggrid {
     }
     else schemaDef = JSON.parse(this.schema)
 
-    const columns = Object.keys(schemaDef.properties).filter(prop => !["id", "geometry"].includes(prop))
+    const columns = Object.keys(schemaDef.properties).filter(prop => !["geometry"].includes(prop))
     const columnDefs: (ColDef | ColGroupDef)[] = columns.map(key => this.getColumnDef(key, schemaDef.properties[key], null))
 
-    this.api.setGridOption('columnDefs', columnDefs)
+    this.api.setGridOption('columnDefs', [
+      { field: "id", hide: true },
+      ...columnDefs
+    ])
   }
 
   columnDefsFromGeojson = async (geojson) => {
     const columns = Object.keys(geojson.features[0].properties);
     let columnDefs: (ColDef | ColGroupDef)[] = columns.map(key => this.getColumnDef(key, null, geojson.features[0].properties[key]))
-    columnDefs = [
+    this.api.setGridOption('columnDefs', [
+      { field: "id", hide: true },
       ...columnDefs
-    ]
-
-    this.api.setGridOption('columnDefs', columnDefs)
+    ])
   }
 
   getGeojson = async () => {
@@ -210,9 +230,12 @@ export class KortxyzAggrid {
 
     else if (this.store) {
       let datastore;
-      while ((datastore = getStore(this.store)) == undefined || !datastore.get("data").features)  await new Promise(r => setTimeout(r, 200));
-      datastore.onChange("data", (e: GeoJSON) => { if(datastore.get("lastOrigin") !== "table") this.updateRows(e)})
+      while ((datastore = getStore(this.store)) == undefined || !datastore.get("data").features.length) await new Promise(r => setTimeout(r, 200));
       geojson = datastore.get("data");
+
+      datastore.onChange("data", (e: GeoJSON) => {
+        if (datastore.get("lastOrigin") == "newFeature") this.updateRows(e,"newFeature")
+      })
     }
 
     return geojson;
@@ -227,7 +250,7 @@ export class KortxyzAggrid {
 
     if (!this.schema) this.columnDefsFromGeojson(geojson);
 
-    this.updateRows(geojson);
+    this.updateRows(geojson,"init");
   }
 
   render() {

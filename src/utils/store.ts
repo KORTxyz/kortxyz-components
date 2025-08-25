@@ -3,7 +3,21 @@ import { createStore } from "@stencil/store";
 let storeContainer = {}
 
 const createNewStore = name => {
-  storeContainer[name] = createStore({ data: {},lastOrigin: null })
+
+  const newStore = createStore({
+    data: {
+      "type": "FeatureCollection",
+      "features": []
+    },
+    editeddata: {
+      "type": "FeatureCollection",
+      "features": []
+    },
+    lastOrigin: null
+  });
+
+  storeContainer[name] = newStore
+  return newStore
 }
 
 const getStore = name => storeContainer[name]

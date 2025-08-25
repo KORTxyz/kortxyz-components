@@ -156,10 +156,13 @@ export class DrawControl implements IControl {
         const datastore = sourceDiv.store ? getStore(sourceDiv.store) : null;
         
         terraDraw.on("finish", async () => {
+            
             const newFeature = terraDraw.getSnapshot()[0];
-            const geojson = datastore ? datastore.get("data") : await source.getData();
+            terraDraw.stop();
             
             if(newFeature){
+                const geojson = datastore ? datastore.get("data") : await source.getData();
+                
                 newFeature.id = Math.max(...geojson.features.map(e => Number(e.id))) + 1;
                 newFeature.properties = {};
 
@@ -170,10 +173,9 @@ export class DrawControl implements IControl {
 
                 if(datastore){
                     datastore.set("lastOrigin","map")
-                    datastore.set("data", newGeojson)
+                    datastore.set("editeddata", newGeojson)
                 }
                 else source.setData(newGeojson)
-                terraDraw.stop();
             }
             
         });
