@@ -185,10 +185,9 @@ export class KortxyzMaplibreSource {
     this.map = (this.el.parentElement as unknown as KortxyzMaplibre).map;
     
     if(this.el.children.length == 0) this.autolayers = true;
-    
+
     await this.waitForStyleLoad();
     this.addSource();
-    
   }
 
 

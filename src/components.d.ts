@@ -58,10 +58,6 @@ export namespace Components {
          */
         "data"?: string;
         /**
-          * Query geojson features using jsonpath-plus
-         */
-        "query"?: string;
-        /**
           * Name of the store
          */
         "store"?: string;
@@ -69,6 +65,10 @@ export namespace Components {
           * Should edits sync back to the datasource
          */
         "sync"?: boolean;
+        /**
+          * Transform geojson-features with JSONata
+         */
+        "transform"?: string;
     }
     interface KortxyzDragoverlay {
         /**
@@ -905,10 +905,6 @@ declare namespace LocalJSX {
          */
         "data"?: string;
         /**
-          * Query geojson features using jsonpath-plus
-         */
-        "query"?: string;
-        /**
           * Name of the store
          */
         "store"?: string;
@@ -916,6 +912,10 @@ declare namespace LocalJSX {
           * Should edits sync back to the datasource
          */
         "sync"?: boolean;
+        /**
+          * Transform geojson-features with JSONata
+         */
+        "transform"?: string;
     }
     interface KortxyzDragoverlay {
         "onFileDropped"?: (event: KortxyzDragoverlayCustomEvent<any>) => void;

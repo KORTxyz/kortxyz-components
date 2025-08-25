@@ -1,10 +1,11 @@
 import { Component, Prop, Element } from '@stencil/core';
 
-import { createNewStore, getStore } from '../../utils/store';
+import { createNewStore } from '../../utils/store';
 
 import { isvalidURL } from '../../utils/checkUtils';
-import { JSONPath } from 'jsonpath-plus';
 import { getDiff } from 'json-difference'
+
+import jsonata from 'jsonata';
 
 /**
  
@@ -39,13 +40,10 @@ export class KortxyzDatastore {
   /** Should edits sync back to the datasource */
   @Prop() sync?: boolean;
 
-  /** Query geojson features using jsonpath-plus */
-  @Prop() query?: string;
+  /** Transform geojson-features with JSONata */
+  @Prop() transform?: string;
 
-  initStore() {
-    createNewStore(this.store)
-    getStore(this.store).set("data", JSON.parse(this.storeEl.innerHTML))
-  }
+
 
   async handleAdds(store, newData, adds) {
     const [addedPath,] = adds;
@@ -113,14 +111,15 @@ export class KortxyzDatastore {
     delete geojson.timeStamp;
     delete geojson.numberReturned;
 
-    if (isNaN(geojson.features[0]?.id)) geojson.features.forEach((feat, idx) => (feat.id = idx + 1))
-
-    if (this.query) {
+    if (this.transform) {
       geojson = {
-        ...geojson,
-        features: JSONPath({ path: this.query, json: geojson })
+        type: "FeatureCollection",
+        features: await jsonata(this.transform).evaluate(geojson)
       }
     }
+
+
+    if (isNaN(geojson.features[0]?.id)) geojson.features.forEach((feat, idx) => (feat.id = idx + 1))
 
     store.set("data", geojson)
 

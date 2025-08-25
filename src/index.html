@@ -1,54 +1,77 @@
-<!DOCTYPE html>
-<html dir="ltr" lang="en">
+<script type="module" src="build/kortxyz-components.esm.js"></script>
+<link rel="stylesheet" href="build/kortxyz-components.css" />
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-  <title>Stencil Component Starter</title>
+<kortxyz-datastore store="afstemningssted" data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183"
+  transform='*.{
+        "id":$number(dagi_id),
+        "type": "Feature",
+        "properties": {
+            "navn": afstemningssted.navn,
+            "adresse": afstemningssted.adgangsadresse.adressebetegnelse
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": afstemningssted.adgangsadresse.koordinater
+        }
+   }'
+  ></kortxyz-datastore>
 
-  <script type="module" src="build/kortxyz-components.esm.js"></script>
-  <link rel="stylesheet" href="build/kortxyz-components.css" />
+<kortxyz-maplibre style="width:100%;height:600px;display:block" center="[12.34,55.616]" zoom="12"
+  legend="afstemningsområder">
 
-  <style>
-    body {
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      width: 100vw;
-    }
+  <kortxyz-maplibre-searchbox resultzoom="" resulttype="click"></kortxyz-maplibre-searchbox>
 
-    kortxyz-maplibre {
-      flex: 1;
-    }
 
-    kortxyz-aggrid {
-      flex: 300px 0 0;
-    }
-  </style>
-</head>
 
-<body>
-  <kortxyz-datastore store="items" data="http://127.0.0.1:3000/collections/points/items" sync></kortxyz-datastore>
+  <kortxyz-maplibre-source sourceid="afstemningssted" store="afstemningssted">
+    <kortxyz-maplibre-layer layerid="afstemningssted" type="circle" 
+      paint='{
+        "circle-stroke-color":"white",
+        "circle-stroke-width":2,
+        "circle-color":["match",["get","navn"],
+          "Ishøj Skolehal","#d7191c",
+          "Vibeholmskolen","#fdae61",
+          "Gildbroskolen","#ffffbf",
+          "Kulturium","#abdda4",
+          "Strandgårdskolen","#2b83ba",
+          "black"
+        ]
+      }'
+    ></kortxyz-maplibre-layer>
+  </kortxyz-maplibre-source>
 
-  <kortxyz-maplibre 
-    draw="items"
-    basemaps="http://127.0.0.1:3000/styles"
-    style="width:100%;display:block;background: whitesmoke;" center="[12.34,55.616]" zoom="12" gps navigation togglebutton="aggrid">
-    <kortxyz-maplibre-searchbox></kortxyz-maplibre-searchbox>
-
+  <kortxyz-maplibre-source data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson">
+    <kortxyz-maplibre-layer type="line" paint='{"line-color":"white","line-width":2}'></kortxyz-maplibre-layer>
+    <kortxyz-maplibre-layer layerid="afstemningsområder" type="fill" 
     
-    <kortxyz-maplibre-source sourceid="items" store="items"></kortxyz-maplibre-source>
-  
+      paint='{
+      "fill-color":["match",["get","navn"],
+      "Ishøj Landsby","#d7191c",
+      "Vibeholmskolen","#fdae61",
+      "Gildbroskolen","#ffffbf",
+      "Ishøj Bycenter","#abdda4",
+      "Strandgårdskolen","#2b83ba",
+      "black"
+      ],"fill-opacity":0.5}'
+
+      popup="
+        <div style='padding:8px'>
+          <div style='font-weight:bold'>{afstemningsstednavn}</div>
+          {afstemningsstedadressebetegnelse} <br>
+          <a href='https://www.google.dk/maps/dir//{afstemningsstedadressebetegnelse}'>Find vej</a>
+        </div>
+        " 
+      legend-metadata='{"labels":{"other":false}}'
+    ></kortxyz-maplibre-layer>
 
 
-    
-  </kortxyz-maplibre>
 
-  <kortxyz-aggrid id="aggrid" store="items" editable></kortxyz-aggrid>
+  </kortxyz-maplibre-source>
+
+  <kortxyz-maplibre-source sourceid="ortofoto" type="raster" tilesize="256" maxzoom="20"
+    tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}">
+  </kortxyz-maplibre-source>
 
 
 
-</body>
-
-</html>
+</kortxyz-maplibre>

@@ -38,16 +38,16 @@
           "description": "URL to the data to be fetch into the Store"
         },
         {
-          "name": "query",
-          "description": "Query geojson features using jsonpath-plus"
-        },
-        {
           "name": "store",
           "description": "Name of the store"
         },
         {
           "name": "sync",
           "description": "Should edits sync back to the datasource"
+        },
+        {
+          "name": "transform",
+          "description": "Transform geojson-features with JSONata"
         }
       ]
     },
