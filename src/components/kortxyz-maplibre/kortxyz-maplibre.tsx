@@ -1,4 +1,4 @@
-import { Component, Host, Element, Prop, Method, Listen, h } from '@stencil/core';
+import { Component, Host, Element, Prop, Method, h } from '@stencil/core';
 
 import maplibregl, { FullscreenControl, GeolocateControl, NavigationControl, ScaleControl } from 'maplibre-gl';
 
@@ -50,6 +50,7 @@ import { isvalidURL } from '../../utils/checkUtils';
   shadow: false,
 })
 export class KortxyzMaplibre {
+ 
   @Prop({ mutable: true }) map: maplibregl.Map;
   basemap: maplibregl.Map;
 
@@ -150,27 +151,6 @@ export class KortxyzMaplibre {
 
   }
 
-  @Listen('dragenter')
-  @Listen('drop')
-  @Listen('dragleave')
-  @Listen('dragover')
-  onEvent(e) {
-    e.preventDefault();
-
-    console.log('Event:', e.type);
-    this.mapEl.style.pointerEvents = 'none';
-
-    const targetBelow = document.elementFromPoint(
-      (e as MouseEvent).clientX,
-      (e as MouseEvent).clientY
-    );
-    this.mapEl.style.pointerEvents = 'auto';
-    if (targetBelow && targetBelow !== this.mapEl) {
-      const newEvent = new e.constructor(e.type, e);
-      targetBelow.dispatchEvent(newEvent);
-    }
-
-  }
 
   async loadStyles(url) {
     const response = await fetch(url);
@@ -270,17 +250,17 @@ export class KortxyzMaplibre {
           flags: {
             point: {
               feature: {
-                draggable: true,     // Can move the point
+                draggable: true,
               },
             },
             linestring: {
               feature: {
-                draggable: true,     // Move entire linestring
+                draggable: true, 
                 coordinates: {
-                  draggable: true,   // Drag individual coordinates
-                  deletable: true,   // Remove individual coordinates
+                  draggable: true,
+                  deletable: true,
                   midpoints: {
-                    draggable: true  // Insert midpoints and drag to create new nodes
+                    draggable: true 
                   },
                 },
               },

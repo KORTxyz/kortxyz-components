@@ -17,11 +17,12 @@ data="https://example.geojson"
 
 ## Properties
 
-| Property | Attribute | Description                                   | Type     | Default     |
-| -------- | --------- | --------------------------------------------- | -------- | ----------- |
-| `data`   | `data`    | URL to the data to be fetch into the Store AA | `string` | `undefined` |
-| `query`  | `query`   | Query geojson features using jsonpath-plus    | `string` | `undefined` |
-| `store`  | `store`   | Name of the store                             | `string` | `undefined` |
+| Property | Attribute | Description                                | Type      | Default     |
+| -------- | --------- | ------------------------------------------ | --------- | ----------- |
+| `data`   | `data`    | URL to the data to be fetch into the Store | `string`  | `undefined` |
+| `query`  | `query`   | Query geojson features using jsonpath-plus | `string`  | `undefined` |
+| `store`  | `store`   | Name of the store                          | `string`  | `undefined` |
+| `sync`   | `sync`    | Should edits sync back to the datasource   | `boolean` | `undefined` |
 
 
 ----------------------------------------------

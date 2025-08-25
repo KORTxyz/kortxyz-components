@@ -48,6 +48,8 @@
     "@types/mapbox-gl": "^3.4.1",
     "ag-grid-community": "^33.3.2",
     "chart.js": "^4.5.0",
+    "json-diff-kit": "^1.0.33",
+    "json-difference": "^1.16.1",
     "jsonpath-plus": "^10.3.0",
     "mapboxgl-legend": "^1.16.0",
     "maplibre-gl": "^5.6.0",

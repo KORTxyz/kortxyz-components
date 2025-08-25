@@ -35,7 +35,7 @@
       "attributes": [
         {
           "name": "data",
-          "description": "URL to the data to be fetch into the Store AA"
+          "description": "URL to the data to be fetch into the Store"
         },
         {
           "name": "query",
@@ -44,6 +44,10 @@
         {
           "name": "store",
           "description": "Name of the store"
+        },
+        {
+          "name": "sync",
+          "description": "Should edits sync back to the datasource"
         }
       ]
     },
