@@ -1,66 +1,10 @@
 <script type="module" src="build/kortxyz-components.esm.js"></script>
 
-<kortxyz-datastore store="afstemningssted" data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183"
-  transform='*.{
-        "id":$number(dagi_id),
-        "type": "Feature",
-        "properties": {
-            "navn": afstemningssted.navn,
-            "adresse": afstemningssted.adgangsadresse.adressebetegnelse
-        },
-        "geometry": {
-            "type": "Point",
-            "coordinates": afstemningssted.adgangsadresse.koordinater
-        }
-   }'
-  ></kortxyz-datastore>
-
-<kortxyz-maplibre style="width:100%;height:600px;display:block" center="[12.34,55.616]" zoom="12"
-  legend="afstemningsområder,stemmesteder">
-
-  <kortxyz-maplibre-searchbox resultzoom="" resulttype="click"></kortxyz-maplibre-searchbox>
- 
-  <kortxyz-maplibre-source sourceid="afstemningssted" store="afstemningssted">
-    <kortxyz-maplibre-layer layerid="afstemningssted" type="circle" 
-      paint='{
-        "circle-stroke-color":"white",
-        "circle-stroke-width":2,
-        "circle-color":["match",["get","navn"],
-          "Ishøj Skolehal","#d7191c",
-          "Vibeholmskolen","#fdae61",
-          "Gildbroskolen","#ffffbf",
-          "Kulturium","#abdda4",
-          "Strandgårdskolen","#2b83ba",
-          "black"
-        ]
-      }'
-    ></kortxyz-maplibre-layer>
-  </kortxyz-maplibre-source>
-
-  <kortxyz-maplibre-source data="https://api.dataforsyningen.dk/afstemningsomraader?kommunekode=183&&format=geojson">
-    <kortxyz-maplibre-layer type="line" paint='{"line-color":"white","line-width":2}'></kortxyz-maplibre-layer>
-    <kortxyz-maplibre-layer layerid="afstemningsområder" type="fill" paint='{
-      "fill-color":["match",["get","navn"],
-      "Ishøj Landsby","#d7191c",
-      "Vibeholmskolen","#fdae61",
-      "Gildbroskolen","#ffffbf",
-      "Ishøj Bycenter","#abdda4",
-      "Strandgårdskolen","#2b83ba",
-      "black"
-      ],"fill-opacity":0.5}' popup="
-    <div style='padding:8px'>
-      <div style='font-weight:bold'>{afstemningsstednavn}</div>
-      {afstemningsstedadressebetegnelse} <br>
-      <a href='https://www.google.dk/maps/dir//{afstemningsstedadressebetegnelse}'>Find vej</a>
-    </div>
-    " legend-metadata='{"labels":{"other":false}}'></kortxyz-maplibre-layer>
-  </kortxyz-maplibre-source>
-
-
-
-  <kortxyz-maplibre-source sourceid="ortofoto" type="raster" tilesize="256" maxzoom="20"
-    tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}">
-  </kortxyz-maplibre-source>
+<kortxyz-maplibre 
+style="width:100%;height:100dvh;display:block" 
+mapstyle='http://127.0.0.1:3000/collections/building/styles/Area2?f=mbs'
+basemapstyle ='http://127.0.0.1:3000/styles/3857_skaermkort_moerkt?f=mbs'
+center="[12.34,55.616]" zoom="12">
 
 
 
