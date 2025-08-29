@@ -19,7 +19,7 @@ interface BasemapSwitcherControlOptions {
 }
 
 interface DrawControlOptions {
-    terraDraw:TerraDraw,
+    terraDraw: TerraDraw,
     source?: any,
     sourceDiv
 }
@@ -98,19 +98,19 @@ export class BasemapSwitcherControl implements IControl {
         this.container = document.createElement('div');
         this.container.className = 'maplibregl-ctrl maplibregl-ctrl-basemapswicther';
 
-        basemaplist.forEach(({title, icon, url}) => {
-            if(icon){
-            this.img = document.createElement('img');
-            this.img.src = icon;
-            this.img.title = title;
-            this.img.className = "maplibregl-ctrl-basemapimage";
+        basemaplist.forEach(({ title, icon, url }) => {
+            if (icon) {
+                this.img = document.createElement('img');
+                this.img.src = icon;
+                this.img.title = title;
+                this.img.className = "maplibregl-ctrl-basemapimage";
 
-            this.img.onclick = (e) => this.changeBasemap(basemap, url,e);
-            this.container.appendChild(this.img);
+                this.img.onclick = (e) => this.changeBasemap(basemap, url, e);
+                this.container.appendChild(this.img);
 
             }
-            else{
-            const fallbackText = document.createElement('span');
+            else {
+                const fallbackText = document.createElement('span');
                 fallbackText.innerText = title;
                 fallbackText.className = "maplibregl-ctrl-basemaptext";
 
@@ -133,12 +133,12 @@ export class BasemapSwitcherControl implements IControl {
     changeBasemap(basemap, url, event: MouseEvent): void {
         //this.container.prepend(image);
         basemap.setStyle(url)
-            // Move the clicked element to the front
-    const target = (event?.currentTarget || event?.target) as HTMLElement;
-    if (target && this.container.contains(target)) {
-        this.container.removeChild(target);
-        this.container.insertBefore(target, this.container.firstChild);
-    }
+        // Move the clicked element to the front
+        const target = (event?.currentTarget || event?.target) as HTMLElement;
+        if (target && this.container.contains(target)) {
+            this.container.removeChild(target);
+            this.container.insertBefore(target, this.container.firstChild);
+        }
     }
 }
 
@@ -154,15 +154,15 @@ export class DrawControl implements IControl {
     onAdd(): HTMLElement {
         const { terraDraw, source, sourceDiv } = this.options;
         const datastore = sourceDiv.store ? getStore(sourceDiv.store) : null;
-        
+
         terraDraw.on("finish", async () => {
-            
+
             const newFeature = terraDraw.getSnapshot()[0];
             terraDraw.stop();
-            
-            if(newFeature){
+
+            if (newFeature) {
                 const geojson = datastore ? datastore.get("data") : await source.getData();
-                
+
                 newFeature.id = Math.max(...geojson.features.map(e => Number(e.id))) + 1;
                 newFeature.properties = {};
 
@@ -171,13 +171,13 @@ export class DrawControl implements IControl {
                     features: [...geojson.features, newFeature]
                 };
 
-                if(datastore){
-                    datastore.set("lastOrigin","map")
+                if (datastore) {
+                    datastore.set("lastOrigin", "map")
                     datastore.set("editeddata", newGeojson)
                 }
                 else source.setData(newGeojson)
             }
-            
+
         });
 
         this.container = document.createElement('div');
@@ -192,18 +192,18 @@ export class DrawControl implements IControl {
         this.button.style.alignItems = 'center';
         this.button.innerHTML = '<svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.98909 18.7091C9.76909 18.0091 9.37909 16.0791 8.47909 14.8591C7.58909 13.6091 6.35909 12.7491 5.11909 11.9191C4.23909 11.3591 3.42909 10.6591 2.77909 9.85907C2.49909 9.52907 1.92909 8.91907 2.50909 8.79907C3.09909 8.67907 4.11909 9.25907 4.63909 9.47907C5.54909 9.85907 6.44909 10.2991 7.28909 10.8191L8.29909 9.11907C6.73909 8.08907 4.73909 7.17907 2.87909 6.90907C1.81909 6.74907 0.699091 6.96907 0.339091 8.11907C0.0190908 9.10907 0.529091 10.1091 1.10909 10.8891C2.47909 12.7191 4.60909 13.5991 6.19909 15.1791C6.53909 15.5091 6.94909 15.8991 7.14909 16.3591C7.35909 16.7991 7.30909 16.8291 6.83909 16.8291C5.59909 16.8291 4.04909 15.8591 3.03909 15.2191L2.02909 16.9191C3.55909 17.8591 6.11909 19.3291 7.98909 18.7091ZM19.0791 3.10907C19.2991 2.88907 19.2991 2.52907 19.0791 2.31907L17.7791 1.01907C17.5691 0.809072 17.2091 0.809072 16.9991 1.01907L15.9791 2.03907L18.0591 4.11907M9.23909 8.77907V10.8591H11.3191L17.4691 4.70907L15.3891 2.62907L9.23909 8.77907Z" fill="black"/></svg>';
 
-        this.button.onclick = () => this.startDrawing(terraDraw,datastore,source)
+        this.button.onclick = () => this.startDrawing(terraDraw, datastore, source)
 
         this.container.appendChild(this.button);
         return this.container;
 
     }
-
-    async startDrawing(terraDraw,datastore,source): Promise<void> {
+    async startDrawing(terraDraw, datastore, source): Promise<void> {
         const geojson = datastore ? datastore.get("data") : await source.getData();
+        let mode = geojson.features[0]?.geometry.type.toLowerCase().replace("multi", "");
 
         terraDraw.start();
-        terraDraw.setMode(geojson.features[0]?.geometry.type.toLowerCase());
+        terraDraw.setMode(mode);
     }
 
     onRemove(): void {
