@@ -1,4 +1,4 @@
-import { Component, Host, Element, Prop, Method, h } from '@stencil/core';
+import { Component, Element, Prop, Method } from '@stencil/core';
 
 import maplibregl, { FullscreenControl, GeolocateControl, NavigationControl, ScaleControl } from 'maplibre-gl';
 
@@ -232,6 +232,16 @@ export class KortxyzMaplibre {
   async componentDidLoad() {
     this.basemap.resize();
     this.map.resize();
+    if (this.map.loaded()) return;
+    else await new Promise<void>(resolve => {
+      this.map.once('idle', () => {
+        resolve()
+    })});
+
+    Array.from(this.mapEl.children).filter(e => (e as HTMLElement).tagName.toLowerCase() == "kortxyz-maplibre-source").forEach(async (e: HTMLElement) => {
+        await customElements.whenDefined('kortxyz-maplibre-source');
+      (e as any).addSource()
+    });
 
     this.terraDraw = new TerraDraw({
       adapter: new TerraDrawMapLibreGLAdapter({
@@ -286,13 +296,6 @@ export class KortxyzMaplibre {
 
     if (this.draw) this.map.addControl(new DrawControl({ terraDraw: this.terraDraw, source: this.map.getSource(this.draw), sourceDiv: this.mapEl.querySelector(`[sourceid="${this.draw}"]`) }), 'top-right');
 
-  }
-
-  render() {
-    return (
-      <Host>
-      </Host>
-    );
   }
 
 }

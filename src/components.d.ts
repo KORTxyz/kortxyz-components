@@ -5,6 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { GeoJSON } from "geojson";
+export { GeoJSON } from "geojson";
 export namespace Components {
     /**
      * ## Intro
@@ -359,11 +361,7 @@ export namespace Components {
      * ```
      */
     interface KortxyzMaplibreSource {
-        /**
-          * add a layer without specifing it. If no kortxyz-maplibre-layer children, it is automatically set to true.
-          * @default false
-         */
-        "autolayers": boolean;
+        "addSource": () => Promise<void>;
         /**
           * URL to the geojson source.
          */
@@ -1204,11 +1202,6 @@ declare namespace LocalJSX {
      * ```
      */
     interface KortxyzMaplibreSource {
-        /**
-          * add a layer without specifing it. If no kortxyz-maplibre-layer children, it is automatically set to true.
-          * @default false
-         */
-        "autolayers"?: boolean;
         /**
           * URL to the geojson source.
          */

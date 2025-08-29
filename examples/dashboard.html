@@ -1,0 +1,52 @@
+  <link rel="stylesheet" href="../dist/kortxyz-components/kortxyz-components.css" />
+  <script type="module" src="../dist/kortxyz-components/kortxyz-components.esm.js"></script>
+
+<kortxyz-datastore store="afstemningssted"
+  data="https://geodk.kort.xyz/collections/bygning/items?limit=10000&properties=virkningfra" 
+  transform='
+    features.{
+      "id": id,
+      "type": "Feature",
+      "properties": $merge([properties, { "virkÅr": $fromMillis($toMillis(properties.virkningfra), "[Y]") }]),
+      "geometry": geometry
+    }
+'>
+</kortxyz-datastore>
+
+<div style="display:flex;flex-direction: column;height: 100dvh;">
+
+
+  <div style="display:flex;flex-direction: row;flex:1">
+
+    <kortxyz-maplibre style="flex:1;height:100%;display:block" legend="afstemningssted" center="[12.34,55.616]" zoom="12">
+
+      <kortxyz-maplibre-searchbox></kortxyz-maplibre-searchbox>
+
+      <kortxyz-maplibre-source sourceid="afstemningssted" store="afstemningssted">
+        <kortxyz-maplibre-layer layerid="afstemningssted" type="fill" 
+          paint='{"fill-color":["match",["get","virkÅr"],"2015","blue","2024","green","2017","orange","red"]}'
+        ></kortxyz-maplibre-layers>
+      </kortxyz-maplibre-source>
+
+      <kortxyz-maplibre-source sourceid="ortofoto" type="raster" tilesize="256" maxzoom="20"
+        tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}">
+      </kortxyz-maplibre-source>
+
+
+
+    </kortxyz-maplibre>
+  <kortxyz-aggrid style="flex:0.5;height:100%;display:block" store="afstemningssted"></kortxyz-aggrid>
+
+
+
+
+
+  </div>
+
+    <kortxyz-tauchart
+      style="flex:0.5;height:100%;display:block" 
+      store="afstemningssted" group-by-keys="virkÅr" type="bar" 
+      x="virkÅr" y="count" color="virkÅr" 
+      tooltip
+    ></kortxyz-tauchart>
+</div>
