@@ -308,10 +308,6 @@
       },
       "attributes": [
         {
-          "name": "autolayers",
-          "description": "add a layer without specifing it. If no kortxyz-maplibre-layer children, it is automatically set to true."
-        },
-        {
           "name": "data",
           "description": "URL to the geojson source."
         },

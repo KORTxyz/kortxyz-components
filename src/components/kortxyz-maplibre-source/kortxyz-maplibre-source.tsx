@@ -1,4 +1,4 @@
-import { Component, Element, Prop } from '@stencil/core';
+import { Component, Element, Method, Prop, State } from '@stencil/core';
 import { GeoJSON } from 'geojson';
 
 import { getStore } from '../../utils/store';
@@ -74,7 +74,7 @@ export class KortxyzMaplibreSource {
   @Prop() fit: boolean = false;
 
   /** add a layer without specifing it. If no kortxyz-maplibre-layer children, it is automatically set to true.*/
-  @Prop({mutable:true}) autolayers: boolean = false;
+  @State() autolayers: boolean = false;
 
   @Prop({ mutable: true }) source;
 
@@ -142,8 +142,9 @@ export class KortxyzMaplibreSource {
     }
 
   }
-
-  addSource = async () => {
+  
+  @Method()
+  async addSource(){
     this.map.addSource(this.sourceid, this.getSourceObject())
     
     this.source = this.map.getSource(this.sourceid)
@@ -175,19 +176,10 @@ export class KortxyzMaplibreSource {
       this.el.appendChild(layerEl)
     }
   }
-
-  waitForStyleLoad = async () =>{
-    if (this.map.loaded()) return;
-    else await new Promise<void>(resolve => this.map.once('style.load', () => resolve()));
-  }
-
+  
   async componentWillLoad() {
     this.map = (this.el.parentElement as unknown as KortxyzMaplibre).map;
-    
     if(this.el.children.length == 0) this.autolayers = true;
-
-    await this.waitForStyleLoad();
-    this.addSource();
   }
 
 

@@ -65,8 +65,6 @@ export class KortxyzTauchart {
 
   private chart: any;
 
-  private loading: boolean = true;
-
   /** Fetch data from a url */
   @Prop() data: string;
 
@@ -99,22 +97,11 @@ export class KortxyzTauchart {
 
 
   fetchfromStore = async () => {
-    let geojson
-    while (this.loading) {
-      const datastore = getStore(this.store);
-      if (datastore == undefined) await new Promise(r => setTimeout(r, 200));
-      else {
-        if (!datastore) return;
-        geojson = datastore.get("data");
-        if (!geojson.features) await new Promise(r => setTimeout(r, 200));
-        else {
-          this.loading = false;
-          datastore.onChange("data", (e) => this.chart.setData(this.refactorData(e)))
-        }
-      }
-    }
+    let datastore;
 
-    return geojson;
+    while ((datastore = getStore(this.store)) == undefined || !datastore.get("data").features.length)  await new Promise(r => setTimeout(r, 200));
+
+    return datastore.get("data");       
   }
 
 

@@ -71,7 +71,6 @@ export class KortxyzDatastore {
     const pathParts = editedPath.replace("[]", "").split("/");
 
     const editedFeature = newData[pathParts[0]][pathParts[1]]
-    console.log(editedFeature)
     const res = await fetch(this.data + "/" + editedFeature.id, {
       method: "PATCH",
       headers: {
@@ -101,6 +100,7 @@ export class KortxyzDatastore {
   async componentWillLoad() {
     const store = createNewStore(this.store);
     let geojson;
+
     if (this.data && isvalidURL(this.data)) {
       const res = await fetch(this.data)
       geojson = await res.json();
@@ -117,7 +117,6 @@ export class KortxyzDatastore {
         features: await jsonata(this.transform).evaluate(geojson)
       }
     }
-
 
     if (isNaN(geojson.features[0]?.id)) geojson.features.forEach((feat, idx) => (feat.id = idx + 1))
 
