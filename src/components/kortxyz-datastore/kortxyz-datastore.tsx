@@ -2,7 +2,6 @@ import { Component, Prop, Element } from '@stencil/core';
 
 import { createNewStore } from '../../utils/store';
 
-import { isvalidURL } from '../../utils/checkUtils';
 import { getDiff } from 'json-difference'
 
 import jsonata from 'jsonata';
@@ -100,12 +99,12 @@ export class KortxyzDatastore {
   async componentWillLoad() {
     const store = createNewStore(this.store);
     let geojson;
-
-    if (this.data && isvalidURL(this.data)) {
+    try {
       const res = await fetch(this.data)
       geojson = await res.json();
+    } catch (err) {
+      geojson = JSON.parse(this.storeEl.innerHTML);
     }
-    else geojson = JSON.parse(this.storeEl.innerHTML);
 
     delete geojson.links;
     delete geojson.timeStamp;

@@ -1,9 +1,12 @@
 export function isvalidURL(str) {
   let url;
-
+  console.log(str)
   try {
     url = new URL(str);
+      console.log(url)
+
   } catch (_) {
+    console.log("error")
     return false;  
   }
   const result = url.protocol === "http:" || url.protocol === "https:";

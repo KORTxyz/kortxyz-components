@@ -3,8 +3,6 @@ import { GeoJSON } from 'geojson';
 
 import { getStore } from '../../utils/store';
 
-import { isvalidURL } from '../../utils/checkUtils';
-
 import { Map as MaplibreglMap, GeoJSONSourceSpecification, VectorSourceSpecification, RasterSourceSpecification } from 'maplibre-gl';
 
 import { bbox } from '@turf/bbox'
@@ -162,9 +160,13 @@ export class KortxyzMaplibreSource {
           if(!["addedFeature","map"].includes(origin)) this.source.setData(e);
         })
       }
-      else if (isvalidURL(this.data)) {
-        const res = await fetch(this.data)
-        geojson = await res.json();
+      else {
+        try {
+          const res = await fetch(this.data);
+          geojson = await res.json();
+        } catch (err) {
+          geojson = JSON.parse(this.el.innerHTML);
+        }
       }
 
       this.updateGeojson(geojson)

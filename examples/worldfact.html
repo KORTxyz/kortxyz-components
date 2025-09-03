@@ -1,0 +1,57 @@
+<style>
+    body{
+        overflow: hidden;
+    }
+
+    .parent {
+        display: grid;
+        height: 100dvh;
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: repeat(7, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 3px;
+    }
+
+    .div1 {
+        grid-area: 1 / 1 / 4 / 4;
+    }
+
+    .div2 {
+        grid-area: 6 / 1 / 8 / 7;
+    }
+
+    .div3 {
+        grid-area: 4 / 1 / 6 / 4;
+    }
+
+    .div4 {
+        grid-area: 1 / 4 / 6 / 7;
+    }
+</style>
+
+<script type="module" src="../dist/kortxyz-components/kortxyz-components.esm.js"></script>
+<link rel="stylesheet" href="../dist/kortxyz-components/kortxyz-components.css" />
+
+<kortxyz-datastore style="visibility: hidden;" store="world" data="./assets/worldfact.geojson"></kortxyz-datastore>
+
+<div class="parent">
+    <kortxyz-maplibre class="div1">
+        <kortxyz-maplibre-source store="world">
+        </kortxyz-maplibre-source>
+    </kortxyz-maplibre>
+
+    <kortxyz-aggrid class="div2" store="world"></kortxyz-aggrid>
+    <kortxyz-tauchart class="div3" 
+        store="world" 
+        type="scatterplot" y="CO2 emissions (metric tons per capita)" x="Exports of goods and services (% of GDP)"
+        color="Income Group"
+        tooltip=""
+    ></kortxyz-tauchart>
+    
+    <!-- <kortxyz-tauchart class="div4" store="world" type="scatterplot" y="vejkategori" x="count"
+        color="Region" colorbrewer="Dark2"  tooltip
+        legend
+    ></kortxyz-tauchart> -->
+
+
+</div>
