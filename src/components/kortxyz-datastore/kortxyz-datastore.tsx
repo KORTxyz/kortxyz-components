@@ -50,6 +50,7 @@ export class KortxyzDatastore {
     if (pathParts.length != 2) return;
 
     const newFeature = newData[pathParts[0]][pathParts[1]];
+
     const res = await fetch(this.data, {
       method: "POST",
       headers: {
@@ -69,8 +70,12 @@ export class KortxyzDatastore {
 
     const pathParts = editedPath.replace("[]", "").split("/");
 
-    const editedFeature = newData[pathParts[0]][pathParts[1]]
-    const res = await fetch(this.data + "/" + editedFeature.id, {
+    const editedFeature = newData[pathParts[0]][pathParts[1]];
+
+    const url = new URL(this.data);
+    url.pathname += "/"+editedFeature.id;
+
+    const res = await fetch(url, {
       method: "PATCH",
       headers: {
         'Accept': 'application/json',
