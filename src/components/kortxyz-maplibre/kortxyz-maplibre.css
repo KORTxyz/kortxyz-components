@@ -123,6 +123,7 @@ to {
     font-size: 12px;
     color: black;
     text-align: center;
+    user-select: none;
 }
 
 :root {
