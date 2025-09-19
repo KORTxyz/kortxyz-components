@@ -64,7 +64,7 @@ export class KortxyzMaplibreLayer {
   @Prop() popup: string | boolean;
 
   /** (optional) When clicking a feature a new webpage is opened with the link prop. {} can be used to replace with a attribute. https://mypage.org/{ATTRIBUTENAME} */
-  @Prop() clicklink: any;
+  @Prop() clicklink: string | boolean;
 
   /** Emit the ID of the first feature clicked */
   @Event() featureClicked: EventEmitter;
@@ -137,7 +137,6 @@ export class KortxyzMaplibreLayer {
   async componentDidLoad() {
     const { map } = this.el.closest('kortxyz-maplibre');
     this.map = map;
-
     const { sourceid }: { sourceid: string } = this.el.closest('kortxyz-maplibre-source');
 
     this.paint = typeof this.paint == "string" ? JSON.parse(this.paint) : this.paint;
@@ -158,23 +157,21 @@ export class KortxyzMaplibreLayer {
 
     if (this.popup != undefined) this.initPopupLayer(this.popup);
 
-    if (this.clicklink) {
-      map.on('click', this.layerid, (e) => {
-        const link = this.clicklink.replace(/{(\w+)}/g, (_, k) => e.features[0].properties[k]);
-        window.open(link, '_blank');
-      })
+    if (this.clicklink != undefined) {
+        this.map.on('mouseenter', this.layerid, () => this.map.getCanvas().style.cursor = 'pointer');
+        this.map.on('mouseleave', this.layerid, () => this.map.getCanvas().style.cursor = '');
+
+        map.on('click', this.layerid, (e) => {
+          this.featureClicked.emit(e.features[0].id)
+          const link = String(this.clicklink).replace(/{(\w+)}/g, (_, k) => e.features[0].properties[k]);
+          if(link) window.open(link, '_blank');
+        })
     }
 
-
-    if (map.getSource(sourceid)) this.addLayer(layerObject)
-    else {
-      map.on('load', async () => {
-        map.once('styledata', async () => {
-          this.addLayer(layerObject)
-
-        });
-      });
-    }
+      while (map.getSource(sourceid) == undefined) await new Promise(r => setTimeout(r, 100))
+      
+      this.addLayer(layerObject)
+      
 
 
 

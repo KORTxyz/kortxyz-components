@@ -43,6 +43,24 @@ export namespace Components {
          */
         "store": string;
     }
+    interface KortxyzCodemirror {
+        /**
+          * Language (only "javascript" in this example, but you can add more)
+          * @default 'javascript'
+         */
+        "language": string;
+        "store": string;
+        /**
+          * Theme: "light" or "dark"
+          * @default 'dark'
+         */
+        "theme": string;
+        /**
+          * Initial code value
+          * @default ''
+         */
+        "value": string;
+    }
     /**
      * ## Intro
      * Webcomponent to store data that multiple components can use.
@@ -258,7 +276,7 @@ export namespace Components {
         /**
           * (optional) When clicking a feature a new webpage is opened with the link prop. {} can be used to replace with a attribute. https://mypage.org/{ATTRIBUTENAME}
          */
-        "clicklink": any;
+        "clicklink": string | boolean;
         /**
           * Expression to fitler the layer
          */
@@ -514,6 +532,10 @@ export interface KortxyzAggridCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLKortxyzAggridElement;
 }
+export interface KortxyzCodemirrorCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLKortxyzCodemirrorElement;
+}
 export interface KortxyzDragoverlayCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLKortxyzDragoverlayElement;
@@ -564,6 +586,23 @@ declare global {
     var HTMLKortxyzAggridElement: {
         prototype: HTMLKortxyzAggridElement;
         new (): HTMLKortxyzAggridElement;
+    };
+    interface HTMLKortxyzCodemirrorElementEventMap {
+        "valueChange": string;
+    }
+    interface HTMLKortxyzCodemirrorElement extends Components.KortxyzCodemirror, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLKortxyzCodemirrorElementEventMap>(type: K, listener: (this: HTMLKortxyzCodemirrorElement, ev: KortxyzCodemirrorCustomEvent<HTMLKortxyzCodemirrorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLKortxyzCodemirrorElementEventMap>(type: K, listener: (this: HTMLKortxyzCodemirrorElement, ev: KortxyzCodemirrorCustomEvent<HTMLKortxyzCodemirrorElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLKortxyzCodemirrorElement: {
+        prototype: HTMLKortxyzCodemirrorElement;
+        new (): HTMLKortxyzCodemirrorElement;
     };
     /**
      * ## Intro
@@ -829,6 +868,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "kortxyz-aggrid": HTMLKortxyzAggridElement;
+        "kortxyz-codemirror": HTMLKortxyzCodemirrorElement;
         "kortxyz-datastore": HTMLKortxyzDatastoreElement;
         "kortxyz-dragoverlay": HTMLKortxyzDragoverlayElement;
         "kortxyz-icon": HTMLKortxyzIconElement;
@@ -885,6 +925,28 @@ declare namespace LocalJSX {
           * Fetch data from a store
          */
         "store"?: string;
+    }
+    interface KortxyzCodemirror {
+        /**
+          * Language (only "javascript" in this example, but you can add more)
+          * @default 'javascript'
+         */
+        "language"?: string;
+        /**
+          * Emits when content changes
+         */
+        "onValueChange"?: (event: KortxyzCodemirrorCustomEvent<string>) => void;
+        "store"?: string;
+        /**
+          * Theme: "light" or "dark"
+          * @default 'dark'
+         */
+        "theme"?: string;
+        /**
+          * Initial code value
+          * @default ''
+         */
+        "value"?: string;
     }
     /**
      * ## Intro
@@ -1095,7 +1157,7 @@ declare namespace LocalJSX {
         /**
           * (optional) When clicking a feature a new webpage is opened with the link prop. {} can be used to replace with a attribute. https://mypage.org/{ATTRIBUTENAME}
          */
-        "clicklink"?: any;
+        "clicklink"?: string | boolean;
         /**
           * Expression to fitler the layer
          */
@@ -1353,6 +1415,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "kortxyz-aggrid": KortxyzAggrid;
+        "kortxyz-codemirror": KortxyzCodemirror;
         "kortxyz-datastore": KortxyzDatastore;
         "kortxyz-dragoverlay": KortxyzDragoverlay;
         "kortxyz-icon": KortxyzIcon;
@@ -1392,6 +1455,7 @@ declare module "@stencil/core" {
              * ```
              */
             "kortxyz-aggrid": LocalJSX.KortxyzAggrid & JSXBase.HTMLAttributes<HTMLKortxyzAggridElement>;
+            "kortxyz-codemirror": LocalJSX.KortxyzCodemirror & JSXBase.HTMLAttributes<HTMLKortxyzCodemirrorElement>;
             /**
              * ## Intro
              * Webcomponent to store data that multiple components can use.

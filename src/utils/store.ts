@@ -13,6 +13,10 @@ const createNewStore = name => {
       "type": "FeatureCollection",
       "features": []
     },
+    filtereddata: {
+      "type": "FeatureCollection",
+      "features": []
+    },
     lastOrigin: null
   });
 

@@ -1,4 +1,5 @@
-<script type="module" src="build/kortxyz-components.esm.js"></script>
+  <script type="module" src="../dist/kortxyz-components/kortxyz-components.esm.js"></script>
+
 <style>
 	body {
 		margin: 0
@@ -25,10 +26,8 @@
 
 	<kortxyz-maplibre style="grid-area: Map;" draw=items basemaps="https://demo.kort.xyz/styles">
 		<kortxyz-maplibre-source sourceid="items" store="items" fit>
-			<kortxyz-maplibre-layer layerid="items" type="circle" 
-				paint='{"circle-color":"red"}'
-				clicklink
-			></kortxyz-maplibre-layer>
+			<kortxyz-maplibre-layer layerid="items" type="circle" paint='{"circle-color":"red"}' clicklink>
+			</kortxyz-maplibre-layer>
 		</kortxyz-maplibre-source>
 	</kortxyz-maplibre>
 

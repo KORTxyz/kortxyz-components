@@ -153,12 +153,9 @@ export class KortxyzMaplibreSource {
       if (this.store) {
         let datastore;
         while ((datastore = getStore(this.store)) == undefined || !datastore.get("data").features.length)  await new Promise(r => setTimeout(r, 200));
-        geojson = datastore.get("data");       
+        geojson = datastore.get("filtereddata");       
 
-        datastore.onChange("data", (e: GeoJSON) => {
-          const origin = datastore.get("lastOrigin");
-          if(!["addedFeature","map"].includes(origin)) this.source.setData(e);
-        })
+        datastore.onChange("filtereddata", (e: GeoJSON) => this.source.setData(e))
       }
       else {
         try {

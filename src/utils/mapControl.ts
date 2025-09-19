@@ -170,7 +170,6 @@ export class DrawControl implements IControl {
                     ...geojson,
                     features: [...geojson.features, newFeature]
                 };
-
                 if (datastore) {
                     datastore.set("lastOrigin", "map")
                     datastore.set("editeddata", newGeojson)
