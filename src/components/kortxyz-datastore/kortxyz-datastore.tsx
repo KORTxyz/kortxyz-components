@@ -90,14 +90,12 @@ export class KortxyzDatastore {
 
   async handleResponse(store, newData, res, id) {
     const responseFeature = await res.json();
-    const responseStatus = res.status == 201 ? "newFeature" : "editedFeature";
 
     const idx = newData.features.findIndex(e => e.id == id)
-
     newData.features[idx] = responseFeature;
 
-    store.set("lastOrigin", responseStatus)
     store.set("data", newData)
+    store.set("filtereddata", newData)
   }
 
 
@@ -125,6 +123,7 @@ export class KortxyzDatastore {
     if (isNaN(geojson.features[0]?.id)) geojson.features.forEach((feat, idx) => (feat.id = idx + 1))
 
     store.set("data", geojson)
+    store.set("filtereddata", geojson)
 
     store.onChange("editeddata", async newData => {
       if (this.sync) {
@@ -134,8 +133,8 @@ export class KortxyzDatastore {
         for (const edits of diff.edited) this.handleEdits(store, newData, edits)
       }
       else {
-        store.set("lastOrigin", "datastore")
         store.set("data", newData)
+        store.set("filtereddata", newData)
       }
     })
 
