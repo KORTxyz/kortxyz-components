@@ -17,11 +17,12 @@ export class KortxyzOgcapiCollectionlist {
     const mapDiv = document.querySelector("kortxyz-maplibre");
 
     const sourceDiv = document.createElement("kortxyz-maplibre-source");
-    sourceDiv.sourceid = id;
-    sourceDiv.type = "geojson";
-    sourceDiv.data = `${this.url}/collections/${id}/items?f=json&limit=1000`;
+    sourceDiv.setAttribute("sourceid", id);
+    sourceDiv.setAttribute("type", "geojson");
+    sourceDiv.setAttribute("data", `${this.url}/collections/${id}/items?f=json&limit=1000`);
 
-    mapDiv.append(sourceDiv)
+    mapDiv.append(sourceDiv);
+    sourceDiv.addSource();
   }
 
   async componentWillLoad() {
