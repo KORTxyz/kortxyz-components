@@ -27,6 +27,31 @@
       ]
     },
     {
+      "name": "kortxyz-codemirror",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "language",
+          "description": "Language (only \"javascript\" in this example, but you can add more)"
+        },
+        {
+          "name": "store",
+          "description": ""
+        },
+        {
+          "name": "theme",
+          "description": "Theme: \"light\" or \"dark\""
+        },
+        {
+          "name": "value",
+          "description": "Initial code value"
+        }
+      ]
+    },
+    {
       "name": "kortxyz-datastore",
       "description": {
         "kind": "markdown",
@@ -237,6 +262,10 @@
         {
           "name": "popup",
           "description": "(optional) When clicking a feature a Popup shows. Accept HTML and replacement of {} with a attribute. \\<div>{placename}\\</div>"
+        },
+        {
+          "name": "proximity",
+          "description": "(optional) Distance to a GPS Fix that wil trigger the popup, disables clickbased popup"
         },
         {
           "name": "source-layer",

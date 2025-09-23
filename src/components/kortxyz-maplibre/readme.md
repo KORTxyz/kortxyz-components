@@ -51,6 +51,13 @@ Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
 | `zoom`                | `zoom`                 | Start zoom of the map                                                             | `number`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | `undefined`                                                                                               |
 
 
+## Events
+
+| Event    | Description | Type               |
+| -------- | ----------- | ------------------ |
+| `gpsFix` |             | `CustomEvent<any>` |
+
+
 ## Methods
 
 ### `editGeometry(feature: any) => Promise<unknown>`
@@ -68,6 +75,22 @@ Opens the geometry editor for a given GeoJSON feature.
 Type: `Promise<unknown>`
 
 A promise that resolves with the edited feature.
+
+### `getGeolocate(feature: any) => Promise<unknown>`
+
+
+
+#### Parameters
+
+| Name      | Type  | Description |
+| --------- | ----- | ----------- |
+| `feature` | `any` |             |
+
+#### Returns
+
+Type: `Promise<unknown>`
+
+
 
 
 ----------------------------------------------
