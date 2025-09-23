@@ -4,6 +4,7 @@ import { Listen, Event, EventEmitter } from '@stencil/core';
 import { Map as MaplibreglMap, Popup, LngLatBoundsLike, LayerSpecification } from 'maplibre-gl';
 import { renderPopup } from '../../utils/mapUtils'
 import { bbox } from '@turf/bbox'
+import { nearestPoint } from '@turf/nearest-point';
 
 /**
 ## Intro
@@ -52,19 +53,22 @@ export class KortxyzMaplibreLayer {
   @Prop() filter: any;
 
   /** Paint properties for the layer. */
-  @Prop({mutable:true}) paint: any = {};
+  @Prop({ mutable: true }) paint: any = {};
 
   /** Layout properties for the layer. */
-  @Prop({mutable:true}) layout: any = {};
+  @Prop({ mutable: true }) layout: any = {};
 
   /** Customize legend with a object like this {name:string,unit:string,labels:object (Map a value to a text that replaces it as a label) }*/
-  @Prop({mutable:true}) legendMetadata: any = {} ;
-  
+  @Prop({ mutable: true }) legendMetadata: any = {};
+
   /** (optional) When clicking a feature a Popup shows. Accept HTML and replacement of {} with a attribute. \<div>{placename}\</div>*/
   @Prop() popup: string | boolean;
 
   /** (optional) When clicking a feature a new webpage is opened with the link prop. {} can be used to replace with a attribute. https://mypage.org/{ATTRIBUTENAME} */
   @Prop() clicklink: string | boolean;
+
+  /** (optional) Distance to a GPS Fix that wil trigger the popup, disables clickbased popup*/
+  @Prop() proximity?: number;
 
   /** Emit the ID of the first feature clicked */
   @Event() featureClicked: EventEmitter;
@@ -72,7 +76,7 @@ export class KortxyzMaplibreLayer {
   @Listen('rowClicked', { target: 'window' })
   rowClickedHandler(event) {
     const parentEl: any = this.el.parentElement;
-    if (event.detail.store == parentEl.store && ['circle','line','fill'].includes(this.type)) {
+    if (event.detail.store == parentEl.store && ['circle', 'line', 'fill'].includes(this.type)) {
       const coords: LngLatBoundsLike = (([x1, y1, x2, y2]) => [[x1, y1], [x2, y2]])(bbox(event.detail.geometry));
 
       this.map.fitBounds(coords, {
@@ -96,27 +100,28 @@ export class KortxyzMaplibreLayer {
 
   }
 
-  initPopupLayer(popup) {
+  openPopup = async (e) => {
+    const feature = e.features[0];
+    this.featureClicked.emit(feature.id)
+
+    const popupHtml = typeof this.popup === "string" && this.popup.length > 0
+      ? this.popup.replace(/{(\w+)}/g, (_, k) => feature.properties[k] || "")
+      : renderPopup([e]);
+
+    new Popup({
+      closeButton: true,
+      closeOnClick: true,
+      maxWidth: 'none'
+    })
+      .setLngLat(e.lngLat)
+      .setHTML(popupHtml)
+      .addTo(this.map);
+  }
+
+  initPopupLayer() {
     this.map.on('mouseenter', this.layerid, () => this.map.getCanvas().style.cursor = 'pointer');
     this.map.on('mouseleave', this.layerid, () => this.map.getCanvas().style.cursor = '');
-
-    this.map.on('click', this.layerid, async (e) => {
-      this.featureClicked.emit(e.features[0].id)
-
-      const popupHtml = popup.length > 0 ? popup.replace(/{(\w+)}/g, (_, k) => e.features[0].properties[k]||"") : renderPopup(e.features);
-
-      new Popup({
-        closeButton: true,
-        closeOnClick: true,
-        maxWidth: 'none'
-      })
-        .setLngLat(e.lngLat)
-        .setHTML(popupHtml)
-        .addTo(this.map);
-    });
-
-
-
+    this.map.on('click', this.layerid, e => this.openPopup(e));
   }
 
   async addLayer(layerObject) {
@@ -155,26 +160,55 @@ export class KortxyzMaplibreLayer {
     if (this.sourceLayer) layerObject["source-layer"] = this.sourceLayer;
     if (this.filter) layerObject["filter"] = JSON.parse(this.filter);
 
-    if (this.popup != undefined) this.initPopupLayer(this.popup);
+    if (this.popup != undefined && this.proximity == undefined) this.initPopupLayer();
 
     if (this.clicklink != undefined) {
-        this.map.on('mouseenter', this.layerid, () => this.map.getCanvas().style.cursor = 'pointer');
-        this.map.on('mouseleave', this.layerid, () => this.map.getCanvas().style.cursor = '');
+      this.map.on('mouseenter', this.layerid, () => this.map.getCanvas().style.cursor = 'pointer');
+      this.map.on('mouseleave', this.layerid, () => this.map.getCanvas().style.cursor = '');
 
-        map.on('click', this.layerid, (e) => {
-          this.featureClicked.emit(e.features[0].id)
-          const link = String(this.clicklink).replace(/{(\w+)}/g, (_, k) => e.features[0].properties[k]);
-          if(link) window.open(link, '_blank');
-        })
+      map.on('click', this.layerid, (e) => {
+        this.featureClicked.emit(e.features[0].id)
+        const link = String(this.clicklink).replace(/{(\w+)}/g, (_, k) => e.features[0].properties[k]);
+        if (link) window.open(link, '_blank');
+      })
     }
 
-      while (map.getSource(sourceid) == undefined) await new Promise(r => setTimeout(r, 100))
-      
-      this.addLayer(layerObject)
-      
+    if (this.proximity) {
+      window.addEventListener('gpsFix', ({ detail }: CustomEvent) => {
+        const { longitude, latitude, accuracy } = detail.coords;
+        const { data: points } = map.getSource(sourceid).serialize();
 
+        const targetPoints = {
+          ...points,
+          features: points.features.flatMap(feature =>
+            feature.geometry.type === 'MultiPoint' ?
+              feature.geometry.coordinates.map(coords => ({...feature, geometry: { type: 'Point', coordinates: coords }})) : 
+              feature
+          )
+        }
+        let nearest = nearestPoint([longitude, latitude], targetPoints, { units: 'meters' });
 
+        if (nearest.properties.distanceToPoint < this.proximity && accuracy < 20) {
+          nearest.properties = {
+            id: nearest.id,
+            ...nearest.properties,
+            ...detail.coords,
+            timestamp: detail.timestamp,
+            lng:longitude, 
+            lat:latitude
+          };
 
+          this.openPopup({
+            lngLat: nearest.geometry.coordinates as [number, number],
+            features: [nearest]
+          });
+        }
+      });
+    }
+
+    while (map.getSource(sourceid) == undefined) await new Promise(r => setTimeout(r, 100))
+
+    this.addLayer(layerObject)
   }
 
 }

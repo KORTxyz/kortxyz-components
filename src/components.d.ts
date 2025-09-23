@@ -202,6 +202,7 @@ export namespace Components {
           * @default false
          */
         "fullscreen": boolean;
+        "getGeolocate": (feature: any) => Promise<unknown>;
         /**
           * Show a button to locate the user
           * @default false
@@ -305,6 +306,10 @@ export namespace Components {
           * (optional) When clicking a feature a Popup shows. Accept HTML and replacement of {} with a attribute. \<div>{placename}\</div>
          */
         "popup": string | boolean;
+        /**
+          * (optional) Distance to a GPS Fix that wil trigger the popup, disables clickbased popup
+         */
+        "proximity"?: number;
         /**
           * Layer to use from a vector tile source. Required for vector tile sources; prohibited for all other source types, including GeoJSON sources.
          */
@@ -540,6 +545,10 @@ export interface KortxyzDragoverlayCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLKortxyzDragoverlayElement;
 }
+export interface KortxyzMaplibreCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLKortxyzMaplibreElement;
+}
 export interface KortxyzMaplibreLayerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLKortxyzMaplibreLayerElement;
@@ -650,6 +659,9 @@ declare global {
         prototype: HTMLKortxyzListElement;
         new (): HTMLKortxyzListElement;
     };
+    interface HTMLKortxyzMaplibreElementEventMap {
+        "gpsFix": any;
+    }
     /**
      * ## Intro
      * Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
@@ -672,6 +684,14 @@ declare global {
      * ```
      */
     interface HTMLKortxyzMaplibreElement extends Components.KortxyzMaplibre, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLKortxyzMaplibreElementEventMap>(type: K, listener: (this: HTMLKortxyzMaplibreElement, ev: KortxyzMaplibreCustomEvent<HTMLKortxyzMaplibreElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLKortxyzMaplibreElementEventMap>(type: K, listener: (this: HTMLKortxyzMaplibreElement, ev: KortxyzMaplibreCustomEvent<HTMLKortxyzMaplibreElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLKortxyzMaplibreElement: {
         prototype: HTMLKortxyzMaplibreElement;
@@ -1112,6 +1132,7 @@ declare namespace LocalJSX {
           * @default false
          */
         "navigation"?: boolean;
+        "onGpsFix"?: (event: KortxyzMaplibreCustomEvent<any>) => void;
         /**
           * Show a scalebar at the bottom
           * @default false
@@ -1190,6 +1211,10 @@ declare namespace LocalJSX {
           * (optional) When clicking a feature a Popup shows. Accept HTML and replacement of {} with a attribute. \<div>{placename}\</div>
          */
         "popup"?: string | boolean;
+        /**
+          * (optional) Distance to a GPS Fix that wil trigger the popup, disables clickbased popup
+         */
+        "proximity"?: number;
         /**
           * Layer to use from a vector tile source. Required for vector tile sources; prohibited for all other source types, including GeoJSON sources.
          */
