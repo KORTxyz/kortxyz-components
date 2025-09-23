@@ -1,4 +1,4 @@
-import { Component, Element, Prop, Method } from '@stencil/core';
+import { Component, Element, Prop, Method, Event, EventEmitter } from '@stencil/core';
 
 import maplibregl, { FullscreenControl, GeolocateControl, NavigationControl, ScaleControl } from 'maplibre-gl';
 
@@ -112,6 +112,7 @@ export class KortxyzMaplibre {
 
   /** Show a button to locate the user */
   @Prop() gps: boolean = false;
+  @Event() gpsFix: EventEmitter;
 
   /** Show a button to toggle fullscreen */
   @Prop() fullscreen: boolean = false;
@@ -148,9 +149,27 @@ export class KortxyzMaplibre {
         resolve(edited);
       });
     });
-
   }
 
+  @Method()
+  async getGeolocate(feature) {
+    this.terraDraw.start();
+    feature.properties.mode = feature.geometry.type.toLowerCase();
+
+    const result = this.terraDraw.addFeatures([feature])[0];
+    if (!result.valid) console.error(result)
+
+    this.terraDraw.setMode("select");
+    this.terraDraw.selectFeature(result.id);
+    return new Promise(resolve => {
+      this.terraDraw.on("deselect", () => {
+        const edited = this.terraDraw.getSnapshotFeature(result.id);
+        this.terraDraw.stop();
+        resolve(edited);
+      });
+    });
+
+  }
 
   async loadStyles(url) {
     const response = await fetch(url);
@@ -202,7 +221,11 @@ export class KortxyzMaplibre {
     if (this.scalebar) this.map.addControl(new ScaleControl());
 
     if (this.navigation) this.map.addControl(new NavigationControl({ visualizePitch: true }));
-    if (this.gps) this.map.addControl(new GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: true }));
+    if (this.gps) {
+      const geolocate = new GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: true });
+      geolocate.on('geolocate', (e) =>  this.gpsFix.emit(e));
+      this.map.addControl(geolocate);
+    }
     if (this.fullscreen) this.map.addControl(new FullscreenControl({ container: document.querySelector('body') }));
     if (this.togglebutton) this.map.addControl(new ToggleControl({ element: this.togglebutton }), 'top-right');
 
