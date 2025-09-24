@@ -39,7 +39,11 @@ Paint and Layout properties follow [MapLibre Style Spec](https://maplibre.org/ma
 export class KortxyzMaplibreLayer {
   @Element() el: HTMLElement;
   map: MaplibreglMap;
-  popupEl;
+  popupEl = new Popup({
+      closeButton: true,
+      closeOnClick: true,
+      maxWidth: 'none'
+    })
 
   /** Layer identification.  */
   @Prop() layerid = Math.random().toString(36).substring(2, 7);
@@ -109,11 +113,8 @@ export class KortxyzMaplibreLayer {
       ? this.popup.replace(/{(\w+)}/g, (_, k) => feature.properties[k] || "")
       : renderPopup([feature]);
 
-    this.popupEl = new Popup({
-      closeButton: true,
-      closeOnClick: true,
-      maxWidth: 'none'
-    }).setLngLat(e.lngLat)
+    this.popupEl
+      .setLngLat(e.lngLat)
       .setHTML(popupHtml)
       .addTo(this.map);
   }
@@ -202,7 +203,7 @@ export class KortxyzMaplibreLayer {
 
           this.openPopup({
             lngLat: nearest.geometry.coordinates as [number, number],
-            features: [nearest]
+            features: [{...nearest,layer:{source:sourceid}}]
           });
         }
       });
