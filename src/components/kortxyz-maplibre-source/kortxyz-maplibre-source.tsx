@@ -46,6 +46,7 @@ Webcomponent load a new source into a kortxyz-maplibre component. An id is autog
 export class KortxyzMaplibreSource {
   @Element() el: HTMLElement;
   private map: MaplibreglMap;
+
   private randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
 
   /** Source identification */
