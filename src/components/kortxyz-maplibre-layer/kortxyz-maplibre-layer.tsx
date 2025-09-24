@@ -39,6 +39,7 @@ Paint and Layout properties follow [MapLibre Style Spec](https://maplibre.org/ma
 export class KortxyzMaplibreLayer {
   @Element() el: HTMLElement;
   map: MaplibreglMap;
+  popupEl;
 
   /** Layer identification.  */
   @Prop() layerid = Math.random().toString(36).substring(2, 7);
@@ -106,14 +107,13 @@ export class KortxyzMaplibreLayer {
 
     const popupHtml = typeof this.popup === "string" && this.popup.length > 0
       ? this.popup.replace(/{(\w+)}/g, (_, k) => feature.properties[k] || "")
-      : renderPopup([e]);
+      : renderPopup([feature]);
 
-    new Popup({
+    this.popupEl = new Popup({
       closeButton: true,
       closeOnClick: true,
       maxWidth: 'none'
-    })
-      .setLngLat(e.lngLat)
+    }).setLngLat(e.lngLat)
       .setHTML(popupHtml)
       .addTo(this.map);
   }
@@ -138,15 +138,17 @@ export class KortxyzMaplibreLayer {
 
     this.map.addLayer(layerObject, beforeId);
   }
+  async componentWillLoad() {
+    this.paint = typeof this.paint == "string" ? JSON.parse(this.paint) : this.paint;
+    this.layout = typeof this.layout == "string" ? JSON.parse(this.layout) : this.layout;
+    this.legendMetadata = typeof this.legendMetadata == "string" ? JSON.parse(this.legendMetadata) : this.legendMetadata;
+  }
+
 
   async componentDidLoad() {
     const { map } = this.el.closest('kortxyz-maplibre');
     this.map = map;
     const { sourceid }: { sourceid: string } = this.el.closest('kortxyz-maplibre-source');
-
-    this.paint = typeof this.paint == "string" ? JSON.parse(this.paint) : this.paint;
-    this.layout = typeof this.layout == "string" ? JSON.parse(this.layout) : this.layout;
-    this.legendMetadata = typeof this.legendMetadata == "string" ? JSON.parse(this.legendMetadata) : this.legendMetadata;
 
     let layerObject: LayerSpecification = {
       'id': this.layerid,
@@ -182,7 +184,7 @@ export class KortxyzMaplibreLayer {
           ...points,
           features: points.features.flatMap(feature =>
             feature.geometry.type === 'MultiPoint' ?
-              feature.geometry.coordinates.map(coords => ({...feature, geometry: { type: 'Point', coordinates: coords }})) : 
+              feature.geometry.coordinates.map(coords => ({ ...feature, geometry: { type: 'Point', coordinates: coords } })) :
               feature
           )
         }
@@ -194,8 +196,8 @@ export class KortxyzMaplibreLayer {
             ...nearest.properties,
             ...detail.coords,
             timestamp: detail.timestamp,
-            lng:longitude, 
-            lat:latitude
+            lng: longitude,
+            lat: latitude
           };
 
           this.openPopup({
