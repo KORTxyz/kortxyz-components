@@ -1,0 +1,84 @@
+<html dir="ltr" lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+    <title>Ishøj Kort</title>
+
+    <script type="module" src="https://cdn.kort.xyz/kortxyz-components@latest/kortxyz-components.esm.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        kortxyz-maplibre {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <kortxyz-maplibre center="[12.34,55.616]" zoom="12" navigation legend="grasruter"
+    basemaps='[
+	 {
+        "title": "Ortofoto Forår",
+        "icon": "https://dataforsyningen.dk/asset/Images/ortofoto-geodanmark_tiny.jpg",
+        "url": "assets/ortofoto.json"
+      },
+      {
+        "title": "Skærmkort Mørkt",
+        "icon": "https://vectortiles.dataforsyningen.dk/img/moerkt.png",
+        "url": "https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_moerkt.json?token=bfe350080dc1da9dbb948d6fd59a8e96"
+      },
+      {
+        "title": "3857_skaermkort_graa",
+        "icon": "https://vectortiles.dataforsyningen.dk/img/graa.png",
+        "url": "https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_graa.json?token=bfe350080dc1da9dbb948d6fd59a8e96"
+      },
+      {
+        "title": "3857_skaermkort_klassisk",
+        "icon": "https://vectortiles.dataforsyningen.dk/img/klassisk.png",
+        "url": "https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_klassisk.json?token=bfe350080dc1da9dbb948d6fd59a8e96"
+      },
+      {
+        "title": "3857_skaermkort_daempet",
+        "icon": "https://vectortiles.dataforsyningen.dk/img/daempet.png",
+        "url": "https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_daempet.json?token=bfe350080dc1da9dbb948d6fd59a8e96"
+      }
+   ]'>
+<kortxyz-maplibre-source
+    data="assets/grasruter_251020.geojson"
+>
+    <kortxyz-maplibre-layer
+        layerid="grasruter"
+        popup='<h2 style="margin:12px">klipper:{klipper}</h2>'
+        paint='{
+            "fill-color":["match",["get","klipper"],
+                "Toro_landsby","#8dd3c7",
+                "Stiga_inst","#ffffb3",
+                "Stiga_byhave","#bebada",
+                "Stiga_distrikt_4_5","#fb8072",
+                "Stiga_distrikt_8_9","#80b1d3",
+                "Bio","#fdb462",
+                "Kuhn_trampestier","#b3de69",
+                "Stiga_strand","#fccde5",
+                "Kuhn","#d9d9d9",
+                "Kobota","#bc80bd",
+                "Toro","#ccebc5",
+                "#ffed6f"],
+            "fill-opacity":0.8
+        }'      
+    ></kortxyz-maplibre-layer>
+</kortxyz-maplibre-source>
+
+</kortxyz-maplibre>
+
+
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 {
   "name": "@kortxyz/kortxyz-components",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "A collection of webcomponents mainly for geospatial webapps",
   "keywords": [],
   "author": "Tino Kastbjerg Stigsen",
@@ -10,12 +10,6 @@
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/kortxyz-components/kortxyz-components.esm.js",
-  "exports": {
-    ".": {
-      "import": "./dist/kortxyz-components/kortxyz-components.esm.js",
-      "require": "./dist/kortxyz-components/kortxyz-components.cjs.js"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/KORTxyz/kortxyz-components.git"
@@ -62,8 +56,6 @@
     "terra-draw-maplibre-gl-adapter": "^1.1.1"
   },
   "overrides": {
-    "taucharts": {
-      "d3-color": "3.1.0"
-    }
+    "d3-color": "3.1.0"
   }
 }

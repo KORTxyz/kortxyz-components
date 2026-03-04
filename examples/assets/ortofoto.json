@@ -1,0 +1,23 @@
+{
+	"version": 8,
+	"name": "Ortofoto - Forår",
+	"sources": {
+		"Ortofoto": {
+			"type": "raster",
+			"tiles": [
+				"https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}"
+			],
+			"tileSize": 256
+		}
+	},
+	"layers": [
+		{
+			"id": "Ortofoto",
+			"type": "raster",
+			"source": "Ortofoto",
+			"paint":{
+				"raster-saturation":-0.3
+			}
+		}
+	]
+}
