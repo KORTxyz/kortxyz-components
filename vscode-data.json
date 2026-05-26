@@ -195,10 +195,6 @@
           "description": "Show a legend for the layers specified in the attibute. Empty if all layers"
         },
         {
-          "name": "map",
-          "description": ""
-        },
-        {
           "name": "mapboxkey",
           "description": "(optional) Mapboxkey if using styles from mapbox"
         },

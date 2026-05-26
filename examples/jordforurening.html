@@ -1,0 +1,76 @@
+  <script type="module" src="../dist/kortxyz-components/kortxyz-components.esm.js"></script>
+
+<kortxyz-maplibre center="[12.353,55.615]" zoom="13" style="height: 200px;"
+    mapstyle="https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_graa.json?token=bfe350080dc1da9dbb948d6fd59a8e96"
+    legend="V1Flader,V2Flader,omr_klassificering">
+
+    <kortxyz-maplibre-searchbox resultzoom="" resulttype="click"></kortxyz-maplibre-searchbox>
+
+    <kortxyz-maplibre-source
+        data="https://jord.miljoeportal.dk/geo/wfs?request=getFeature&service=WFS&typename=DKJord:View_V1Flader&outputformat=json&cql_filter=Regionsnavn='Region Hovedstaden'&srsname=epsg:4326">
+        <kortxyz-maplibre-layer layerid="V1Flader" paint='{
+            "fill-color":["match", 
+                ["get","Lokalitetetsforureningsstatus"],
+                "V1 kortlagt",
+                "green",
+                "V1 og V2 kortlagt",
+                "yellow",
+                "blue"],
+            "fill-opacity":0.5
+         }' clicklink='{Jordforureningsattester}' legend-metadata='{
+            "name":"V1 flader",
+            "labels":{
+                "other":false
+            }
+        }'>
+
+        </kortxyz-maplibre-layer>
+    </kortxyz-maplibre-source>
+
+    <kortxyz-maplibre-source
+        data="https://jord.miljoeportal.dk/geo/wfs?request=getFeature&service=WFS&typename=DKJord:View_V2Flader&outputformat=json&cql_filter=Regionsnavn='Region Hovedstaden'&srsname=epsg:4326">
+        <kortxyz-maplibre-layer layerid="V2Flader" paint='{
+            "fill-color":["match",["get","Lokalitetetsforureningsstatus"],
+                        "V1 og V2 kortlagt",
+                        "yellow",
+                        "V2 kortlagt",
+                        "#f00",
+                        "blue"],
+            "fill-opacity":0.5
+         }' clicklink='{Jordforureningsattester}' legend-metadata='{
+            "name":"V2 flader",
+            "labels":{
+                "other":false
+            }
+        }'>
+
+        </kortxyz-maplibre-layer>
+    </kortxyz-maplibre-source>
+
+</kortxyz-maplibre>
+
+<kortxyz-maplibre id="map2" center="[12.353,55.615]" zoom="13"
+    mapstyle="https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_graa.json?token=bfe350080dc1da9dbb948d6fd59a8e96"
+    legend="V1Flader,V2Flader,omr_klassificering">
+
+    <kortxyz-maplibre-searchbox resultzoom="" resulttype="click"></kortxyz-maplibre-searchbox>
+
+    <kortxyz-maplibre-source 
+    sourceid="omr_klassificering"
+        data="https://arealeditering-dist-geo.miljoeportal.dk/geoserver/wfs?request=getFeature&service=WFS&typename=dai:omr_klassificering&outputformat=json&cql_filter=CVR_navn='Ishøj kommune'&srsname=epsg:4326">
+        <kortxyz-maplibre-layer 
+            layerid="omr_klassificering" 
+            paint='{
+                "fill-color":"blue",
+                "fill-opacity":0.5
+            }' 
+            legend-metadata='{
+                "name":"Områder med krav om analyse",
+                "labels":{
+                    "other":"Områder med krav om analyse"
+                }
+            }'
+        ></kortxyz-maplibre-layer>
+    </kortxyz-maplibre-source>
+
+</kortxyz-maplibre>

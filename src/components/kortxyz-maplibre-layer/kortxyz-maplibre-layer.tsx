@@ -126,9 +126,14 @@ export class KortxyzMaplibreLayer {
   }
 
   async addLayer(layerObject) {
+    const mapDom = this.el.parentElement?.parentElement;
+    const layerIdsAsList = Array.from(
+      mapDom?.querySelectorAll("kortxyz-maplibre-layer") ?? [],
+      e => e.layerid
+    );
+    
+    //const layerIdsAsList = [...layerElInMapDom].map(e => e.layerid)
 
-    const layerElInDom: any = document.getElementsByTagName("kortxyz-maplibre-layer");
-    const layerIdsAsList = [...layerElInDom].map(e => e.layerid)
     const beforeId = layerIdsAsList[layerIdsAsList.findIndex(e => e == this.layerid) - 1]
 
     if (beforeId != undefined) {
