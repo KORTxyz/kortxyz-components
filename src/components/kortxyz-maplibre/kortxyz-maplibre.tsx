@@ -198,7 +198,7 @@ export class KortxyzMaplibre {
       attributionControl: false,
       aroundCenter: false,
       cooperativeGestures: this.cooperativeGestures,
-      transformRequest: (url: string, resourceType: string) => {
+      transformRequest: (url: string, resourceType) => {
         if (isMapboxURL(url)) return transformMapboxUrl(url, resourceType, this.mapboxkey)
         return { url }
       }
@@ -260,7 +260,6 @@ export class KortxyzMaplibre {
       this.map.once('idle', () => {
         resolve()
     })});
-
     Array.from(this.mapEl.children).filter(e => (e as HTMLElement).tagName.toLowerCase() == "kortxyz-maplibre-source").forEach(async (e: HTMLElement) => {
         await customElements.whenDefined('kortxyz-maplibre-source');
       (e as any).addSource()

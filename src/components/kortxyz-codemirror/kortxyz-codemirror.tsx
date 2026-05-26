@@ -58,7 +58,6 @@ export class KortxyzCodemirror {
 
 
   updateStore(geojson) {
-    console.log(geojson)
     getStore(this.store).set("lastOrigin", "code")
     getStore(this.store).set("data", geojson)
     this.updated = false;

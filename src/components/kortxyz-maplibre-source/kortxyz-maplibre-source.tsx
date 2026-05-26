@@ -57,6 +57,7 @@ export class KortxyzMaplibreSource {
 
   /** URL to the geojson source. */
   @Prop() data: string;
+
   /** Datastore reference. */
   @Prop() store: string;
 
@@ -112,7 +113,7 @@ export class KortxyzMaplibreSource {
 
   updateGeojson = async (geojson) => {
     this.source.setData(geojson)
-    
+
     if (this.autolayers) {
       const geomTypeMap = geojson.features.reduce((acc, f) => ((acc[f.geometry.type] = (acc[f.geometry.type] || 0) + 1), acc), {});
       const geomTypes = Object.keys(geomTypeMap).sort((a, b) => geomTypeMap[b] - geomTypeMap[a]);
@@ -147,7 +148,6 @@ export class KortxyzMaplibreSource {
     this.map.addSource(this.sourceid, this.getSourceObject())
     
     this.source = this.map.getSource(this.sourceid)
-
     if (this.type == "geojson") {
       let geojson;
 
@@ -162,6 +162,7 @@ export class KortxyzMaplibreSource {
         try {
           const res = await fetch(this.data);
           geojson = await res.json();
+
         } catch (err) {
           geojson = JSON.parse(this.el.innerHTML);
         }

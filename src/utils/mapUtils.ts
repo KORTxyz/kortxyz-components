@@ -104,7 +104,7 @@ export function initHoverPopup(map: Map) {
 export function syncMaps(...maps: any[]) {
 	// Create all the movement functions, because if they're created every time
 	// they wouldn't be the same and couldn't be removed.
-	let fns: Parameters<mapboxgl.Map["on"]>[1][] = [];
+	let fns: ((e?: any) => void)[] = [];
 	maps.forEach((map, index) => {
 		// When one map moves, we turn off the movement listeners
 		// on all the maps, move it, then turn the listeners on again

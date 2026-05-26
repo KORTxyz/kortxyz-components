@@ -9,8 +9,7 @@ export const config: Config = {
     openBrowser:false
   },
   plugins: [
-    tailwind(),
-    tailwindHMR(),
+
   ],
   outputTargets: [
     {

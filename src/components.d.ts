@@ -1438,24 +1438,131 @@ declare namespace LocalJSX {
          */
         "y"?: string;
     }
+
+    interface KortxyzAggridAttributes {
+        "data": string;
+        "schema": string;
+        "store": string;
+        "editable": boolean;
+    }
+    interface KortxyzCodemirrorAttributes {
+        "store": string;
+        "value": string;
+        "language": string;
+        "theme": string;
+    }
+    interface KortxyzDatastoreAttributes {
+        "store": string;
+        "data": string;
+        "sync": boolean;
+        "transform": string;
+    }
+    interface KortxyzDragoverlayAttributes {
+        "target": string;
+    }
+    interface KortxyzIconAttributes {
+        "icon": string;
+        "size": string;
+        "color": string;
+    }
+    interface KortxyzListAttributes {
+        "data": string;
+        "group": string;
+        "header": string;
+        "name": string;
+        "description": string;
+        "uploadtile": boolean;
+        "accept": string;
+    }
+    interface KortxyzMaplibreAttributes {
+        "mapstyle": maplibregl.StyleSpecification | string;
+        "basemapstyle": maplibregl.StyleSpecification | string;
+        "basemaps": string | { title: string; icon: URL; url: URL }[];
+        "mapboxkey": string;
+        "cooperativeGestures": boolean;
+        "center": string;
+        "zoom": number;
+        "bbox": string;
+        "hoverpopup": boolean;
+        "showTileBoundaries": boolean;
+        "legend": string;
+        "navigation": boolean;
+        "gps": boolean;
+        "fullscreen": boolean;
+        "togglebutton": string;
+        "scalebar": boolean;
+        "draw": string;
+    }
+    interface KortxyzMaplibreLayerAttributes {
+        "layerid": string;
+        "sourceLayer": string;
+        "type": 'circle' | 'line' | 'fill';
+        "filter": string;
+        "paint": string;
+        "layout": string;
+        "legendMetadata": string;
+        "popup": string;
+        "clicklink": string;
+        "proximity": number;
+    }
+    interface KortxyzMaplibreSearchboxAttributes {
+        "url": string;
+        "result": string;
+        "resultzoom": number;
+        "resulttype": "marker" | "click";
+    }
+    interface KortxyzMaplibreSourceAttributes {
+        "sourceid": string;
+        "type": 'vector' | 'geojson' | 'raster';
+        "data": string;
+        "store": string;
+        "tiles": string;
+        "tilesize": number;
+        "maxzoom": number;
+        "fit": boolean;
+        "source": string;
+    }
+    interface KortxyzOgcapiCollectionlistAttributes {
+        "url": string;
+    }
+    interface KortxyzSidebarButtonAttributes {
+        "placement": "top"|"middle"|"bottom";
+        "icon": string;
+    }
+    interface KortxyzSidebarPanelAttributes {
+        "closed": boolean;
+    }
+    interface KortxyzTauchartAttributes {
+        "data": string;
+        "store": string;
+        "type": "map" | "bar" | "horizontal-bar" | "horizontal-stacked-bar" | "line" | "parallel" | "scatterplot" | "stacked-area" | "stacked-bar";
+        "y": string;
+        "x": string;
+        "color": string;
+        "colorbrewer": string;
+        "groupByKeys": string;
+        "tooltip": boolean;
+        "legend": boolean;
+    }
+
     interface IntrinsicElements {
-        "kortxyz-aggrid": KortxyzAggrid;
-        "kortxyz-codemirror": KortxyzCodemirror;
-        "kortxyz-datastore": KortxyzDatastore;
-        "kortxyz-dragoverlay": KortxyzDragoverlay;
-        "kortxyz-icon": KortxyzIcon;
-        "kortxyz-list": KortxyzList;
-        "kortxyz-maplibre": KortxyzMaplibre;
-        "kortxyz-maplibre-layer": KortxyzMaplibreLayer;
+        "kortxyz-aggrid": Omit<KortxyzAggrid, keyof KortxyzAggridAttributes> & { [K in keyof KortxyzAggrid & keyof KortxyzAggridAttributes]?: KortxyzAggrid[K] } & { [K in keyof KortxyzAggrid & keyof KortxyzAggridAttributes as `attr:${K}`]?: KortxyzAggridAttributes[K] } & { [K in keyof KortxyzAggrid & keyof KortxyzAggridAttributes as `prop:${K}`]?: KortxyzAggrid[K] };
+        "kortxyz-codemirror": Omit<KortxyzCodemirror, keyof KortxyzCodemirrorAttributes> & { [K in keyof KortxyzCodemirror & keyof KortxyzCodemirrorAttributes]?: KortxyzCodemirror[K] } & { [K in keyof KortxyzCodemirror & keyof KortxyzCodemirrorAttributes as `attr:${K}`]?: KortxyzCodemirrorAttributes[K] } & { [K in keyof KortxyzCodemirror & keyof KortxyzCodemirrorAttributes as `prop:${K}`]?: KortxyzCodemirror[K] };
+        "kortxyz-datastore": Omit<KortxyzDatastore, keyof KortxyzDatastoreAttributes> & { [K in keyof KortxyzDatastore & keyof KortxyzDatastoreAttributes]?: KortxyzDatastore[K] } & { [K in keyof KortxyzDatastore & keyof KortxyzDatastoreAttributes as `attr:${K}`]?: KortxyzDatastoreAttributes[K] } & { [K in keyof KortxyzDatastore & keyof KortxyzDatastoreAttributes as `prop:${K}`]?: KortxyzDatastore[K] };
+        "kortxyz-dragoverlay": Omit<KortxyzDragoverlay, keyof KortxyzDragoverlayAttributes> & { [K in keyof KortxyzDragoverlay & keyof KortxyzDragoverlayAttributes]?: KortxyzDragoverlay[K] } & { [K in keyof KortxyzDragoverlay & keyof KortxyzDragoverlayAttributes as `attr:${K}`]?: KortxyzDragoverlayAttributes[K] } & { [K in keyof KortxyzDragoverlay & keyof KortxyzDragoverlayAttributes as `prop:${K}`]?: KortxyzDragoverlay[K] };
+        "kortxyz-icon": Omit<KortxyzIcon, keyof KortxyzIconAttributes> & { [K in keyof KortxyzIcon & keyof KortxyzIconAttributes]?: KortxyzIcon[K] } & { [K in keyof KortxyzIcon & keyof KortxyzIconAttributes as `attr:${K}`]?: KortxyzIconAttributes[K] } & { [K in keyof KortxyzIcon & keyof KortxyzIconAttributes as `prop:${K}`]?: KortxyzIcon[K] };
+        "kortxyz-list": Omit<KortxyzList, keyof KortxyzListAttributes> & { [K in keyof KortxyzList & keyof KortxyzListAttributes]?: KortxyzList[K] } & { [K in keyof KortxyzList & keyof KortxyzListAttributes as `attr:${K}`]?: KortxyzListAttributes[K] } & { [K in keyof KortxyzList & keyof KortxyzListAttributes as `prop:${K}`]?: KortxyzList[K] };
+        "kortxyz-maplibre": Omit<KortxyzMaplibre, keyof KortxyzMaplibreAttributes> & { [K in keyof KortxyzMaplibre & keyof KortxyzMaplibreAttributes]?: KortxyzMaplibre[K] } & { [K in keyof KortxyzMaplibre & keyof KortxyzMaplibreAttributes as `attr:${K}`]?: KortxyzMaplibreAttributes[K] } & { [K in keyof KortxyzMaplibre & keyof KortxyzMaplibreAttributes as `prop:${K}`]?: KortxyzMaplibre[K] };
+        "kortxyz-maplibre-layer": Omit<KortxyzMaplibreLayer, keyof KortxyzMaplibreLayerAttributes> & { [K in keyof KortxyzMaplibreLayer & keyof KortxyzMaplibreLayerAttributes]?: KortxyzMaplibreLayer[K] } & { [K in keyof KortxyzMaplibreLayer & keyof KortxyzMaplibreLayerAttributes as `attr:${K}`]?: KortxyzMaplibreLayerAttributes[K] } & { [K in keyof KortxyzMaplibreLayer & keyof KortxyzMaplibreLayerAttributes as `prop:${K}`]?: KortxyzMaplibreLayer[K] };
         "kortxyz-maplibre-layerlist": KortxyzMaplibreLayerlist;
-        "kortxyz-maplibre-searchbox": KortxyzMaplibreSearchbox;
-        "kortxyz-maplibre-source": KortxyzMaplibreSource;
-        "kortxyz-ogcapi-collectionlist": KortxyzOgcapiCollectionlist;
+        "kortxyz-maplibre-searchbox": Omit<KortxyzMaplibreSearchbox, keyof KortxyzMaplibreSearchboxAttributes> & { [K in keyof KortxyzMaplibreSearchbox & keyof KortxyzMaplibreSearchboxAttributes]?: KortxyzMaplibreSearchbox[K] } & { [K in keyof KortxyzMaplibreSearchbox & keyof KortxyzMaplibreSearchboxAttributes as `attr:${K}`]?: KortxyzMaplibreSearchboxAttributes[K] } & { [K in keyof KortxyzMaplibreSearchbox & keyof KortxyzMaplibreSearchboxAttributes as `prop:${K}`]?: KortxyzMaplibreSearchbox[K] };
+        "kortxyz-maplibre-source": Omit<KortxyzMaplibreSource, keyof KortxyzMaplibreSourceAttributes> & { [K in keyof KortxyzMaplibreSource & keyof KortxyzMaplibreSourceAttributes]?: KortxyzMaplibreSource[K] } & { [K in keyof KortxyzMaplibreSource & keyof KortxyzMaplibreSourceAttributes as `attr:${K}`]?: KortxyzMaplibreSourceAttributes[K] } & { [K in keyof KortxyzMaplibreSource & keyof KortxyzMaplibreSourceAttributes as `prop:${K}`]?: KortxyzMaplibreSource[K] };
+        "kortxyz-ogcapi-collectionlist": Omit<KortxyzOgcapiCollectionlist, keyof KortxyzOgcapiCollectionlistAttributes> & { [K in keyof KortxyzOgcapiCollectionlist & keyof KortxyzOgcapiCollectionlistAttributes]?: KortxyzOgcapiCollectionlist[K] } & { [K in keyof KortxyzOgcapiCollectionlist & keyof KortxyzOgcapiCollectionlistAttributes as `attr:${K}`]?: KortxyzOgcapiCollectionlistAttributes[K] } & { [K in keyof KortxyzOgcapiCollectionlist & keyof KortxyzOgcapiCollectionlistAttributes as `prop:${K}`]?: KortxyzOgcapiCollectionlist[K] };
         "kortxyz-shell": KortxyzShell;
         "kortxyz-sidebar": KortxyzSidebar;
-        "kortxyz-sidebar-button": KortxyzSidebarButton;
-        "kortxyz-sidebar-panel": KortxyzSidebarPanel;
-        "kortxyz-tauchart": KortxyzTauchart;
+        "kortxyz-sidebar-button": Omit<KortxyzSidebarButton, keyof KortxyzSidebarButtonAttributes> & { [K in keyof KortxyzSidebarButton & keyof KortxyzSidebarButtonAttributes]?: KortxyzSidebarButton[K] } & { [K in keyof KortxyzSidebarButton & keyof KortxyzSidebarButtonAttributes as `attr:${K}`]?: KortxyzSidebarButtonAttributes[K] } & { [K in keyof KortxyzSidebarButton & keyof KortxyzSidebarButtonAttributes as `prop:${K}`]?: KortxyzSidebarButton[K] };
+        "kortxyz-sidebar-panel": Omit<KortxyzSidebarPanel, keyof KortxyzSidebarPanelAttributes> & { [K in keyof KortxyzSidebarPanel & keyof KortxyzSidebarPanelAttributes]?: KortxyzSidebarPanel[K] } & { [K in keyof KortxyzSidebarPanel & keyof KortxyzSidebarPanelAttributes as `attr:${K}`]?: KortxyzSidebarPanelAttributes[K] } & { [K in keyof KortxyzSidebarPanel & keyof KortxyzSidebarPanelAttributes as `prop:${K}`]?: KortxyzSidebarPanel[K] };
+        "kortxyz-tauchart": Omit<KortxyzTauchart, keyof KortxyzTauchartAttributes> & { [K in keyof KortxyzTauchart & keyof KortxyzTauchartAttributes]?: KortxyzTauchart[K] } & { [K in keyof KortxyzTauchart & keyof KortxyzTauchartAttributes as `attr:${K}`]?: KortxyzTauchartAttributes[K] } & { [K in keyof KortxyzTauchart & keyof KortxyzTauchartAttributes as `prop:${K}`]?: KortxyzTauchart[K] };
     }
 }
 export { LocalJSX as JSX };
@@ -1479,8 +1586,8 @@ declare module "@stencil/core" {
              * ></kortxyz-aggrid>
              * ```
              */
-            "kortxyz-aggrid": LocalJSX.KortxyzAggrid & JSXBase.HTMLAttributes<HTMLKortxyzAggridElement>;
-            "kortxyz-codemirror": LocalJSX.KortxyzCodemirror & JSXBase.HTMLAttributes<HTMLKortxyzCodemirrorElement>;
+            "kortxyz-aggrid": LocalJSX.IntrinsicElements["kortxyz-aggrid"] & JSXBase.HTMLAttributes<HTMLKortxyzAggridElement>;
+            "kortxyz-codemirror": LocalJSX.IntrinsicElements["kortxyz-codemirror"] & JSXBase.HTMLAttributes<HTMLKortxyzCodemirrorElement>;
             /**
              * ## Intro
              * Webcomponent to store data that multiple components can use.
@@ -1492,10 +1599,10 @@ declare module "@stencil/core" {
              * ></kortxyz-datastore>
              * ```
              */
-            "kortxyz-datastore": LocalJSX.KortxyzDatastore & JSXBase.HTMLAttributes<HTMLKortxyzDatastoreElement>;
-            "kortxyz-dragoverlay": LocalJSX.KortxyzDragoverlay & JSXBase.HTMLAttributes<HTMLKortxyzDragoverlayElement>;
-            "kortxyz-icon": LocalJSX.KortxyzIcon & JSXBase.HTMLAttributes<HTMLKortxyzIconElement>;
-            "kortxyz-list": LocalJSX.KortxyzList & JSXBase.HTMLAttributes<HTMLKortxyzListElement>;
+            "kortxyz-datastore": LocalJSX.IntrinsicElements["kortxyz-datastore"] & JSXBase.HTMLAttributes<HTMLKortxyzDatastoreElement>;
+            "kortxyz-dragoverlay": LocalJSX.IntrinsicElements["kortxyz-dragoverlay"] & JSXBase.HTMLAttributes<HTMLKortxyzDragoverlayElement>;
+            "kortxyz-icon": LocalJSX.IntrinsicElements["kortxyz-icon"] & JSXBase.HTMLAttributes<HTMLKortxyzIconElement>;
+            "kortxyz-list": LocalJSX.IntrinsicElements["kortxyz-list"] & JSXBase.HTMLAttributes<HTMLKortxyzListElement>;
             /**
              * ## Intro
              * Webcomponent to show a map based on  [MaplibreGL](https://maplibre.org/).
@@ -1517,7 +1624,7 @@ declare module "@stencil/core" {
              * ></kortxyz-maplibre>
              * ```
              */
-            "kortxyz-maplibre": LocalJSX.KortxyzMaplibre & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreElement>;
+            "kortxyz-maplibre": LocalJSX.IntrinsicElements["kortxyz-maplibre"] & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreElement>;
             /**
              * ## Intro
              * Webcomponent to load a maplibre layer inside a maplibre source. The layer can be made click interactive be using either clicklink or the popup properties.
@@ -1540,8 +1647,8 @@ declare module "@stencil/core" {
              * </kortxyz-maplibre>
              * ```
              */
-            "kortxyz-maplibre-layer": LocalJSX.KortxyzMaplibreLayer & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreLayerElement>;
-            "kortxyz-maplibre-layerlist": LocalJSX.KortxyzMaplibreLayerlist & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreLayerlistElement>;
+            "kortxyz-maplibre-layer": LocalJSX.IntrinsicElements["kortxyz-maplibre-layer"] & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreLayerElement>;
+            "kortxyz-maplibre-layerlist": LocalJSX.IntrinsicElements["kortxyz-maplibre-layerlist"] & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreLayerlistElement>;
             /**
              * ### Intro
              * Webcomponent to use inside kortxyz-maplibre to search for a point.
@@ -1555,7 +1662,7 @@ declare module "@stencil/core" {
              * <kortxyz-maplibre>
              * ```
              */
-            "kortxyz-maplibre-searchbox": LocalJSX.KortxyzMaplibreSearchbox & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreSearchboxElement>;
+            "kortxyz-maplibre-searchbox": LocalJSX.IntrinsicElements["kortxyz-maplibre-searchbox"] & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreSearchboxElement>;
             /**
              * ## Intro
              * Webcomponent load a new source into a kortxyz-maplibre component. An id is autogenerated if not present.
@@ -1582,12 +1689,12 @@ declare module "@stencil/core" {
              * <kortxyz-maplibre>
              * ```
              */
-            "kortxyz-maplibre-source": LocalJSX.KortxyzMaplibreSource & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreSourceElement>;
-            "kortxyz-ogcapi-collectionlist": LocalJSX.KortxyzOgcapiCollectionlist & JSXBase.HTMLAttributes<HTMLKortxyzOgcapiCollectionlistElement>;
-            "kortxyz-shell": LocalJSX.KortxyzShell & JSXBase.HTMLAttributes<HTMLKortxyzShellElement>;
-            "kortxyz-sidebar": LocalJSX.KortxyzSidebar & JSXBase.HTMLAttributes<HTMLKortxyzSidebarElement>;
-            "kortxyz-sidebar-button": LocalJSX.KortxyzSidebarButton & JSXBase.HTMLAttributes<HTMLKortxyzSidebarButtonElement>;
-            "kortxyz-sidebar-panel": LocalJSX.KortxyzSidebarPanel & JSXBase.HTMLAttributes<HTMLKortxyzSidebarPanelElement>;
+            "kortxyz-maplibre-source": LocalJSX.IntrinsicElements["kortxyz-maplibre-source"] & JSXBase.HTMLAttributes<HTMLKortxyzMaplibreSourceElement>;
+            "kortxyz-ogcapi-collectionlist": LocalJSX.IntrinsicElements["kortxyz-ogcapi-collectionlist"] & JSXBase.HTMLAttributes<HTMLKortxyzOgcapiCollectionlistElement>;
+            "kortxyz-shell": LocalJSX.IntrinsicElements["kortxyz-shell"] & JSXBase.HTMLAttributes<HTMLKortxyzShellElement>;
+            "kortxyz-sidebar": LocalJSX.IntrinsicElements["kortxyz-sidebar"] & JSXBase.HTMLAttributes<HTMLKortxyzSidebarElement>;
+            "kortxyz-sidebar-button": LocalJSX.IntrinsicElements["kortxyz-sidebar-button"] & JSXBase.HTMLAttributes<HTMLKortxyzSidebarButtonElement>;
+            "kortxyz-sidebar-panel": LocalJSX.IntrinsicElements["kortxyz-sidebar-panel"] & JSXBase.HTMLAttributes<HTMLKortxyzSidebarPanelElement>;
             /**
              * ## Intro
              * Webcomponent to visualise data on charts.
@@ -1623,7 +1730,7 @@ declare module "@stencil/core" {
              * ></kortxyz-tauchart>
              * ```
              */
-            "kortxyz-tauchart": LocalJSX.KortxyzTauchart & JSXBase.HTMLAttributes<HTMLKortxyzTauchartElement>;
+            "kortxyz-tauchart": LocalJSX.IntrinsicElements["kortxyz-tauchart"] & JSXBase.HTMLAttributes<HTMLKortxyzTauchartElement>;
         }
     }
 }
