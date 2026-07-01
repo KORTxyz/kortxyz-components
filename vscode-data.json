@@ -215,6 +215,10 @@
           "description": "Show the tilegrid"
         },
         {
+          "name": "sprite",
+          "description": "Allow a sprite to be sideloaded into the mapstyle"
+        },
+        {
           "name": "togglebutton",
           "description": "ID of the element that the button should toogle"
         },

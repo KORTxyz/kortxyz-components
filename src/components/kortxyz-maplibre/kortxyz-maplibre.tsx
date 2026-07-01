@@ -101,6 +101,9 @@ export class KortxyzMaplibre {
   /** Eanble a hoverpopup showing all features beneath the cursor */
   @Prop() hoverpopup: boolean;
 
+  /** Allow a sprite to be sideloaded into the mapstyle */
+  @Prop() sprite: string;
+
   /** Show the tilegrid */
   @Prop() showTileBoundaries: boolean = false;
 
@@ -255,15 +258,21 @@ export class KortxyzMaplibre {
   async componentDidLoad() {
     this.basemap.resize();
     this.map.resize();
+    
     if (this.map.loaded()) return;
     else await new Promise<void>(resolve => {
       this.map.once('idle', () => {
+
+
         resolve()
     })});
     Array.from(this.mapEl.children).filter(e => (e as HTMLElement).tagName.toLowerCase() == "kortxyz-maplibre-source").forEach(async (e: HTMLElement) => {
         await customElements.whenDefined('kortxyz-maplibre-source');
       (e as any).addSource()
     });
+
+    console.log(this.sprite)
+    if(this.sprite) this.map.addSprite(this.sprite.split("/").pop()!, this.sprite);
 
     this.terraDraw = new TerraDraw({
       adapter: new TerraDrawMapLibreGLAdapter({
