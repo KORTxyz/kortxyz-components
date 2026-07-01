@@ -243,6 +243,10 @@ export namespace Components {
          */
         "showTileBoundaries": boolean;
         /**
+          * Allow a sprite to be sideloaded into the mapstyle
+         */
+        "sprite": string;
+        /**
           * ID of the element that the button should toogle
          */
         "togglebutton": string;
@@ -1144,6 +1148,10 @@ declare namespace LocalJSX {
          */
         "showTileBoundaries"?: boolean;
         /**
+          * Allow a sprite to be sideloaded into the mapstyle
+         */
+        "sprite"?: string;
+        /**
           * ID of the element that the button should toogle
          */
         "togglebutton"?: string;
@@ -1484,6 +1492,7 @@ declare namespace LocalJSX {
         "zoom": number;
         "bbox": string;
         "hoverpopup": boolean;
+        "sprite": string;
         "showTileBoundaries": boolean;
         "legend": string;
         "navigation": boolean;
