@@ -107,7 +107,7 @@ export class KortxyzMaplibre {
   /** Show the tilegrid */
   @Prop() showTileBoundaries: boolean = false;
 
-  /** Show a legend for the layers specified in the attibute. Empty if all layers */
+  /** Show a legend for the layers specified in the attibute. Empty if all layers. Can also be a mapbox-legend object */
   @Prop() legend: string | boolean = false;
 
   /** Show navigation controls */
@@ -240,9 +240,13 @@ export class KortxyzMaplibre {
     }
 
     if (typeof this.legend == "string") {
-      let legendOptions: LegendControlOptions = { highlight: true, toggler: true };
-      if (this.legend.length > 0) legendOptions.layers = this.legend.split(",");
-
+      let legendOptions:LegendControlOptions = { highlight: true, toggler: true, collapsed:false };
+      try {
+        legendOptions.layers = JSON.parse(this.legend)
+      } catch (error) {
+        if (this.legend.length > 0) legendOptions.layers = this.legend.split(",");
+      }
+      console.log(legendOptions)
       this.map.addControl(new LegendControl(legendOptions) as unknown as maplibregl.IControl, 'bottom-right');
     }
 

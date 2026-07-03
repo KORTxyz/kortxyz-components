@@ -1,32 +1,40 @@
-<script type="module" src="build/kortxyz-components.esm.js"></script>
+  <script type="module" src="../dist/kortxyz-components/kortxyz-components.esm.js"></script>
 
-<kortxyz-maplibre 
-  style="top:0;left:0;width:100%;height:100dvh;position:absolute;background: whitesmoke;"
+<kortxyz-maplibre center="[12.32,55.616]" zoom="12" 
+  legend='{"Træønsker":{
+      "attributes": ["icon-color"]
+    }}'
   sprite="https://kortxyz.github.io/geofa/geofa"
-  center="[12.34,55.616]" zoom="12" gps
->
-  <kortxyz-maplibre-source
-  type="geojson"
-    data="https://geoproxy.gis34.dk/CluWFS.ashx?typeNames=ishoej_kom_ledningsdata:view_tasks_ishoej_ide_til_et_trae&request=GetFeature&service=WFS&outputFormat=json&propertyName=status_name,geom&srsName=EPSG:4326">
-  >
-  <kortxyz-maplibre-layer
-    type="symbol"
-    layout='{"icon-image":"geofa:PARK","icon-size":2,"icon-overlap":"always"}'
-    paint='{        
+  style="width:100%;max-width: 1120px;height:600px;display:block;background: whitesmoke;"
+  mapstyle="https://cdn.dataforsyningen.dk/assets/vector_tiles_assets/latest/styles/official/3857_skaermkort_daempet.json?token=bfe350080dc1da9dbb948d6fd59a8e96">
+  
+  <kortxyz-maplibre-source sourceid="Træønsker" type="geojson"
+    data="https://geoproxy.gis34.dk/CluWFS.ashx?typeNames=ishoej_kom_ledningsdata:view_tasks_ishoej_ide_til_et_trae&request=GetFeature&service=WFS&outputFormat=json&propertyName=status_name,description,created_date,geom&srsName=EPSG:4326">
+    
+    <kortxyz-maplibre-layer layerid="Træønsker" type="symbol"
+      layout='{"icon-image":"geofa:PARK","icon-size":2,"icon-overlap":"always"}' 
+      paint='{        
       "icon-halo-color": "#242424",
       "icon-halo-width": 2,
       "icon-color":  ["match",["get", "status_name"],
-        "Ide accepteret", "#0dbdae",
+        "Ide accepteret", "orange",
         "Ide afvist", "#c02814",
-        "Ide til et træ","#1366a5",
+        "Ide til et træ","lightgrey",
         "Plantet","#159e15",
-        "black"]}'
-    popup
-  ></kortxyz-maplibre-layer>
-</kortxyz-maplibre-source>
-
-  <kortxyz-maplibre-source id="ortofoto" type="raster" tilesize="256" maxzoom="20" tiles="https://api.dataforsyningen.dk/orto_foraar_webm_DAF?token=bfe350080dc1da9dbb948d6fd59a8e96&SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orto_foraar_webm&STYLE=default&FORMAT=image%2Fjpeg&TILEMATRIXSET=DFD_GoogleMapsCompatible&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}">
+        "black"]}' 
+        legend-metadata='{
+          "name":"Ønsk et træ",
+          "labels":{
+            "other":false
+          }
+        }'
+        popup='
+        <div style="padding:12px">
+          <b>beskrivelse</b><br>
+          {description}
+        </div>
+      '
+      ></kortxyz-maplibre-layer>
+      
   </kortxyz-maplibre-source>
-
 </kortxyz-maplibre>
-

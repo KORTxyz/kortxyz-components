@@ -37,6 +37,7 @@ export class KortxyzMaplibreSearchbox {
   /** How to format results. Replacement of {} with a attribute. {ATTRIBUTENAME}*/
   @Prop() result = "{visningstekst}"
 
+  /** JSONata expresion to turn the responding json into geojson */
   @Prop() jsonata = '$.{"type": "Feature","geometry": geometri,"properties": { "visningstekst": visningstekst}}';
 
   /** How far should the map zoom in on result. Empty prop if no zooming is needed */
