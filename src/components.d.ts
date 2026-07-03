@@ -213,7 +213,7 @@ export namespace Components {
          */
         "hoverpopup": boolean;
         /**
-          * Show a legend for the layers specified in the attibute. Empty if all layers
+          * Show a legend for the layers specified in the attibute. Empty if all layers. Can also be a mapbox-legend object
           * @default false
          */
         "legend": string | boolean;
@@ -341,6 +341,7 @@ export namespace Components {
      */
     interface KortxyzMaplibreSearchbox {
         /**
+          * JSONata expresion to turn the responding json into geojson
           * @default '$.{"type": "Feature","geometry": geometri,"properties": { "visningstekst": visningstekst}}'
          */
         "jsonata": string;
@@ -1121,7 +1122,7 @@ declare namespace LocalJSX {
          */
         "hoverpopup"?: boolean;
         /**
-          * Show a legend for the layers specified in the attibute. Empty if all layers
+          * Show a legend for the layers specified in the attibute. Empty if all layers. Can also be a mapbox-legend object
           * @default false
          */
         "legend"?: string | boolean;
@@ -1254,6 +1255,7 @@ declare namespace LocalJSX {
      */
     interface KortxyzMaplibreSearchbox {
         /**
+          * JSONata expresion to turn the responding json into geojson
           * @default '$.{"type": "Feature","geometry": geometri,"properties": { "visningstekst": visningstekst}}'
          */
         "jsonata"?: string;

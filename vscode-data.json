@@ -192,7 +192,7 @@
         },
         {
           "name": "legend",
-          "description": "Show a legend for the layers specified in the attibute. Empty if all layers"
+          "description": "Show a legend for the layers specified in the attibute. Empty if all layers. Can also be a mapbox-legend object"
         },
         {
           "name": "mapboxkey",
@@ -305,7 +305,7 @@
       "attributes": [
         {
           "name": "jsonata",
-          "description": ""
+          "description": "JSONata expresion to turn the responding json into geojson"
         },
         {
           "name": "result",
