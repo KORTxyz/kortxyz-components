@@ -304,6 +304,10 @@
       },
       "attributes": [
         {
+          "name": "jsonata",
+          "description": ""
+        },
+        {
           "name": "result",
           "description": "How to format results. Replacement of {} with a attribute. {ATTRIBUTENAME}"
         },
