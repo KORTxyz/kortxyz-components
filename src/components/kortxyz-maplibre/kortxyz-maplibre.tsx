@@ -271,7 +271,6 @@ export class KortxyzMaplibre {
       (e as any).addSource()
     });
 
-    console.log(this.sprite)
     if(this.sprite) this.map.addSprite(this.sprite.split("/").pop()!, this.sprite);
 
     this.terraDraw = new TerraDraw({
