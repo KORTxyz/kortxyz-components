@@ -1,6 +1,8 @@
 import { Component, Prop, Host, State, Element, h } from '@stencil/core';
 import {Marker} from 'maplibre-gl';
 
+import jsonata from 'jsonata';
+
 /** 
 ### Intro
 Webcomponent to use inside kortxyz-maplibre to search for a point.
@@ -30,10 +32,12 @@ export class KortxyzMaplibreSearchbox {
   @Element() searchboxEl: HTMLElement;
 
   /** Url to make input calls that return a geojson with points. Input are available as {input} */
-  @Prop() url = "https://api.dataforsyningen.dk/adgangsadresser?q={input}&format=geojson&per_side=5&struktur=mini&autocomplete&kommunekode=183&fuzzy";
+  @Prop() url = "https://api.dataforsyningen.dk/rest/gsearch/v2.0/husnummer?q={input}&token=bfe350080dc1da9dbb948d6fd59a8e96&srid=4326&filter=kommunekode=%270183%27";
   
   /** How to format results. Replacement of {} with a attribute. {ATTRIBUTENAME}*/
-  @Prop() result = "{betegnelse}"
+  @Prop() result = "{visningstekst}"
+
+  @Prop() jsonata = '$.{"type": "Feature","geometry": geometri,"properties": { "visningstekst": visningstekst}}';
 
   /** How far should the map zoom in on result. Empty prop if no zooming is needed */
   @Prop() resultzoom:number = 14;
@@ -51,8 +55,9 @@ export class KortxyzMaplibreSearchbox {
     if (value) {
       const url = this.url.replace(/{(\w+)}/g, value)
       const response = await fetch(url);
-      const geojson = await response.json();
-      this.results = [...geojson.features];
+      let geojson = await response.json();
+      if(this.jsonata) geojson = await jsonata(this.jsonata).evaluate(geojson)
+      this.results = Array.isArray(geojson) ? [...geojson] : [...geojson.features];
 
       const inFocus = nextElementSibling.querySelector(".focus")
       if (inFocus) nextElementSibling.firstChild.classList.add("focus")
@@ -81,21 +86,21 @@ export class KortxyzMaplibreSearchbox {
   resultPick = async idx => {
     const result = this.results[idx];
     const { map } = this.searchboxEl.closest('kortxyz-maplibre');
-
+    const coordinates = result?.geometry.coordinates.flat()
     if(this.resulttype == "marker"){
       if (this.searchboxMarker) this.searchboxMarker.remove();
-      this.searchboxMarker = new Marker().setLngLat(result.geometry.coordinates).addTo(map);
+      this.searchboxMarker = new Marker().setLngLat(coordinates).addTo(map);
       map.once('dragstart', () => this.searchboxMarker.remove())
     }
     else if(this.resulttype == "click"){
       map.fire('click', {
-        point: map.project(result.geometry.coordinates), 
+        point: map.project(coordinates), 
         originalEvent: {},
-        lngLat: result.geometry.coordinates
+        lngLat: coordinates
       })
     }
     map.flyTo({
-      center: result.geometry.coordinates,
+      center: coordinates,
       ...(Number.isNaN(this.resultzoom) ? {} : { zoom: this.resultzoom })
     });
 

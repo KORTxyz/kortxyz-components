@@ -341,8 +341,12 @@ export namespace Components {
      */
     interface KortxyzMaplibreSearchbox {
         /**
+          * @default '$.{"type": "Feature","geometry": geometri,"properties": { "visningstekst": visningstekst}}'
+         */
+        "jsonata": string;
+        /**
           * How to format results. Replacement of {} with a attribute. {ATTRIBUTENAME}
-          * @default "{betegnelse}"
+          * @default "{visningstekst}"
          */
         "result": string;
         /**
@@ -357,7 +361,7 @@ export namespace Components {
         "resultzoom": number;
         /**
           * Url to make input calls that return a geojson with points. Input are available as {input}
-          * @default "https://api.dataforsyningen.dk/adgangsadresser?q={input}&format=geojson&per_side=5&struktur=mini&autocomplete&kommunekode=183&fuzzy"
+          * @default "https://api.dataforsyningen.dk/rest/gsearch/v2.0/husnummer?q={input}&token=bfe350080dc1da9dbb948d6fd59a8e96&srid=4326&filter=kommunekode=%270183%27"
          */
         "url": string;
     }
@@ -1250,8 +1254,12 @@ declare namespace LocalJSX {
      */
     interface KortxyzMaplibreSearchbox {
         /**
+          * @default '$.{"type": "Feature","geometry": geometri,"properties": { "visningstekst": visningstekst}}'
+         */
+        "jsonata"?: string;
+        /**
           * How to format results. Replacement of {} with a attribute. {ATTRIBUTENAME}
-          * @default "{betegnelse}"
+          * @default "{visningstekst}"
          */
         "result"?: string;
         /**
@@ -1266,7 +1274,7 @@ declare namespace LocalJSX {
         "resultzoom"?: number;
         /**
           * Url to make input calls that return a geojson with points. Input are available as {input}
-          * @default "https://api.dataforsyningen.dk/adgangsadresser?q={input}&format=geojson&per_side=5&struktur=mini&autocomplete&kommunekode=183&fuzzy"
+          * @default "https://api.dataforsyningen.dk/rest/gsearch/v2.0/husnummer?q={input}&token=bfe350080dc1da9dbb948d6fd59a8e96&srid=4326&filter=kommunekode=%270183%27"
          */
         "url"?: string;
     }
@@ -1517,6 +1525,7 @@ declare namespace LocalJSX {
     interface KortxyzMaplibreSearchboxAttributes {
         "url": string;
         "result": string;
+        "jsonata": string;
         "resultzoom": number;
         "resulttype": "marker" | "click";
     }
