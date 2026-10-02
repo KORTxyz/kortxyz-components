@@ -334,6 +334,43 @@
       ]
     },
     {
+      "name": "kortxyz-maplibre-searchbox-dk",
+      "description": {
+        "kind": "markdown",
+        "value": "### Intro\r\nWebcomponent to use inside kortxyz-maplibre to search for a point.\r\n\r\n### Example\r\n```html\r\n<kortxyz-maplibre>\r\n   <kortxyz-maplibre-searchbox\r\n       url=\"https://api.dataforsyningen.dk/adgangsadresser?q={input}&format=geojson&per_side=5&struktur=mini&autocomplete&kommunekode=183&fuzzy\"\r\n       result=\"{betegnelse}\"\r\n   ></kortxyz-maplibre-searchbox>\r\n<kortxyz-maplibre>\r\n\r\n```"
+      },
+      "attributes": [
+        {
+          "name": "jsonata",
+          "description": "JSONata expresion to turn the responding json into geojson"
+        },
+        {
+          "name": "result",
+          "description": "How to format results. Replacement of {} with a attribute. {ATTRIBUTENAME}"
+        },
+        {
+          "name": "resulttype",
+          "description": "Should a result pick be a marker on the map or a click on the map",
+          "values": [
+            {
+              "name": "click"
+            },
+            {
+              "name": "marker"
+            }
+          ]
+        },
+        {
+          "name": "resultzoom",
+          "description": "How far should the map zoom in on result. Empty prop if no zooming is needed"
+        },
+        {
+          "name": "url",
+          "description": "Url to make input calls that return a geojson with points. Input are available as {input}"
+        }
+      ]
+    },
+    {
       "name": "kortxyz-maplibre-source",
       "description": {
         "kind": "markdown",
